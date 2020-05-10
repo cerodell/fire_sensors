@@ -1,0 +1,6 @@
+{
+    "board": "adafruit:samd:adafruit_feather_m0",
+    "configuration": "usbstack=arduino,debug=off",
+    "port": "/dev/cu.usbmodem141401",
+    "sketch": "pm_sensor_cr/write_to_SD/write_to_SD.ino"
+}
