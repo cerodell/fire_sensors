@@ -99,17 +99,20 @@ void loop()
 {
   if (readPMSdata(&pmsSerial)) {
     // reading data was successful!
+    /*
     Serial.println();
     Serial.println("---------------------------------------");
     Serial.println("Concentration Units (standard)");
     Serial.print("PM 1.0: "); Serial.print(data.pm10_standard);
     Serial.print("\t\tPM 2.5: "); Serial.print(data.pm25_standard);
     Serial.print("\t\tPM 10: "); Serial.println(data.pm100_standard);
+    */
     Serial.println("---------------------------------------");
     Serial.println("Concentration Units (environmental)");
     Serial.print("PM 1.0: "); Serial.print(data.pm10_env);
     Serial.print("\t\tPM 2.5: "); Serial.print(data.pm25_env);
     Serial.print("\t\tPM 10: "); Serial.println(data.pm100_env);
+    /*
     Serial.println("---------------------------------------");
     Serial.print("Particles > 0.3um / 0.1L air:"); Serial.println(data.particles_03um);
     Serial.print("Particles > 0.5um / 0.1L air:"); Serial.println(data.particles_05um);
@@ -118,6 +121,7 @@ void loop()
     Serial.print("Particles > 5.0um / 0.1L air:"); Serial.println(data.particles_50um);
     Serial.print("Particles > 10.0 um / 0.1L air:"); Serial.println(data.particles_100um);
     Serial.println("---------------------------------------");
+    */
   }
 
  /*
@@ -125,15 +129,21 @@ void loop()
   */
 
   Serial.println("Transmitting..."); // Send a message to rf95_server
-  
-  char radiopacket[20] = "Hello World #      ";
+
+  String pm = String(data.pm25_env);
+ // String test = String(100000);
+  uint16_t pm_len = pm.length() + 1;
+  Serial.println("PM2.5 of:  " + pm);Serial.println(pm_len);
+
+  char radiopacket[pm_len];
+  pm.toCharArray(radiopacket, pm_len);
   itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending "); Serial.println(radiopacket);
-  radiopacket[19] = 0;
+//  radiopacket[-1] = 0;
   
   Serial.println("Sending...");
   delay(10);
-  rf95.send((uint8_t *)radiopacket, 20);
+  rf95.send((uint8_t *)radiopacket, pm_len);
  
   Serial.println("Waiting for packet to complete..."); 
   delay(10);
