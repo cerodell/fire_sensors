@@ -18,9 +18,13 @@
 
 #include <SD.h>
 #include <SPI.h>
+#include "RTClib.h"
 #include <RH_RF95.h>
 
+
+RTC_PCF8523 rtc;
 const int chipSelect = 10;
+char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
 
 /* for feather m0 RFM9x */
 #define RFM95_CS 8
@@ -41,7 +45,25 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
 void setup()
 {
+  Serial.begin(57600);
 
+#ifndef ESP8266
+  while (!Serial); // wait for serial port to connect. Needed for native USB
+#endif
+
+  if (! rtc.begin()) {
+    Serial.println("Couldn't find RTC");
+    while (1);
+  }
+
+  if (! rtc.initialized() || rtc.lostPower()) {
+    Serial.println("RTC is NOT initialized, let's set the time!");
+    // When time needs to be set on a new device, or after a power loss, the
+    // following line sets the RTC to the date & time this sketch was compiled
+    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  }
+
+    
   pinMode(LED, OUTPUT);
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
@@ -135,6 +157,25 @@ void loop()
     {
       Serial.println("Receive failed");
     }
+
+  // Get time from RTC chip
+
+    DateTime now = rtc.now();
+
+    Serial.print(now.year(), DEC);
+    Serial.print('/');
+    Serial.print(now.month(), DEC);
+    Serial.print('/');
+    Serial.print(now.day(), DEC);
+    Serial.print(" (");
+    Serial.print(daysOfTheWeek[now.dayOfTheWeek()]);
+    Serial.print(") ");
+    Serial.print(now.hour(), DEC);
+    Serial.print(':');
+    Serial.print(now.minute(), DEC);
+    Serial.print(':');
+    Serial.print(now.second(), DEC);
+    Serial.println();
 
   // Open file, write to SD card
   File dataFile = SD.open("blah2.txt", FILE_WRITE);
