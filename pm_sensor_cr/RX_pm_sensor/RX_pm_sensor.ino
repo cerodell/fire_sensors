@@ -40,11 +40,23 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 // Blinky on receipt
 #define LED 13
 
+/*
+DateTime now = rtc.now();
+// String RXfile = "PM_";
+static String RXfile = String(now.year()) + String(now.month()) + String(now.day());
+
+String RXfile += "_";
+String RXfile += String(now.hour()) + String(now.minute());
+static String RXfile += ".txt";
+*/
+
+
 
 // #####################################  SET UP  ##########################################
 
 void setup()
 {
+/* 
   Serial.begin(57600);
 
 #ifndef ESP8266
@@ -63,7 +75,7 @@ void setup()
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 
-    
+ */   
   pinMode(LED, OUTPUT);
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
@@ -159,8 +171,16 @@ void loop()
     }
 
   // Get time from RTC chip
-
+/*
     DateTime now = rtc.now();
+    // String RXfile = String(now.year());
+ //   String RXfile = "PM_";
+ //   RXfile += String(now.year()) + String(now.month()) + String(now.day());
+ //   RXfile += "_";
+ //   RXfile += String(now.hour()) + String(now.minute());
+ //   RXfile += ".txt";
+    
+//    Serial.print(RXfile);
 
     Serial.print(now.year(), DEC);
     Serial.print('/');
@@ -176,9 +196,10 @@ void loop()
     Serial.print(':');
     Serial.print(now.second(), DEC);
     Serial.println();
-
+*/
   // Open file, write to SD card
-  File dataFile = SD.open("blah2.txt", FILE_WRITE);
+  File dataFile = SD.open("please.txt", FILE_WRITE);
+
 
   if (dataFile) {
     dataFile.println((char*)buf);
@@ -188,7 +209,7 @@ void loop()
   }
   // if the file isn't open, pop up an error:
   else {
-    Serial.println("error opening blah2.txt");
+    Serial.println("error opening .txt");
   }
    
   }
