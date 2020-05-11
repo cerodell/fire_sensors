@@ -2,13 +2,20 @@
 // ############################################################################################################
 // #####################################      Transmitter Code       ##########################################
 // ############################################################################################################
-// Feather9x_TX
+// Feather M0 (RH_RF95 915 MHz) and PM2.5 Air Quality Sensor
+// Port: 143401
+// The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every one second 
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messaging client (transmitter)
-// with the RH_RF95 class. RH_RF95 class does not provide for addressing or
-// reliability, so you should only use RH_RF95 if you do not need the higher
-// level messaging abilities.
-// It is designed to work with the other example Feather9x_RX
+
+// The sketch makes use of the following tutorial by Adafruit. 
+// Feather M0 Lora: https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview
+// PM2.5 air quality sensor: https://learn.adafruit.com/pm25-air-quality-sensor
+// Portions of the example sketches in these tutorials are piecemealed to form this sketch.
+
+// Thank you Adafruit :) 
+
+
+
 
 #include <SPI.h>
 #include <RH_RF95.h>

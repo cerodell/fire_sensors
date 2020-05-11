@@ -1,14 +1,19 @@
 // ############################################################################################################
 // #####################################      Resiver Code       ##########################################
 // ############################################################################################################
-
-// Feather9x_RX
+// Feather M0 (RH_RF95 915 MHz) and Featherwing Adalooger 
+// Port: 143401
+// The sketch receives PM data from another Feather M0 transceiver and writes the data to the SD card every one second 
 // -*- mode: C++ -*-
-// Example sketch showing how to create a simple messaging client (receiver)
-// with the RH_RF95 class. RH_RF95 class does not provide for addressing or
-// reliability, so you should only use RH_RF95 if you do not need the higher
-// level messaging abilities.
-// It is designed to work with the other example Feather9x_TX
+// 
+// The sketch makes use of the following tutorials by Adafruit. 
+// Feather M0 Lora: https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview
+// Featherwing Adalooger: https://learn.adafruit.com/adafruit-adalogger-featherwing/overview
+// Portions of the example sketches in these tutorials are piecemealed to form this sketch.
+
+// Thank you Adafruit :) 
+
+
 
 
 #include <SD.h>
