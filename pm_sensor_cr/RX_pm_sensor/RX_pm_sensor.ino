@@ -87,12 +87,12 @@ void setup()
   pinMode(8, OUTPUT);
   digitalWrite(8, HIGH);
   while (!Serial) {
-    ; // wait for serial port to connect. Needed for native USB port only
+    ; // Wait for serial port to connect. Needed for native USB port only
   }
 
   Serial.print("Initializing SD card...");
 
-  // see if the card is present and can be initialized:
+  // See if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
     Serial.println("Card failed, or not present");
     // don't do anything more:
@@ -125,7 +125,7 @@ void loop()
       Serial.println(rf95.lastRssi(), DEC);
 
       // Send a reply
-      uint8_t data[] = "And hello back to you";
+      uint8_t data[] = "Recived PM Data :)";
       rf95.send(data, sizeof(data));
       rf95.waitPacketSent();
       Serial.println("Sent a reply");

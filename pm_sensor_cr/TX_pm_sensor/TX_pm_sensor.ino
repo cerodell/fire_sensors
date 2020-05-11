@@ -3,7 +3,7 @@
 // #####################################      Transmitter Code       ##########################################
 // ############################################################################################################
 // Feather M0 (RH_RF95 915 MHz) and PM2.5 Air Quality Sensor
-// Port: 143401
+// Port: 143201
 // The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every one second 
 // -*- mode: C++ -*-
 
@@ -119,10 +119,12 @@ void loop()
     Serial.print("PM 1.0: "); Serial.print(data.pm10_env);
     Serial.print("\t\tPM 2.5: "); Serial.print(data.pm25_env);
     Serial.print("\t\tPM 10: "); Serial.println(data.pm100_env);
+
+
     /*
     Serial.println("---------------------------------------");
     Serial.print("Particles > 0.3um / 0.1L air:"); Serial.println(data.particles_03um);
-    Serial.print("Particles > 0.5um / 0.1L air:"); Serial.println(data.particles_05um);
+    Serial.print("Part icles > 0.5um / 0.1L air:"); Serial.println(data.particles_05um);
     Serial.print("Particles > 1.0um / 0.1L air:"); Serial.println(data.particles_10um);
     Serial.print("Particles > 2.5um / 0.1L air:"); Serial.println(data.particles_25um);
     Serial.print("Particles > 5.0um / 0.1L air:"); Serial.println(data.particles_50um);
@@ -137,16 +139,22 @@ void loop()
 
   Serial.println("Transmitting..."); // Send a message to rf95_server
 
-  String pm = String(data.pm25_env);
+//  String pm10  = String(data.pm10_env);
+    String pm  = String(data.pm10_env);
+    pm += ",";
+    pm += String(data.pm25_env);
+    pm += ",";
+    pm += String(data.pm100_env);
+
+//  String pm100 = String(data.pm100_env);
  // String test = String(100000);
   uint16_t pm_len = pm.length() + 1;
-  Serial.println("PM2.5 of:  " + pm);Serial.println(pm_len);
+  Serial.println("PM of:  " + pm);Serial.println(pm_len);
 
   char radiopacket[pm_len];
   pm.toCharArray(radiopacket, pm_len);
   itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending "); Serial.println(radiopacket);
-//  radiopacket[-1] = 0;
   
   Serial.println("Sending...");
   delay(10);
@@ -165,7 +173,7 @@ void loop()
     // Should be a reply message for us now   
     if (rf95.recv(buf, &len))
    {
-      Serial.print("Got reply: ");
+      Serial.print("RX reply: ");
       Serial.println((char*)buf);
       Serial.print("RSSI: ");
       Serial.println(rf95.lastRssi(), DEC);    
