@@ -106,14 +106,14 @@ void loop()
 {
   if (readPMSdata(&pmsSerial)) {
     // reading data was successful!
-    /*
+
     Serial.println();
     Serial.println("---------------------------------------");
     Serial.println("Concentration Units (standard)");
     Serial.print("PM 1.0: "); Serial.print(data.pm10_standard);
     Serial.print("\t\tPM 2.5: "); Serial.print(data.pm25_standard);
     Serial.print("\t\tPM 10: "); Serial.println(data.pm100_standard);
-    */
+
     Serial.println("---------------------------------------");
     Serial.println("Concentration Units (environmental)");
     Serial.print("PM 1.0: "); Serial.print(data.pm10_env);
@@ -121,7 +121,6 @@ void loop()
     Serial.print("\t\tPM 10: "); Serial.println(data.pm100_env);
 
 
-    /*
     Serial.println("---------------------------------------");
     Serial.print("Particles > 0.3um / 0.1L air:"); Serial.println(data.particles_03um);
     Serial.print("Part icles > 0.5um / 0.1L air:"); Serial.println(data.particles_05um);
@@ -130,7 +129,7 @@ void loop()
     Serial.print("Particles > 5.0um / 0.1L air:"); Serial.println(data.particles_50um);
     Serial.print("Particles > 10.0 um / 0.1L air:"); Serial.println(data.particles_100um);
     Serial.println("---------------------------------------");
-    */
+
   }
 
  /*
@@ -145,7 +144,26 @@ void loop()
     pm += String(data.pm25_env);
     pm += ",";
     pm += String(data.pm100_env);
+    pm += ",";
+    pm += String(data.pm10_standard);
+    pm += ",";
+    pm += String(data.pm25_standard);
+    pm += ",";
+    pm += String(data.pm100_standard);
+    pm += ",";
+    pm += String(data.particles_03um);
+    pm += ",";
+    pm += String(data.particles_05um);
+    pm += ",";
+    pm += String(data.particles_10um);
+    pm += ",";
+    pm += String(data.particles_25um);
+    pm += ",";
+    pm += String(data.particles_50um);
+    pm += ",";
+    pm += String(data.particles_100um);
 
+           
 //  String pm100 = String(data.pm100_env);
  // String test = String(100000);
   uint16_t pm_len = pm.length() + 1;
@@ -153,7 +171,7 @@ void loop()
 
   char radiopacket[pm_len];
   pm.toCharArray(radiopacket, pm_len);
-  itoa(packetnum++, radiopacket+13, 10);
+//  itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending "); Serial.println(radiopacket);
   
   Serial.println("Sending...");
