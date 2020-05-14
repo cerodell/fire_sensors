@@ -15,30 +15,34 @@
 // Thank you Adafruit :) 
 
 
-
-
 #include <SPI.h>
 #include <RH_RF95.h>
 
 
-/* for feather m0 */
+// for feather m0 */
 #define RFM95_CS 8
 #define RFM95_RST 4
 #define RFM95_INT 3
 
-/* PM  */
+// PM  
 #define pmsSerial Serial1
 
-
-/* TX */
+// TX 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
 
 // Singleton instance of the radio driver
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
+
+
+// #####################################  SET UP  ##########################################
+
 void setup() 
 {
+// ##################################################
+// Start serial baud rate (115200) and initiate LoRa Radio
+// ##################################################
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
@@ -79,16 +83,18 @@ void setup()
   rf95.setTxPower(23, false);
 
 
-/* PM  */
-  // sensor baud rate is 9600
+// ##################################################
+// Start serial (pmsSerial) baud rate (9600) afor PM sensor
+// ##################################################  
   pmsSerial.begin(9600);
 }
 
-/* TX */
+// ############################ PM sensor Data structure ##################################
+
+// TX 
 int16_t packetnum = 0;  // packet counter, we increment per xmission
 
-
-/* PM sensor Data structure */
+// PM sensor Data structure
 struct pms5003data {
   uint16_t framelen;
   uint16_t pm10_standard, pm25_standard, pm100_standard;
@@ -102,8 +108,13 @@ struct pms5003data data;
 
 
 
+// #####################################  LOOP  ##########################################
+
 void loop()
 {
+  // ##################################################
+  //  Get data for PM sensor from readPMSdata function
+  // ################################################## 
   if (readPMSdata(&pmsSerial)) {
     // reading data was successful!
 
@@ -132,13 +143,11 @@ void loop()
 
   }
 
- /*
-  delay(1000); // Wait 1 second between transmits, could also 'sleep' here!
-  */
+  // ##################################################
+  // Pack PM data and transmit to reciver
+  // #################################################
 
   Serial.println("Transmitting..."); // Send a message to rf95_server
-
-//  String pm10  = String(data.pm10_env);
     String pm  = String(data.pm10_env);
     pm += ",";
     pm += String(data.pm25_env);
@@ -163,28 +172,29 @@ void loop()
     pm += ",";
     pm += String(data.particles_100um);
 
-           
-//  String pm100 = String(data.pm100_env);
- // String test = String(100000);
+  // convert pm data to bit16            
   uint16_t pm_len = pm.length() + 1;
   Serial.println("PM of:  " + pm);Serial.println(pm_len);
 
+  // convert pm data to byte
   char radiopacket[pm_len];
   pm.toCharArray(radiopacket, pm_len);
-//  itoa(packetnum++, radiopacket+13, 10);
   Serial.print("Sending "); Serial.println(radiopacket);
-  
+
+  // Send PM data
   Serial.println("Sending...");
   delay(10);
   rf95.send((uint8_t *)radiopacket, pm_len);
- 
+
+  // Wait for PM data to be recived
   Serial.println("Waiting for packet to complete..."); 
   delay(10);
   rf95.waitPacketSent();
   // Now wait for a reply
   uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
   uint8_t len = sizeof(buf);
- 
+
+  // Get confirmation of PM data recived 
   Serial.println("Waiting for reply...");
   if (rf95.waitAvailableTimeout(1000))
   { 
@@ -209,7 +219,9 @@ void loop()
 }
 
 
-/* PM */
+
+// ############################ PM sensor Data Function ##################################
+
 boolean readPMSdata(Stream *s) {
   if (! s->available()) {
     return false;

@@ -14,28 +14,24 @@
 // Thank you Adafruit :) 
 
 
-
-
 #include <SD.h>
 #include <SPI.h>
 #include "RTClib.h"
 #include <RH_RF95.h>
 
-
-RTC_PCF8523 rtc;
+// Define chipSelect
 const int chipSelect = 10;
-char daysOfTheWeek[7][12] = {"Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"};
+
 // Define Headers for file
 static char header[] = {"rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um"};
 
-/* for feather m0 RFM9x */
+// Used for RTC time keeper
+RTC_PCF8523 rtc;
+
+// for feather m0 RFM9x
 #define RFM95_CS 8
 #define RFM95_RST 4
 #define RFM95_INT 3
-
-/* for adalogger RTC Chips*/
-//#define RTCSerial Serial1
-
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
@@ -46,14 +42,8 @@ RH_RF95 rf95(RFM95_CS, RFM95_INT);
 // Blinky on receipt
 #define LED 13
 
-
 // timekeeper
 unsigned long time;
-
-
-// RTCtime function
-bool asked = false;
-
 
 
 
@@ -62,6 +52,9 @@ bool asked = false;
 
 void setup()
 { 
+// ##################################################
+// Start serial baud rate (57600) and RTC chip for time keeping
+// ##################################################
   Serial.begin(57600);
 
 #ifndef ESP8266
@@ -76,22 +69,11 @@ void setup()
     Serial.println("RTC is NOT initialized, let's set the time!");
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
-  
-   DateTime now = rtc.now();
-   String Filedate_string = String(now.year());
-   Filedate_string += String(now.month());
-   Filedate_string += String(now.day());
-   Filedate_string += "_";
-   Filedate_string += String(now.hour());
-   Filedate_string += String(now.minute());
-   Filedate_string += ".txt";
-
-   Serial.println("File name: " + Filedate_string);
 
 
-
-
-   
+// ##################################################
+// Start serial baud rate (115200) and initiate LoRa Radio
+// ##################################################
   Serial.begin(115200);
   while (!Serial) {
     delay(1);
@@ -128,8 +110,9 @@ void setup()
   rf95.setTxPower(23, false);
 
 
-  
+  // ##################################################  
   //SD Card: Open serial communications and wait for port to open:
+  // ##################################################
   pinMode(8, OUTPUT);
   digitalWrite(8, HIGH);
   while (!Serial) {
@@ -146,8 +129,25 @@ void setup()
   }
   Serial.println("card initialized.");
 
+
+  // ##################################################
+  // Call on RTC chip to create file name
+  // This is also done in the loop
+  // ##################################################
+  DateTime now = rtc.now();
+  String Filename = String(now.year());
+  Filename += String(now.month());
+  Filename += String(now.day());
+  // Filename += "_";
+  // Filename += String(now.hour());
+  // Filename += String(now.minute());
+  Filename += ".txt";
+
+
+  // ##################################################
   // Open file, write to SD card
-  File dataFile = SD.open("hello.txt", FILE_WRITE);
+  // ##################################################
+  File dataFile = SD.open(Filename, FILE_WRITE);
   if (dataFile) {
     dataFile.println((char*)header);
     dataFile.close();
@@ -156,46 +156,20 @@ void setup()
   }
   // if the file isn't open, pop up an error:
   else {
-    Serial.println("error opening please.txt");
+    Serial.println("error opening .txt");
   }
-/*
-  Serial.begin(57600);
-
-#ifndef ESP8266
-  while (!Serial); // wait for serial port to connect. Needed for native USB
-#endif
-  if (! rtc.begin()) {
-    Serial.println("Couldn't find RTC");
-    while (1);
-  }
-
-  if (! rtc.initialized() || rtc.lostPower()) {
-    Serial.println("RTC is NOT initialized, let's set the time!");
-    rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
-  }
-  
-   DateTime now = rtc.now();
-   String Filedate_string = String(now.year());
-   Filedate_string += String(now.month());
-   Filedate_string += String(now.day());
-   Filedate_string += "_";
-   Filedate_string += String(now.hour());
-   Filedate_string += String(now.minute());
-   Serial.println("File name: " + Filedate_string);
-*/ 
 }
 
-//DateTime now = rtc.now();
-//String Filedate_string = String(now.year()) + String(now.month()) + String(now.day()) + "_" + String(now.hour()) + String(now.minute());
 
 
 
 // #####################################  LOOP  ##########################################
 
-
 void loop()
 {
-// Recive and uppack data
+// ##################################################
+// Recive and uppack data and send confirmation back
+// ##################################################
   if (rf95.available())
   {
     // Should be a message for us now
@@ -222,62 +196,72 @@ void loop()
     {
       Serial.println("Receive failed");
     }
+    
+  // ##################################################
+  // Call on RTC chip to create time count (RTCtime) name
+  // convert RTCtime to string 
+  // ##################################################
+  DateTime now = rtc.now();
+  String RTCtime_string = String(now.year());
+  RTCtime_string += String(now.month());
+  RTCtime_string += String(now.day());
+  RTCtime_string += "_";
+  RTCtime_string += String(now.hour());
+  RTCtime_string += String(now.minute());
+  RTCtime_string += String(now.second());
+  RTCtime_string += ",";
 
+  // convert time to bit16 
+  uint16_t RTCtime_len = RTCtime_string.length() + 1;
+  Serial.print("Time of:  " + RTCtime_string);
+  //Serial.print("RTCtime string lenght: ");Serial.println(RTCtime_len);
 
-   String Filedate_string = String(getfilename()); 
-   Serial.println(Filedate_string);
- 
+  // convert time to byte
+  char RTCtime[RTCtime_len];
+  RTCtime_string.toCharArray(RTCtime, RTCtime_len);
+  Serial.println((char*)RTCtime_len);
 
-   DateTime now = rtc.now();
-   String RTCtime_string = String(now.year());
-   RTCtime_string += String(now.month());
-   RTCtime_string += String(now.day());
-   RTCtime_string += "_";
-   RTCtime_string += String(now.hour());
-   RTCtime_string += String(now.minute());
-   RTCtime_string += String(now.second());
-   RTCtime_string += ",";
-
-   // convert time to bit16 
-   uint16_t RTCtime_len = RTCtime_string.length() + 1;
-   Serial.print("Time of:  " + RTCtime_string);
-   Serial.print("RTCtime string lenght: ");Serial.println(RTCtime_len);
-
-   // convert time to byte
-   char RTCtime[RTCtime_len];
-   RTCtime_string.toCharArray(RTCtime, RTCtime_len);
-   Serial.println((char*)RTCtime_len);
-
-
-
-
-// Start time keeper
-  // convert time to string 
-  Serial.print("Time: ");
+  // ##################################################
+  // Start Milliseconds (mill_sec) from start
+  // convert mill_sec to string
+  // ##################################################
   time = millis();
   String mill_sec = String(time);
   mill_sec += ",";
-  Serial.println(mill_sec);
+  //Serial.println(mill_sec);
   
-// convert time to bit16 
+  // convert mill_sec to bit16 
   uint16_t mill_sec_len = mill_sec.length() + 1;
-  Serial.print("Milliseconds from start:  " + mill_sec);
-  Serial.print("Milliseconds string lenght: ");Serial.println(mill_sec_len);
+  //Serial.println("Milliseconds from start:  " + mill_sec);
+  //Serial.print("Milliseconds string lenght: ");
+  //Serial.println(mill_sec_len);
 
-// convert time to byte
+  // convert mill_sec to byte
   char mill[mill_sec_len];
   mill_sec.toCharArray(mill, mill_sec_len);
-  Serial.println((char*)mill);
-  
+  //Serial.println((char*)mill);
 
-// Open file, write to SD card
-  String Filename = String(Filedate_string);
+  // ##################################################
+  // Call on RTC chip to create file name
+  // This is also done in the setup
+  // ##################################################
+  String Filename = String(now.year());
+  Filename += String(now.month());
+  Filename += String(now.day());
+  // Filename += "_";
+  // Filename += String(now.hour());
+  // Filename += String(now.minute());
+  Filename += ".txt";
+
+ // ################################################## 
+ // Open file, write to SD card
+ // ##################################################
   File dataFile = SD.open(Filename, FILE_WRITE);
   if (dataFile) {
-    dataFile.print((char*)RTCtime);dataFile.println((char*)mill);dataFile.println((char*)buf);
+    dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.println((char*)buf);
     dataFile.close();
     // print to the serial port too:
-    Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.println((char*)buf);
+    Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.println((char*)buf);
   }
   // if the file isn't open, pop up an error:
   else {
@@ -289,23 +273,7 @@ void loop()
 }
 
 
-String getfilename(){
-  if(!asked){
-   DateTime now = rtc.now();
-   String Filedate_string = String(now.year());
-   Filedate_string += String(now.month());
-   Filedate_string += String(now.day());
-   Filedate_string += "_";
-   Filedate_string += String(now.hour());
-   Filedate_string += String(now.minute());
-   Filedate_string += ".txt";
-   asked = true;
-   return Filedate_string;
-
-  }
-}
 
 
-     asked = true;
 
   
