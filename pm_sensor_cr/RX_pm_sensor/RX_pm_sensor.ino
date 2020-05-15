@@ -56,10 +56,12 @@ void setup()
 // Start serial baud rate (57600) and RTC chip for time keeping
 // ##################################################
   Serial.begin(57600);
-
+  delay(2000);
+/*
 #ifndef ESP8266
   while (!Serial); // wait for serial port to connect. Needed for native USB
 #endif
+*/
   if (! rtc.begin()) {
     Serial.println("Couldn't find RTC");
     while (1);
@@ -75,9 +77,12 @@ void setup()
 // Start serial baud rate (115200) and initiate LoRa Radio
 // ##################################################
   Serial.begin(115200);
-  while (!Serial) {
+/*
+  while (!Serial) {     //Needed for native USB
     delay(1);
   }
+*/
+
   delay(100);
 
   Serial.println("Feather LoRa RX Test!");
@@ -115,10 +120,12 @@ void setup()
   // ##################################################
   pinMode(8, OUTPUT);
   digitalWrite(8, HIGH);
+
+  /*
   while (!Serial) {
     ; // Wait for serial port to connect. Needed for native USB port only
   }
-
+*/
   Serial.print("Initializing SD card...");
 
   // See if the card is present and can be initialized:
