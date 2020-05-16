@@ -75,6 +75,8 @@ void setup()
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+
 
 // ##################################################
 // Start serial baud rate (115200) and initiate LoRa Radio
