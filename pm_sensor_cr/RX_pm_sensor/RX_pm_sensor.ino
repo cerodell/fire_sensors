@@ -2,7 +2,7 @@
 // #####################################      Resiver Code       ##########################################
 // ############################################################################################################
 // Feather M0 (RH_RF95 915 MHz) and Featherwing Adalooger 
-// Port: 143401
+//
 // The sketch receives PM data from another Feather M0 transceiver and writes the data to the SD card every one second 
 // -*- mode: C++ -*-
 // 
@@ -23,7 +23,7 @@
 const int chipSelect = 10;
 
 // Define Headers for file
-static char header[] = {"rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um"};
+static char header[] = {"rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um,TX_batvolt,RX_batvolt"};
 
 // Used for RTC time keeper
 RTC_PCF8523 rtc;
@@ -32,6 +32,9 @@ RTC_PCF8523 rtc;
 #define RFM95_CS 8
 #define RFM95_RST 4
 #define RFM95_INT 3
+
+// measure battery voltage
+#define VBATPIN A7
 
 // Change to 434.0 or other frequency, must match RX's freq!
 #define RF95_FREQ 915.0
@@ -203,30 +206,52 @@ void loop()
     {
       Serial.println("Receive failed");
     }
-    
+
+  // ##################################################
+  // Call on PIN A7 to measure battery voltage
+  // ##################################################
+  float measuredvbat = analogRead(VBATPIN);
+  measuredvbat *= 2;    // we divided by 2, so multiply back
+  measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+  measuredvbat /= 1024; // convert to voltage
+  String batvolt_string = String(measuredvbat);
+
+  // convert batvolt to bit16 
+  uint16_t batvolt_len = batvolt_string.length() + 1;
+  Serial.print("VBat: " ); Serial.println(batvolt_string);
+
+  // convert time to byte
+  char RX_batvolt[batvolt_len];
+  batvolt_string.toCharArray(RX_batvolt, batvolt_len);
+  //Serial.println((char*)batvolt_len);
+  
   // ##################################################
   // Call on RTC chip to create time count (RTCtime) name
   // convert RTCtime to string 
   // ##################################################
   DateTime now = rtc.now();
   String RTCtime_string = String(now.year());
+  RTCtime_string += "-";
   RTCtime_string += String(now.month());
+  RTCtime_string += "-";
   RTCtime_string += String(now.day());
-  RTCtime_string += "_";
+  RTCtime_string += "T";
   RTCtime_string += String(now.hour());
+  RTCtime_string += ":";
   RTCtime_string += String(now.minute());
+  RTCtime_string += ":";
   RTCtime_string += String(now.second());
   RTCtime_string += ",";
 
   // convert time to bit16 
   uint16_t RTCtime_len = RTCtime_string.length() + 1;
-  Serial.print("Time of:  " + RTCtime_string);
+  Serial.println("Time of:  " + RTCtime_string);
   //Serial.print("RTCtime string lenght: ");Serial.println(RTCtime_len);
 
   // convert time to byte
   char RTCtime[RTCtime_len];
   RTCtime_string.toCharArray(RTCtime, RTCtime_len);
-  Serial.println((char*)RTCtime_len);
+  //Serial.println((char*)RTCtime_len);
 
   // ##################################################
   // Start Milliseconds (mill_sec) from start
@@ -265,10 +290,10 @@ void loop()
  // ##################################################
   File dataFile = SD.open(Filename, FILE_WRITE);
   if (dataFile) {
-    dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.println((char*)buf);
+    dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.print((char*)buf);dataFile.println((char*)RX_batvolt);
     dataFile.close();
     // print to the serial port too:
-    Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.println((char*)buf);
+    Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.print((char*)buf);Serial.println((char*)RX_batvolt);
   }
   // if the file isn't open, pop up an error:
   else {

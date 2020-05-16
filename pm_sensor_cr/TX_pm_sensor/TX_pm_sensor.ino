@@ -3,7 +3,7 @@
 // #####################################      Transmitter Code       ##########################################
 // ############################################################################################################
 // Feather M0 (RH_RF95 915 MHz) and PM2.5 Air Quality Sensor
-// Port: 143201
+//
 // The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every one second 
 // -*- mode: C++ -*-
 
@@ -23,6 +23,9 @@
 #define RFM95_CS 8
 #define RFM95_RST 4
 #define RFM95_INT 3
+
+// measure battery voltage
+#define VBATPIN A7
 
 // PM  
 #define pmsSerial Serial1
@@ -146,6 +149,16 @@ void loop()
   }
 
   // ##################################################
+  // Call on PIN A7 to measure battery voltage
+  // ##################################################
+  float measuredvbat = analogRead(VBATPIN);
+  measuredvbat *= 2;    // we divided by 2, so multiply back
+  measuredvbat *= 3.3;  // Multiply by 3.3V, our reference voltage
+  measuredvbat /= 1024; // convert to voltage
+
+
+
+  // ##################################################
   // Pack PM data and transmit to reciver
   // #################################################
 
@@ -173,6 +186,9 @@ void loop()
     pm += String(data.particles_50um);
     pm += ",";
     pm += String(data.particles_100um);
+    pm += ",";   
+    pm += String(measuredvbat);
+    pm += ",";
 
   // convert pm data to bit16            
   uint16_t pm_len = pm.length() + 1;
