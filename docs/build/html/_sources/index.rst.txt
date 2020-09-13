@@ -10,9 +10,9 @@ UBC AQ Sensor documentation
 .. image:: _static/img/smokeplumecoastline.jpg
     :width: 600
     :align: center
+    :alt: alternate text
     
 Image credits US Forest Service/Public Domain (Homepage photo credit is also USFS and Public Domain)
-
 Aerial view of Woolsey Fire, November 9, 2018
 
 .. toctree::
