@@ -10,16 +10,17 @@
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
 #
-import os
-import sys
-sys.path.insert(0, os.path.abspath('..'))
+# import os
+# import sys
+# sys.path.insert(0, os.path.abspath('.'))
 
 
 # -- Project information -----------------------------------------------------
 
-project = 'UBC AQ Sensors'
+project = 'UBC AQ Sensor'
 copyright = '2020, Christopher Rodell'
 author = 'Christopher Rodell'
+
 
 # -- General configuration ---------------------------------------------------
 
@@ -29,7 +30,7 @@ author = 'Christopher Rodell'
 extensions = ['sphinx.ext.autodoc', 'sphinx.ext.coverage', \
     'sphinx.ext.napoleon', 'sphinx_automodapi.automodapi', 'recommonmark', \
         'sphinx_markdown_tables', 'sphinxcontrib.inlinesyntaxhighlight', \
-            'nbsphinx',  'sphinx.ext.mathjax']
+            'nbsphinx', 'sphinx.ext.mathjax']
 
 # use language set by highlight directive if no language is set by role
 inline_highlight_respect_highlight = False
