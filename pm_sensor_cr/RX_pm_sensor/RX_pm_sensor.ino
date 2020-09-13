@@ -37,7 +37,9 @@ RTC_PCF8523 rtc;
 #define VBATPIN A7
 
 // Change to 434.0 or other frequency, must match RX's freq!
-#define RF95_FREQ 915.0
+// #define RF95_FREQ 915.0 // UBC-PM 01
+#define RF95_FREQ 925.0 // UBC-PM 02
+
 
 // Singleton instance of the radio driver
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
@@ -75,7 +77,7 @@ void setup()
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 
-  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+// rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
 
 // ##################################################
@@ -305,9 +307,3 @@ void loop()
   }
   
 }
-
-
-
-
-
-  
