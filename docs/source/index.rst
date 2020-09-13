@@ -7,13 +7,14 @@ UBC AQ Sensor documentation
    that provides a vertical profile of temperature, dew point temperature wind speed, and direction. Compiling the 
    two instruments together will hopefully provide a much-needed dataset to aid in the evaluation of smoke plume rise modeling. 
 
+Woolsey Fire, November 9, 2018
+
 .. figure:: _static/img/smokeplumecoastline.jpg
     :alt: alternate text
-    :width: 600
+    :width: 800
     :align: center
-    
-    Image credits US Forest Service/Public Domain (Homepage photo credit is also USFS and Public Domain)
-    Aerial view of Woolsey Fire, November 9, 2018
+
+    Image credits `US Forest Service/Public Domain <https://www.flickr.com/photos/usforestservice/45059296945/>`_ 
 
 .. toctree::
    :maxdepth: 2
