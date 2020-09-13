@@ -38,7 +38,7 @@
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Testing the PM Sensors" href="test.html" />
-    <link rel="prev" title="Biulding a PM Sensors" href="pmbuild.html" /> 
+    <link rel="prev" title="Biulding a PM Sensor" href="pmbuild.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -85,8 +85,12 @@
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
 <ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pmbuild.html">Biulding a PM Sensors</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="pmbuild.html">Biulding a PM Sensor</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pm-sensor-transceiver">PM Sensor (Transceiver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datalogger-receiver">Datalogger (Receiver)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="test.html">Testing the PM Sensors</a></li>
 </ul>
 
@@ -155,6 +159,585 @@
             
   <div class="section" id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pm-sensor-transceiver">
+<h2>PM Sensor (Transceiver)<a class="headerlink" href="#pm-sensor-transceiver" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;RH_RF95.h&gt;</span><span class="cp"></span>
+
+
+<span class="c1">// for feather m0 */</span>
+<span class="cp">#define RFM95_CS 8</span>
+<span class="cp">#define RFM95_RST 4</span>
+<span class="cp">#define RFM95_INT 3</span>
+
+<span class="c1">// measure battery voltage</span>
+<span class="cp">#define VBATPIN A7</span>
+
+<span class="c1">// PM</span>
+<span class="cp">#define pmsSerial Serial1</span>
+
+<span class="c1">// TX</span>
+<span class="c1">// Change to 434.0 or other frequency, must match RX&#39;s freq!</span>
+<span class="cp">#define RF95_FREQ 915.0 </span><span class="c1">// UBC-PM 01</span>
+<span class="c1">// #define RF95_FREQ 925.0 // UBC-PM 02</span>
+
+
+<span class="c1">// Singleton instance of the radio driver</span>
+<span class="n">RH_RF95</span> <span class="nf">rf95</span><span class="p">(</span><span class="n">RFM95_CS</span><span class="p">,</span> <span class="n">RFM95_INT</span><span class="p">);</span>
+
+
+
+<span class="c1">// #####################################  SET UP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial baud rate (115200) and initiate LoRa Radio</span>
+<span class="c1">// ##################################################</span>
+<span class="n">pinMode</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">while (!Serial) {</span>
+<span class="cm">    delay(1);</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Feather LoRa TX Test!&quot;</span><span class="p">);</span>
+
+<span class="c1">// manual reset</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">init</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init failed&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Uncomment &#39;#define SERIAL_DEBUG&#39; in RH_RF95.cpp for detailed debug info&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init OK!&quot;</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">setFrequency</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;setFrequency failed&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Set Freq to: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on</span>
+
+<span class="c1">// The default transmitter power is 13dBm, using PA_BOOST.</span>
+<span class="c1">// If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then</span>
+<span class="c1">// you can set transmitter powers from 5 to 23 dBm:</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">setTxPower</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial (pmsSerial) baud rate (9600) afor PM sensor</span>
+<span class="c1">// ##################################################</span>
+<span class="n">pmsSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// ############################ PM sensor Data structure ##################################</span>
+
+<span class="c1">// TX</span>
+<span class="kt">int16_t</span> <span class="n">packetnum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// packet counter, we increment per xmission</span>
+
+<span class="c1">// PM sensor Data structure</span>
+<span class="k">struct</span> <span class="n">pms5003data</span> <span class="p">{</span>
+<span class="kt">uint16_t</span> <span class="n">framelen</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">pm10_standard</span><span class="p">,</span> <span class="n">pm25_standard</span><span class="p">,</span> <span class="n">pm100_standard</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">pm10_env</span><span class="p">,</span> <span class="n">pm25_env</span><span class="p">,</span> <span class="n">pm100_env</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">particles_03um</span><span class="p">,</span> <span class="n">particles_05um</span><span class="p">,</span> <span class="n">particles_10um</span><span class="p">,</span> <span class="n">particles_25um</span><span class="p">,</span> <span class="n">particles_50um</span><span class="p">,</span> <span class="n">particles_100um</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">unused</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">checksum</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="n">pms5003data</span> <span class="n">data</span><span class="p">;</span>
+
+
+
+<span class="c1">// #####################################  LOOP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">//  Get data for PM sensor from readPMSdata function</span>
+<span class="c1">// ##################################################</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">readPMSdata</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pmsSerial</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// reading data was successful!</span>
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Concentration Units (standard)&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;PM 1.0: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_standard</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 2.5: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_standard</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 10: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_standard</span><span class="p">);</span>
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Concentration Units (environmental)&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;PM 1.0: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_env</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 2.5: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_env</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 10: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_env</span><span class="p">);</span>
+
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 0.3um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_03um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Part icles &gt; 0.5um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_05um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 1.0um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_10um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 2.5um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_25um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 5.0um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_50um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 10.0 um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_100um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on PIN A7 to measure battery voltage</span>
+<span class="c1">// ##################################################</span>
+<span class="kt">float</span> <span class="n">measuredvbat</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">VBATPIN</span><span class="p">);</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>    <span class="c1">// we divided by 2, so multiply back</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mf">3.3</span><span class="p">;</span>  <span class="c1">// Multiply by 3.3V, our reference voltage</span>
+<span class="n">measuredvbat</span> <span class="o">/=</span> <span class="mi">1024</span><span class="p">;</span> <span class="c1">// convert to voltage</span>
+
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Pack PM data and transmit to reciver</span>
+<span class="c1">// #################################################</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Transmitting...&quot;</span><span class="p">);</span> <span class="c1">// Send a message to rf95_server</span>
+    <span class="n">String</span> <span class="n">pm</span>  <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_03um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_05um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_10um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_25um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_50um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_100um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">measuredvbat</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+
+<span class="c1">// convert pm data to bit16</span>
+<span class="kt">uint16_t</span> <span class="n">pm_len</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;PM of:  &quot;</span> <span class="o">+</span> <span class="n">pm</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">pm_len</span><span class="p">);</span>
+
+<span class="c1">// convert pm data to byte</span>
+<span class="kt">char</span> <span class="n">radiopacket</span><span class="p">[</span><span class="n">pm_len</span><span class="p">];</span>
+<span class="n">pm</span><span class="p">.</span><span class="n">toCharArray</span><span class="p">(</span><span class="n">radiopacket</span><span class="p">,</span> <span class="n">pm_len</span><span class="p">);</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sending &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">radiopacket</span><span class="p">);</span>
+
+<span class="c1">// Send PM data</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Sending...&quot;</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">send</span><span class="p">((</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">radiopacket</span><span class="p">,</span> <span class="n">pm_len</span><span class="p">);</span>
+
+<span class="c1">// Wait for PM data to be recived</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Waiting for packet to complete...&quot;</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">waitPacketSent</span><span class="p">();</span>
+<span class="c1">// Now wait for a reply</span>
+<span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="n">RH_RF95_MAX_MESSAGE_LEN</span><span class="p">];</span>
+<span class="kt">uint8_t</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+<span class="c1">// Get confirmation of PM data recived</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Waiting for reply...&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">waitAvailableTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="c1">// Should be a reply message for us now</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;RX reply: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;RSSI: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">lastRssi</span><span class="p">(),</span> <span class="n">DEC</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Receive failed&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;No reply, is there a listener around?&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+
+
+
+<span class="c1">// ############################ PM sensor Data Function ##################################</span>
+
+<span class="n">boolean</span> <span class="nf">readPMSdata</span><span class="p">(</span><span class="n">Stream</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Read a byte at a time until we get to the special &#39;0x42&#39; start-byte</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">peek</span><span class="p">()</span> <span class="o">!=</span> <span class="mh">0x42</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">s</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Now read all 32 bytes</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">available</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint8_t</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="kt">uint16_t</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">s</span><span class="o">-&gt;</span><span class="n">readBytes</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+
+<span class="c1">// get checksum ready</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">30</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="cm">/* debugging</span>
+<span class="cm">for (uint8_t i=2; i&lt;32; i++) {</span>
+<span class="cm">    Serial.print(&quot;0x&quot;); Serial.print(buffer[i], HEX); Serial.print(&quot;, &quot;);</span>
+<span class="cm">}</span>
+<span class="cm">Serial.println();</span>
+<span class="cm">*/</span>
+
+<span class="c1">// The data comes in endian&#39;d, this solves it so it works on all platforms</span>
+<span class="kt">uint16_t</span> <span class="n">buffer_u16</span><span class="p">[</span><span class="mi">15</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">15</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">buffer_u16</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">buffer_u16</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// put it into a nice struct :)</span>
+<span class="n">memcpy</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">buffer_u16</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">checksum</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Checksum failure&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// success!</span>
+<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datalogger-receiver">
+<h2>Datalogger (Receiver)<a class="headerlink" href="#datalogger-receiver" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SD.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;RTClib.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;RH_RF95.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// Define chipSelect</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">chipSelect</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="c1">// Define Headers for file</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">header</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um,TX_batvolt,RX_batvolt&quot;</span><span class="p">};</span>
+
+<span class="c1">// Used for RTC time keeper</span>
+<span class="n">RTC_PCF8523</span> <span class="n">rtc</span><span class="p">;</span>
+
+<span class="c1">// for feather m0 RFM9x</span>
+<span class="cp">#define RFM95_CS 8</span>
+<span class="cp">#define RFM95_RST 4</span>
+<span class="cp">#define RFM95_INT 3</span>
+
+<span class="c1">// measure battery voltage</span>
+<span class="cp">#define VBATPIN A7</span>
+
+<span class="c1">// Change to 434.0 or other frequency, must match RX&#39;s freq!</span>
+<span class="c1">// #define RF95_FREQ 915.0 // UBC-PM 01</span>
+<span class="cp">#define RF95_FREQ 925.0 </span><span class="c1">// UBC-PM 02</span>
+
+
+<span class="c1">// Singleton instance of the radio driver</span>
+<span class="n">RH_RF95</span> <span class="nf">rf95</span><span class="p">(</span><span class="n">RFM95_CS</span><span class="p">,</span> <span class="n">RFM95_INT</span><span class="p">);</span>
+
+<span class="c1">// Blinky on receipt</span>
+<span class="cp">#define LED 13</span>
+
+<span class="c1">// timekeeper</span>
+<span class="kt">unsigned</span> <span class="kt">long</span> <span class="n">time</span><span class="p">;</span>
+
+
+
+
+<span class="c1">// #####################################  SET UP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial baud rate (57600) and RTC chip for time keeping</span>
+<span class="c1">// ##################################################</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">57600</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">2000</span><span class="p">);</span>
+<span class="cm">/*</span>
+<span class="cm">#ifndef ESP8266</span>
+<span class="cm">while (!Serial); // wait for serial port to connect. Needed for native USB</span>
+<span class="cm">#endif</span>
+<span class="cm">*/</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">rtc</span><span class="p">.</span><span class="n">begin</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Couldn&#39;t find RTC&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">rtc</span><span class="p">.</span><span class="n">initialized</span><span class="p">()</span> <span class="o">||</span> <span class="n">rtc</span><span class="p">.</span><span class="n">lostPower</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;RTC is NOT initialized, let&#39;s set the time!&quot;</span><span class="p">);</span>
+    <span class="n">rtc</span><span class="p">.</span><span class="n">adjust</span><span class="p">(</span><span class="n">DateTime</span><span class="p">(</span><span class="n">F</span><span class="p">(</span><span class="n">__DATE__</span><span class="p">),</span> <span class="n">F</span><span class="p">(</span><span class="n">__TIME__</span><span class="p">)));</span>
+<span class="p">}</span>
+
+<span class="c1">// rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial baud rate (115200) and initiate LoRa Radio</span>
+<span class="c1">// ##################################################</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+<span class="cm">/*</span>
+<span class="cm">while (!Serial) {     //Needed for native USB</span>
+<span class="cm">    delay(1);</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+
+<span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Feather LoRa RX Test!&quot;</span><span class="p">);</span>
+
+<span class="c1">// manual reset</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">init</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init failed&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Uncomment &#39;#define SERIAL_DEBUG&#39; in RH_RF95.cpp for detailed debug info&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init OK!&quot;</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">setFrequency</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;setFrequency failed&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Set Freq to: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on</span>
+
+<span class="c1">// The default transmitter power is 13dBm, using PA_BOOST.</span>
+<span class="c1">// If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then</span>
+<span class="c1">// you can set transmitter powers from 5 to 23 dBm:</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">setTxPower</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">//SD Card: Open serial communications and wait for port to open:</span>
+<span class="c1">// ##################################################</span>
+<span class="n">pinMode</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">while (!Serial) {</span>
+<span class="cm">    ; // Wait for serial port to connect. Needed for native USB port only</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Initializing SD card...&quot;</span><span class="p">);</span>
+
+<span class="c1">// See if the card is present and can be initialized:</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">SD</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="n">chipSelect</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Card failed, or not present&quot;</span><span class="p">);</span>
+    <span class="c1">// don&#39;t do anything more:</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;card initialized.&quot;</span><span class="p">);</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on RTC chip to create file name</span>
+<span class="c1">// This is also done in the loop</span>
+<span class="c1">// ##################################################</span>
+<span class="n">DateTime</span> <span class="n">now</span> <span class="o">=</span> <span class="n">rtc</span><span class="p">.</span><span class="n">now</span><span class="p">();</span>
+<span class="n">String</span> <span class="n">Filename</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">year</span><span class="p">());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">month</span><span class="p">());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">day</span><span class="p">());</span>
+<span class="c1">// Filename += &quot;_&quot;;</span>
+<span class="c1">// Filename += String(now.hour());</span>
+<span class="c1">// Filename += String(now.minute());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="s">&quot;.txt&quot;</span><span class="p">;</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Open file, write to SD card</span>
+<span class="c1">// ##################################################</span>
+<span class="n">File</span> <span class="n">dataFile</span> <span class="o">=</span> <span class="n">SD</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span> <span class="n">FILE_WRITE</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">dataFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dataFile</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">header</span><span class="p">);</span>
+    <span class="n">dataFile</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="c1">// print to the serial port too:</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">header</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// if the file isn&#39;t open, pop up an error:</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;error opening .txt&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="p">}</span>
+
+
+
+
+<span class="c1">// #####################################  LOOP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">// Recive and uppack data and send confirmation back</span>
+<span class="c1">// ##################################################</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">available</span><span class="p">())</span>
+<span class="p">{</span>
+    <span class="c1">// Should be a message for us now</span>
+    <span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="n">RH_RF95_MAX_MESSAGE_LEN</span><span class="p">];</span>
+    <span class="kt">uint8_t</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+    <span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">))</span>
+    <span class="p">{</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+    <span class="n">RH_RF95</span><span class="o">::</span><span class="n">printBuffer</span><span class="p">(</span><span class="s">&quot;Received: &quot;</span><span class="p">,</span> <span class="n">buf</span><span class="p">,</span> <span class="n">len</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Got: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;RSSI: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">lastRssi</span><span class="p">(),</span> <span class="n">DEC</span><span class="p">);</span>
+
+    <span class="c1">// Send a reply</span>
+    <span class="kt">uint8_t</span> <span class="n">data</span><span class="p">[]</span> <span class="o">=</span> <span class="s">&quot;Recived PM Data :)&quot;</span><span class="p">;</span>
+    <span class="n">rf95</span><span class="p">.</span><span class="n">send</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">data</span><span class="p">));</span>
+    <span class="n">rf95</span><span class="p">.</span><span class="n">waitPacketSent</span><span class="p">();</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Sent a reply&quot;</span><span class="p">);</span>
+    <span class="n">digitalWrite</span><span class="p">(</span><span class="n">LED</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Receive failed&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on PIN A7 to measure battery voltage</span>
+<span class="c1">// ##################################################</span>
+<span class="kt">float</span> <span class="n">measuredvbat</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">VBATPIN</span><span class="p">);</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>    <span class="c1">// we divided by 2, so multiply back</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mf">3.3</span><span class="p">;</span>  <span class="c1">// Multiply by 3.3V, our reference voltage</span>
+<span class="n">measuredvbat</span> <span class="o">/=</span> <span class="mi">1024</span><span class="p">;</span> <span class="c1">// convert to voltage</span>
+<span class="n">String</span> <span class="n">batvolt_string</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">measuredvbat</span><span class="p">);</span>
+
+<span class="c1">// convert batvolt to bit16</span>
+<span class="kt">uint16_t</span> <span class="n">batvolt_len</span> <span class="o">=</span> <span class="n">batvolt_string</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;VBat: &quot;</span> <span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">batvolt_string</span><span class="p">);</span>
+
+<span class="c1">// convert time to byte</span>
+<span class="kt">char</span> <span class="n">RX_batvolt</span><span class="p">[</span><span class="n">batvolt_len</span><span class="p">];</span>
+<span class="n">batvolt_string</span><span class="p">.</span><span class="n">toCharArray</span><span class="p">(</span><span class="n">RX_batvolt</span><span class="p">,</span> <span class="n">batvolt_len</span><span class="p">);</span>
+<span class="c1">//Serial.println((char*)batvolt_len);</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on RTC chip to create time count (RTCtime) name</span>
+<span class="c1">// convert RTCtime to string</span>
+<span class="c1">// ##################################################</span>
+<span class="n">DateTime</span> <span class="n">now</span> <span class="o">=</span> <span class="n">rtc</span><span class="p">.</span><span class="n">now</span><span class="p">();</span>
+<span class="n">String</span> <span class="n">RTCtime_string</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">year</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;-&quot;</span><span class="p">;</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">month</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;-&quot;</span><span class="p">;</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">day</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;T&quot;</span><span class="p">;</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">hour</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;:&quot;</span><span class="p">;</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">minute</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;:&quot;</span><span class="p">;</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">second</span><span class="p">());</span>
+<span class="n">RTCtime_string</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+
+<span class="c1">// convert time to bit16</span>
+<span class="kt">uint16_t</span> <span class="n">RTCtime_len</span> <span class="o">=</span> <span class="n">RTCtime_string</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Time of:  &quot;</span> <span class="o">+</span> <span class="n">RTCtime_string</span><span class="p">);</span>
+<span class="c1">//Serial.print(&quot;RTCtime string lenght: &quot;);Serial.println(RTCtime_len);</span>
+
+<span class="c1">// convert time to byte</span>
+<span class="kt">char</span> <span class="n">RTCtime</span><span class="p">[</span><span class="n">RTCtime_len</span><span class="p">];</span>
+<span class="n">RTCtime_string</span><span class="p">.</span><span class="n">toCharArray</span><span class="p">(</span><span class="n">RTCtime</span><span class="p">,</span> <span class="n">RTCtime_len</span><span class="p">);</span>
+<span class="c1">//Serial.println((char*)RTCtime_len);</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start Milliseconds (mill_sec) from start</span>
+<span class="c1">// convert mill_sec to string</span>
+<span class="c1">// ##################################################</span>
+<span class="n">time</span> <span class="o">=</span> <span class="n">millis</span><span class="p">();</span>
+<span class="n">String</span> <span class="n">mill_sec</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">time</span><span class="p">);</span>
+<span class="n">mill_sec</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+<span class="c1">//Serial.println(mill_sec);</span>
+
+<span class="c1">// convert mill_sec to bit16</span>
+<span class="kt">uint16_t</span> <span class="n">mill_sec_len</span> <span class="o">=</span> <span class="n">mill_sec</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="c1">//Serial.println(&quot;Milliseconds from start:  &quot; + mill_sec);</span>
+<span class="c1">//Serial.print(&quot;Milliseconds string lenght: &quot;);</span>
+<span class="c1">//Serial.println(mill_sec_len);</span>
+
+<span class="c1">// convert mill_sec to byte</span>
+<span class="kt">char</span> <span class="n">mill</span><span class="p">[</span><span class="n">mill_sec_len</span><span class="p">];</span>
+<span class="n">mill_sec</span><span class="p">.</span><span class="n">toCharArray</span><span class="p">(</span><span class="n">mill</span><span class="p">,</span> <span class="n">mill_sec_len</span><span class="p">);</span>
+<span class="c1">//Serial.println((char*)mill);</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on RTC chip to create file name</span>
+<span class="c1">// This is also done in the setup</span>
+<span class="c1">// ##################################################</span>
+<span class="n">String</span> <span class="n">Filename</span> <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">year</span><span class="p">());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">month</span><span class="p">());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">now</span><span class="p">.</span><span class="n">day</span><span class="p">());</span>
+<span class="c1">// Filename += &quot;_&quot;;</span>
+<span class="c1">// Filename += String(now.hour());</span>
+<span class="c1">// Filename += String(now.minute());</span>
+<span class="n">Filename</span> <span class="o">+=</span> <span class="s">&quot;.txt&quot;</span><span class="p">;</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Open file, write to SD card</span>
+<span class="c1">// ##################################################</span>
+<span class="n">File</span> <span class="n">dataFile</span> <span class="o">=</span> <span class="n">SD</span><span class="p">.</span><span class="n">open</span><span class="p">(</span><span class="n">Filename</span><span class="p">,</span> <span class="n">FILE_WRITE</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">dataFile</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">dataFile</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">RTCtime</span><span class="p">);</span><span class="n">dataFile</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">mill</span><span class="p">);</span><span class="n">dataFile</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span><span class="n">dataFile</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">RX_batvolt</span><span class="p">);</span>
+    <span class="n">dataFile</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+    <span class="c1">// print to the serial port too:</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Wrote to SD: &quot;</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">RTCtime</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">mill</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">RX_batvolt</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="c1">// if the file isn&#39;t open, pop up an error:</span>
+<span class="k">else</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;error opening please.txt&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="p">}</span>
+
+<span class="p">}</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -168,7 +751,7 @@
         <a href="test.html" class="btn btn-neutral float-right" title="Testing the PM Sensors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
-        <a href="pmbuild.html" class="btn btn-neutral float-left" title="Biulding a PM Sensors" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+        <a href="pmbuild.html" class="btn btn-neutral float-left" title="Biulding a PM Sensor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
       
     </div>
   
