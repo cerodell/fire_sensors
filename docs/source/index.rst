@@ -19,7 +19,9 @@ UBC AQ Sensor documentation
    :maxdepth: 2
    :caption: Contents:
 
-
+   pmbuild
+   code
+   test
 
 Indices and tables
 ==================
