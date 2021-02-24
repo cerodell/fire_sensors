@@ -1,1 +1,1 @@
-# atsc507
+# UBC AQ Sensor

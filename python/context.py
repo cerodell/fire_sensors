@@ -32,9 +32,11 @@ path = Path(__file__).resolve()  # this file
 this_dir = path.parent  # this folder
 notebooks_dir = this_dir
 root_dir = notebooks_dir.parents[0]
-data_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/data/")
-save_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/Images/Plot/")
+google_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/data/")
+google_save_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/Images/Plot/")
 
+data_dir = root_dir / Path("data")
+save_dir = root_dir / Path("img")
 
 
 

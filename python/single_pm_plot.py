@@ -28,44 +28,42 @@ fig_size   = 20
 tick_size  = 12
 title_size = 16
 
-df_pm01 = pd.read_csv(filein + "/UBC-PM-01/" + filename)
-df_pm02 = pd.read_csv(filein + "/UBC-PM-02/" + filename)
+df_pm = pd.read_csv(filein + '/' + filename)
 
-# df_pm["rtctime"] = pd.to_datetime(df_pm["rtctime"])
-# df_pm = df_pm.set_index("rtctime")
+df_pm['DateTime'] = pd.to_datetime(df_pm['rtctime'])
 
-# def timekepper(df_pm):
-#     rtctime = np.array([])
-#     for i in range(len(df_pm['rtctime'])):
-#         rtc = datetime.strptime(df_pm['rtctime'][i], "%Y-%m-%dT%H:%M:%S")
-#         rtctime = np.append(rtctime,rtc)
-#     return rtctime
+df_pm = df_pm.set_index('DateTime')
 
-rtctime = np.array([])
-for i in range(len(df_pm01['rtctime'])):
-    rtc = datetime.strptime(df_pm01['rtctime'][i], "%Y-%m-%dT%H:%M:%S")
-    rtctime = np.append(rtctime,rtc)
-df_pm01['rtctime'] = rtctime
+start = '2020-09-14T16'
+stop = '2020-09-14T10'
 
-rtctime = np.array([])
-for i in range(len(df_pm02['rtctime'])):
-    rtc = datetime.strptime(df_pm02['rtctime'][i], "%Y-%m-%dT%H:%M:%S")
-    rtctime = np.append(rtctime,rtc)
-df_pm02['rtctime'] = rtctime
+df_pm = df_pm.loc[start:]
+
+
+
+# test = df_pm.drop(df_pm['pm25_env'] > 500)
+
+# df_pm = df_pm[df_pm["pm25_env"] < 500]
 
 
 "###################### Environmental PM Observations ######################"
+colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+time = df_pm.index.values
+start= np.datetime_as_string(time[0], unit= 'h')
+stop= np.datetime_as_string(time[-1], unit= 'h')
+
+rain = '2020-09-14T18'
+rain = pd.to_datetime(rain, format='%Y-%m-%dT%H')
 
 fig, ax = plt.subplots(3,1, figsize=(16,10))
-fig.suptitle('UBC PM Sensor Test:  ' + filename[0:7], fontsize=16, fontweight="bold")
+fig.suptitle(f'UBC PM Sensor Test \n {start}  -  {stop}', fontsize=16, fontweight="bold")
 fig.autofmt_xdate()
-
-xfmt = DateFormatter("%H:%M:%S")
+xfmt = DateFormatter("%m-%dT%H")
 ax[0].xaxis.set_major_formatter(xfmt)
 ax[0].set_ylabel(r"PM 1 ($\frac{\mu g}{m^3}$)", fontsize = label)
-ax[0].plot(df_pm01['rtctime'],df_pm01['pm10_env'], color = 'r', label = "PM01")
-ax[0].plot(df_pm02['rtctime'],df_pm02['pm10_env'], color = 'b', label = "PM02")
-ax[0].legend()
+ax[0].plot(df_pm.index,df_pm['pm10_env'], color = colors[0], label = "PM01")
+ax[0].axvline(rain, color = 'k', linewidth = 3)
+# ax[0].legend()
 ax[0].tick_params(axis='both', which='major', labelsize=tick_size)
 ax[0].set_xticklabels([])
 ax[0].xaxis.grid(color='gray', linestyle='dashed')
@@ -73,8 +71,8 @@ ax[0].yaxis.grid(color='gray', linestyle='dashed')
 
 ax[1].xaxis.set_major_formatter(xfmt)
 ax[1].set_ylabel(r"PM 2.5 ($\frac{\mu g}{m^3}$)", fontsize = label)
-ax[1].plot(df_pm01['rtctime'],df_pm01['pm25_env'], color = 'r')
-ax[1].plot(df_pm02['rtctime'],df_pm02['pm25_env'], color = 'b')
+ax[1].plot(df_pm.index,df_pm['pm25_env'], color = colors[1])
+ax[1].axvline(rain, color = 'k', linewidth = 3)
 ax[1].tick_params(axis='both', which='major', labelsize=tick_size)
 ax[1].set_xticklabels([])
 ax[1].xaxis.grid(color='gray', linestyle='dashed')
@@ -83,12 +81,12 @@ ax[1].yaxis.grid(color='gray', linestyle='dashed')
 ax[2].xaxis.set_major_formatter(xfmt)
 ax[2].set_xlabel("Datetime (PDT)", fontsize = label)
 ax[2].set_ylabel(r"PM 10 ($\frac{\mu g}{m^3}$)", fontsize = label)
-ax[2].plot(df_pm01['rtctime'],df_pm01['pm100_env'], color = 'r')
-ax[2].plot(df_pm02['rtctime'],df_pm02['pm100_env'], color = 'b')
+ax[2].plot(df_pm.index,df_pm['pm100_env'], color = colors[2])
+ax[2].axvline(rain, color = 'k', linewidth = 3)
 ax[2].tick_params(axis='both', which='major', labelsize=tick_size)
 #ax[2].set_xticklabels([])
 ax[2].xaxis.grid(color='gray', linestyle='dashed')
 ax[2].yaxis.grid(color='gray', linestyle='dashed')
 
 plt.show()
-fig.savefig(save + "/Env_PM/" + filename[0:7])
+fig.savefig(save + '/' + filename[0:7])
