@@ -1,16 +1,27 @@
-.. UBC AQ Sensors documentation master file, created by
-   sphinx-quickstart on Sun Sep 13 11:46:16 2020.
-   You can adapt this file completely to your liking, but it should at least
-   contain the root `toctree` directive.
+UBC AQ Sensor documentation
+=============================
 
-Welcome to UBC AQ Sensors's documentation!
-==========================================
+The UBC AQ Sensor project aims to build dispensable particular matter sensors to profile wildfire smoke plumes.
+The sensors will be treated as radiosondes or dropsonde to make in-situ observations of PM [1, 2.5, 10] 
+concentrations within a wildfire smoke plume. The sensor will be attached to a Windsond radiosonde instrument 
+that provides a vertical profile of temperature, dew point, wind speed, and direction. Compiling the 
+two instruments together will hopefully provide a much-needed dataset to aid in the evaluation of smoke plume rise modeling. 
+
+
+.. figure:: _static/img/smokeplumecoastline.jpg
+    :alt: alternate text
+    :width: 800
+    :align: center
+
+    Woolsey Fire, November 9, 2018   Image credits `US Forest Service/Public Domain <https://www.flickr.com/photos/usforestservice/45059296945/>`_ 
 
 .. toctree::
    :maxdepth: 2
    :caption: Contents:
 
-
+   pmbuild
+   code
+   test
 
 Indices and tables
 ==================

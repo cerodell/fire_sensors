@@ -7,7 +7,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Index &mdash; UBC AQ Sensor  documentation</title>
+  <title>Code &mdash; UBC AQ Sensor  documentation</title>
   
 
   
@@ -35,8 +35,10 @@
     <script type="text/javascript" src="_static/js/theme.js"></script>
 
     
-    <link rel="index" title="Index" href="#" />
-    <link rel="search" title="Search" href="search.html" /> 
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Testing the PM Sensors" href="test.html" />
+    <link rel="prev" title="Biulding a PM Sensor" href="pmbuild.html" /> 
 </head>
 
 <body class="wy-body-for-nav">
@@ -82,9 +84,13 @@
             
             
               <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul>
+<ul class="current">
 <li class="toctree-l1"><a class="reference internal" href="pmbuild.html">Biulding a PM Sensor</a></li>
-<li class="toctree-l1"><a class="reference internal" href="code.html">Code</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#pm-sensor-transceiver">PM Sensor (Transceiver)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#datalogger-receiver">Datalogger (Receiver)</a></li>
+</ul>
+</li>
 <li class="toctree-l1"><a class="reference internal" href="test.html">Testing the PM Sensors</a></li>
 </ul>
 
@@ -132,12 +138,14 @@
     
       <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
         
-      <li>Index</li>
+      <li>Code</li>
     
     
       <li class="wy-breadcrumbs-aside">
         
             
+            <a href="_sources/code.rst.txt" rel="nofollow"> View page source</a>
+          
         
       </li>
     
@@ -149,11 +157,47 @@
           <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
            <div itemprop="articleBody">
             
+  <div class="section" id="code">
+<h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="pm-sensor-transceiver">
+<h2>PM Sensor (Transceiver)<a class="headerlink" href="#pm-sensor-transceiver" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;RH_RF95.h&gt;</span><span class="cp"></span>
 
-<h1 id="index">Index</h1>
 
-<div class="genindex-jumpbox">
- 
+<span class="c1">// for feather m0 */</span>
+<span class="cp">#define RFM95_CS 8</span>
+<span class="cp">#define RFM95_RST 4</span>
+<span class="cp">#define RFM95_INT 3</span>
+
+<span class="c1">// measure battery voltage</span>
+<span class="cp">#define VBATPIN A7</span>
+
+<span class="c1">// PM</span>
+<span class="cp">#define pmsSerial Serial1</span>
+
+<span class="c1">// TX</span>
+<span class="c1">// Change to 434.0 or other frequency, must match RX&#39;s freq!</span>
+<span class="cp">#define RF95_FREQ 915.0 </span><span class="c1">// UBC-PM 01</span>
+<span class="c1">// #define RF95_FREQ 925.0 // UBC-PM 02</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="datalogger-receiver">
+<h2>Datalogger (Receiver)<a class="headerlink" href="#datalogger-receiver" title="Permalink to this headline">¶</a></h2>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SD.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&quot;RTClib.h&quot;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;RH_RF95.h&gt;</span><span class="cp"></span>
+
+<span class="c1">// Define chipSelect</span>
+<span class="k">const</span> <span class="kt">int</span> <span class="n">chipSelect</span> <span class="o">=</span> <span class="mi">10</span><span class="p">;</span>
+
+<span class="c1">// Define Headers for file</span>
+<span class="k">static</span> <span class="kt">char</span> <span class="n">header</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um,TX_batvolt,RX_batvolt&quot;</span><span class="p">};</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -161,6 +205,15 @@
            
           </div>
           <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="test.html" class="btn btn-neutral float-right" title="Testing the PM Sensors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="pmbuild.html" class="btn btn-neutral float-left" title="Biulding a PM Sensor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
   
 
   <hr/>
