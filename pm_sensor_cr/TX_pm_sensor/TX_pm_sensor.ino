@@ -17,6 +17,7 @@
 
 #include <SPI.h>
 #include <RH_RF95.h>
+//#include <SoftReset.h>
 
 
 // for feather m0 */
@@ -31,9 +32,13 @@
 #define pmsSerial Serial1
 
 // TX 
-// Change to 434.0 or other frequency, must match RX's freq!
-#define RF95_FREQ 915.0 // UBC-PM 01
-// #define RF95_FREQ 925.0 // UBC-PM 02
+// Leagl operating frequency in North America 902-928, NOTE set freqmust match RX's freq!
+//#define RF95_FREQ 902.0 // UBC-PM 01
+#define RF95_FREQ 907.0 // UBC-PM 02
+//#define RF95_FREQ 913.0 // UBC-PM 03
+//#define RF95_FREQ 918.0 // UBC-PM 04
+//#define RF95_FREQ 923.0 // UBC-PM 05
+
 
 
 // Singleton instance of the radio driver
@@ -51,7 +56,7 @@ void setup()
   pinMode(RFM95_RST, OUTPUT);
   digitalWrite(RFM95_RST, HIGH);
 
-  Serial.begin(115200);
+   Serial.begin(115200);
 
   /*
   while (!Serial) {
@@ -94,6 +99,7 @@ void setup()
 // Start serial (pmsSerial) baud rate (9600) afor PM sensor
 // ##################################################  
   pmsSerial.begin(9600);
+
 }
 
 // ############################ PM sensor Data structure ##################################
@@ -192,6 +198,12 @@ void loop()
     pm += String(measuredvbat);
     pm += ",";
 
+   if (data.pm25_env > 16000)
+    {
+//      Watchdog.reset();
+      Serial.println("###############SOFT RESET##########################");
+    }
+
   // convert pm data to bit16            
   uint16_t pm_len = pm.length() + 1;
   Serial.println("PM of:  " + pm);Serial.println(pm_len);
@@ -235,6 +247,11 @@ void loop()
   {
     Serial.println("No reply, is there a listener around?");
   }
+
+  // delay(2300);
+  // delay(10000);
+
+
  
 }
 

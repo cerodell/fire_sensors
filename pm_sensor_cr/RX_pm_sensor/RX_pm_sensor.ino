@@ -16,8 +16,13 @@
 
 #include <SD.h>
 #include <SPI.h>
+#include <Wire.h>
 #include "RTClib.h"
 #include <RH_RF95.h>
+#include <Adafruit_GFX.h>
+#include <Adafruit_SH110X.h>
+ 
+Adafruit_SH110X display = Adafruit_SH110X(64, 128, &Wire);
 
 // Define chipSelect
 const int chipSelect = 10;
@@ -36,9 +41,13 @@ RTC_PCF8523 rtc;
 // measure battery voltage
 #define VBATPIN A7
 
-// Change to 434.0 or other frequency, must match RX's freq!
-// #define RF95_FREQ 915.0 // UBC-PM 01
-#define RF95_FREQ 925.0 // UBC-PM 02
+// Leagl operating frequency in North America 902-928, NOTE set freqmust match RX's freq!
+//#define RF95_FREQ 902.0 // UBC-PM 01
+//#define RF95_FREQ 907.0 // UBC-PM 02
+//#define RF95_FREQ 913.0 // UBC-PM 03
+//#define RF95_FREQ 918.0 // UBC-PM 04
+#define RF95_FREQ 923.0 // UBC-PM 05
+
 
 
 // Singleton instance of the radio driver
@@ -77,7 +86,7 @@ void setup()
     rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
   }
 
-// rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
+  rtc.adjust(DateTime(F(__DATE__), F(__TIME__)));
 
 
 // ##################################################
@@ -89,10 +98,22 @@ void setup()
     delay(1);
   }
 */
+  display.begin(0x3C, true); // Address 0x3C default
 
-  delay(100);
+  display.display();
+  delay(1000);
+  
+   // Clear the buffer.
+  display.clearDisplay();
+  display.display();
 
-  Serial.println("Feather LoRa RX Test!");
+  Serial.println("Feather LoRa RX Datalogger!");
+    // text display tests
+  display.setRotation(1);
+  display.setTextSize(1);
+  display.setTextColor(SH110X_WHITE);
+  display.setCursor(0,0);
+  display.println("UBC-PM Datalogger :)");
 
   // manual reset
   digitalWrite(RFM95_RST, LOW);
@@ -106,10 +127,12 @@ void setup()
     while (1);
   }
   Serial.println("LoRa radio init OK!");
+  display.println("Radio OK!");
 
   // Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM
   if (!rf95.setFrequency(RF95_FREQ)) {
     Serial.println("setFrequency failed");
+    display.println("setFrequency failed :(");
     while (1);
   }
   Serial.print("Set Freq to: "); Serial.println(RF95_FREQ);
@@ -138,10 +161,12 @@ void setup()
   // See if the card is present and can be initialized:
   if (!SD.begin(chipSelect)) {
     Serial.println("Card failed, or not present");
+    display.println("Card failed, or not present");
     // don't do anything more:
     while (1);
   }
   Serial.println("card initialized.");
+  display.println("Card initialized.");
 
 
   // ##################################################
@@ -167,11 +192,18 @@ void setup()
     dataFile.close();
     // print to the serial port too:
     Serial.println((char*)header);
+    display.println("New file created: ");
+    display.print(Filename);
+    
   }
   // if the file isn't open, pop up an error:
   else {
     Serial.println("error opening .txt");
+    display.println("error in creating txt file");
   }
+
+  display.display(); // actually display all of the above
+
 }
 
 
@@ -181,6 +213,11 @@ void setup()
 
 void loop()
 {
+  display.display();
+  display.setRotation(1);
+  display.setTextSize(1);
+  display.setTextColor(SH110X_WHITE);
+  display.setCursor(0,0);
 // ##################################################
 // Recive and uppack data and send confirmation back
 // ##################################################
@@ -294,10 +331,34 @@ void loop()
  // ##################################################
   File dataFile = SD.open(Filename, FILE_WRITE);
   if (dataFile) {
+    display.clearDisplay();
     dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.print((char*)buf);dataFile.println((char*)RX_batvolt);
     dataFile.close();
     // print to the serial port too:
     Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.print((char*)buf);Serial.println((char*)RX_batvolt);
+    String str_time = (char*)RTCtime;
+    int index0 = str_time.indexOf(',');
+    String time_display = str_time.substring(0,index0);
+    display.println(time_display);
+    
+    String str_data = String((char*)buf);
+    int firstCommaIndex = str_data.indexOf(',');
+    int secondCommaIndex = str_data.indexOf(',', firstCommaIndex+1);
+    int thirdCommaIndex = str_data.indexOf(',', secondCommaIndex+1);
+    int lastindex = str_data.lastIndexOf(',');
+
+    String pm_1 = str_data.substring(0, firstCommaIndex);
+    String pm_25 = str_data.substring(firstCommaIndex+1, secondCommaIndex);
+    String pm_10 = str_data.substring(secondCommaIndex+1, thirdCommaIndex);
+    String bat_power = str_data.substring(lastindex-4,lastindex);
+
+    display.print("PM 1.0:  ");display.println(pm_1);
+    display.print("PM 2.5:  ");display.println(pm_25);
+    display.print("PM 10.0: ");display.println(pm_10);
+    display.print("TXPower: ");display.println(bat_power);
+
+    display.display();
+
   }
   // if the file isn't open, pop up an error:
   else {
@@ -305,5 +366,6 @@ void loop()
   }
    
   }
-  
+    display.display();
+
 }
