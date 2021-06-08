@@ -36,7 +36,7 @@ from context import data_dir, save_dir
 # 
 # ## Lets call in the OPC data!
 
-# In[ ]:
+# In[2]:
 
 
 
@@ -66,7 +66,7 @@ def prepare_df(df):
 
 # Open the ubc opcs
 
-# In[ ]:
+# In[3]:
 
 
 df_pm01 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-01/" + date_of_int + '.TXT'))
@@ -78,7 +78,7 @@ df_pm05 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-05/" + date_of_int + '
 
 # Open the grim opc
 
-# In[ ]:
+# In[4]:
 
 
 try:
@@ -96,7 +96,7 @@ except:
 
 # Define default font sizes
 
-# In[ ]:
+# In[5]:
 
 
 params = {
@@ -111,7 +111,7 @@ pylab.rcParams.update(params)
 
 # ### Plot PM 1.0 
 
-# In[ ]:
+# In[6]:
 
 
 grim_vars = list(df_grim)
@@ -141,7 +141,7 @@ ax.legend(
 
 # ### Plot PM 2.5 
 
-# In[ ]:
+# In[7]:
 
 
 
@@ -169,7 +169,7 @@ ax.legend(
 
 # ### Plot PM 10 
 
-# In[ ]:
+# In[8]:
 
 
 
