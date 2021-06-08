@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Biulding a PM Sensor</title>
+    <title>The particulate matter sensor</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -63,6 +63,8 @@
         <div class="navbar-brand-box">
 <a class="navbar-brand text-wrap" href="index.html">
   
+  <img src="_static/ubc_pm_logo.png" class="logo" alt="logo">
+  
   
 </a>
 </div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
@@ -78,7 +80,7 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Biulding a PM Sensor
+   The particulate matter sensor
   </a>
  </li>
  <li class="toctree-l1">
@@ -131,9 +133,9 @@
         <!-- ipynb file if we had a myst markdown file -->
         
         <!-- Download raw file -->
-        <a class="dropdown-buttons" href="_sources/pmbuild.rst.txt"><button type="button"
+        <a class="dropdown-buttons" href="_sources/pmbuild.md.txt"><button type="button"
                 class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
-                data-placement="left">.rst</button></a>
+                data-placement="left">.md</button></a>
         <!-- Download PDF via print -->
         <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
             onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
@@ -163,14 +165,26 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#how-to-build">
-   How to build
+  <a class="reference internal nav-link" href="#build">
+   Build
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#pm-sensor-transceiver">
      PM Sensor (Transceiver)
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#top-view">
+       Top View
+      </a>
+     </li>
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#side-view">
+       Side View
+      </a>
+     </li>
+    </ul>
    </li>
    <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#datalogger-receiver">
@@ -191,19 +205,33 @@
         
               <div>
                 
-  <section id="biulding-a-pm-sensor">
-<h1>Biulding a PM Sensor<a class="headerlink" href="#biulding-a-pm-sensor" title="Permalink to this headline">¶</a></h1>
-<section id="how-to-build">
-<h2>How to build<a class="headerlink" href="#how-to-build" title="Permalink to this headline">¶</a></h2>
+  <section id="the-particulate-matter-sensor">
+<h1>The particulate matter sensor<a class="headerlink" href="#the-particulate-matter-sensor" title="Permalink to this headline">¶</a></h1>
+<p>The UBC AQ instrument uses the <a class="reference external" href="http://www.plantower.com/en/content/?108.html">plantower pms5003</a> air quality sensor. The sensor is considered an optical particle counter.</p>
+<p><img alt="Principle of optical particle counter OPC" src="_images/opc_drawing.png" /></p>
+<p>credit: Weber et al., 2010</p>
+<p>OPC senors work by……</p>
+<p>This OPC sensor has become popular and is used by <a class="reference external" href="https://www2.purpleair.com/?gclid=Cj0KCQjwh_eFBhDZARIsALHjIKflOmByuJ0A_mMy2lciYPGGEEeVXIl6s4t98ah8vJy6T58homDww-0aAvuMEALw_wcB">PurpleAir</a> and others</p>
+<section id="build">
+<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
 <p>To treat the PM sensor as radiosondes/dropsonde requires the date to be broadcast remotely.
 This is made possible by using a Long Range (LoRa) packet radio transceiver. The transceiver
 used for this project is the Adafruit Feather M0 Radio with LoRa Radio Module (link).
 For legal (link)use in North America, the Feather M0 broadcast frequency is set between (902 - 928 MHz).</p>
 <section id="pm-sensor-transceiver">
 <h3>PM Sensor (Transceiver)<a class="headerlink" href="#pm-sensor-transceiver" title="Permalink to this headline">¶</a></h3>
+<section id="top-view">
+<h4>Top View<a class="headerlink" href="#top-view" title="Permalink to this headline">¶</a></h4>
+<p><img alt="UBC PM Sensor" src="_images/ubc_pm1.jpeg" /></p>
+</section>
+<section id="side-view">
+<h4>Side View<a class="headerlink" href="#side-view" title="Permalink to this headline">¶</a></h4>
+<p><img alt="UBC PM Sensor" src="_images/ubc_pm2.jpeg" /></p>
+</section>
 </section>
 <section id="datalogger-receiver">
 <h3>Datalogger (Receiver)<a class="headerlink" href="#datalogger-receiver" title="Permalink to this headline">¶</a></h3>
+<p><img alt="UBC PM Sensor" src="_images/ubc_rx1.jpeg" /></p>
 </section>
 </section>
 </section>
