@@ -5,8 +5,8 @@
 The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every two seconds
 
 The sketch makes use of the following tutorial by Adafruit. 
-- Feather M0 Lora: https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview
-- PM2.5 air quality sensor: https://learn.adafruit.com/pm25-air-quality-sensor
+- [Feather M0 Lora](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview)
+- [PM2.5 air quality sensor](https://learn.adafruit.com/pm25-air-quality-sensor)
 
 Portions of the example sketches in these tutorials are piecemealed to form this sketch.
 
@@ -322,9 +322,9 @@ return true;
 The sketch receives PM data from another Feather M0 transceiver and writes the data to the SD card every two second 
 
 The sketch makes use of the following tutorials by Adafruit. 
-- Feather M0 Lora: https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview
-- Featherwing Adalogger: https://learn.adafruit.com/adafruit-adalogger-featherwing/overview
-- Adafruit 128x64 OLED FeatherWing: https://learn.adafruit.com/adafruit-128x64-oled-featherwing
+- [Feather M0 Lora](https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview)
+- [Featherwing Adalogger](https://learn.adafruit.com/adafruit-adalogger-featherwing/overview)
+- [Adafruit 128x64 OLED FeatherWing](https://learn.adafruit.com/adafruit-128x64-oled-featherwing)
 
 Portions of the example sketches in these tutorials are piecemealed to form this sketch.
 
