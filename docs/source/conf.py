@@ -106,3 +106,5 @@ html_static_path = ['_static']
 # html_theme_path = [msmb_theme.get_html_theme_path()]
 
 html_logo = "_static/img/ubc_pm_logo.png"
+
+

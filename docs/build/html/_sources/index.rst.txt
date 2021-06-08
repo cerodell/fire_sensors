@@ -21,7 +21,7 @@ two instruments together will hopefully provide a much-needed dataset to aid in 
 
    pmbuild
    code
-   test
+   calibration
 
 Indices and tables
 ==================
