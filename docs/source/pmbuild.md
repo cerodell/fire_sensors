@@ -4,7 +4,7 @@
 
 The UBC AQ instrument uses the [plantower pms5003](http://www.plantower.com/en/content/?108.html) air quality sensor. The sensor is an optical particle counter (OPC) that works by measuring the orthogonal scattering of a laser beam by the particles ([Weber et al., 2010](https://doi.org/10.1117/12.869629)).
 
-The detector observes the scattered rays and measures the single in multiple channels, which correlate with the size distribution. The size distribution is converted to mass fractions PM10, PM2.5, PM1.0 by assuming a fixed volume of air traveling through the sensor. 
+The detector observes the scattered rays and measures the signal in multiple channels, which correlate with the size distribution. The size distribution is converted to mass fractions PM10, PM2.5, PM1.0 by assuming a fixed volume of air traveling through the sensor. 
 
 
 ![Principle of optical particle counter OPC](_static/img/opc_drawing.png)
@@ -29,4 +29,6 @@ Legal operating radiofrequency for amateur use in North American is between (902
 ### Datalogger (Receiver) 
 
 ![UBC PM Sensor](_static/img/ubc_rx1.jpeg)
+
+![UBC PM Sensor](_static/img/ubc_rx2.png)
 
