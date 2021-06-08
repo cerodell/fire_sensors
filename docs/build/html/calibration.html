@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Optical Particle Counter (OPC) Calibration</title>
+    <title>UBC PM Sensor Calibration</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -89,12 +89,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Optical Particle Counter (OPC) Calibration
-  </a>
- </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#lets-call-in-the-opc-data">
-   Lets call in the OPC data!
+   UBC PM Sensor Calibration
   </a>
  </li>
 </ul>
@@ -168,27 +163,22 @@
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Optical Particle Counter (OPC) Calibration
-  </a>
- </li>
- <li class="toc-h1 nav-item toc-entry">
+ <li class="toc-h2 nav-item toc-entry">
   <a class="reference internal nav-link" href="#lets-call-in-the-opc-data">
    Lets call in the OPC data!
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#plot-pm-1-0">
      Plot PM 1.0
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#plot-pm-2-5">
      Plot PM 2.5
     </a>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#plot-pm-10">
      Plot PM 10
     </a>
@@ -207,8 +197,8 @@
         
               <div>
                 
-  <section id="optical-particle-counter-opc-calibration">
-<h1>Optical Particle Counter (OPC) Calibration<a class="headerlink" href="#optical-particle-counter-opc-calibration" title="Permalink to this headline">¶</a></h1>
+  <section id="ubc-pm-sensor-calibration">
+<h1>UBC PM Sensor Calibration<a class="headerlink" href="#ubc-pm-sensor-calibration" title="Permalink to this headline">¶</a></h1>
 <p>The calibration was done by using salt solutions with varied molar concentrations. The salt solution was fed into an atomizer providing air-born salt particles. The particles were forced through an adjustable filter enabling varied concentrations and into a 22L glass chamber where the UBC OPC sensors were located. The Grimm OPC sensor pulled air from the chamber to sample the salt concentrations as well. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the chamber to mix the air.</p>
 <p>The two OPC sensors were sampling at varied rates.
 <br>
@@ -246,9 +236,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-</section>
 <section id="lets-call-in-the-opc-data">
-<h1>Lets call in the OPC data!<a class="headerlink" href="#lets-call-in-the-opc-data" title="Permalink to this headline">¶</a></h1>
+<h2>Lets call in the OPC data!<a class="headerlink" href="#lets-call-in-the-opc-data" title="Permalink to this headline">¶</a></h2>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## define date of interest</span>
@@ -322,7 +311,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <section id="plot-pm-1-0">
-<h2>Plot PM 1.0<a class="headerlink" href="#plot-pm-1-0" title="Permalink to this headline">¶</a></h2>
+<h3>Plot PM 1.0<a class="headerlink" href="#plot-pm-1-0" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grim_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)</span>
@@ -352,7 +341,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fc4984ca3d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9fb124a8d0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_11_1.png" src="_images/calibration_11_1.png" />
@@ -360,7 +349,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </section>
 <section id="plot-pm-2-5">
-<h2>Plot PM 2.5<a class="headerlink" href="#plot-pm-2-5" title="Permalink to this headline">¶</a></h2>
+<h3>Plot PM 2.5<a class="headerlink" href="#plot-pm-2-5" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -387,7 +376,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fc498492f90&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9fb0d15090&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_13_1.png" src="_images/calibration_13_1.png" />
@@ -395,7 +384,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </section>
 <section id="plot-pm-10">
-<h2>Plot PM 10<a class="headerlink" href="#plot-pm-10" title="Permalink to this headline">¶</a></h2>
+<h3>Plot PM 10<a class="headerlink" href="#plot-pm-10" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -422,12 +411,13 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fc4985f1b10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9fb1139110&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
 </div>
 </div>
+</section>
 </section>
 </section>
 

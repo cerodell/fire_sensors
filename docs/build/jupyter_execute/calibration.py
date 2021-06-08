@@ -2,7 +2,7 @@
 # coding: utf-8
 
 # 
-# ## Optical Particle Counter (OPC) Calibration
+# # UBC PM Sensor Calibration
 # The calibration was done by using salt solutions with varied molar concentrations. The salt solution was fed into an atomizer providing air-born salt particles. The particles were forced through an adjustable filter enabling varied concentrations and into a 22L glass chamber where the UBC OPC sensors were located. The Grimm OPC sensor pulled air from the chamber to sample the salt concentrations as well. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the chamber to mix the air. 
 # 
 # The two OPC sensors were sampling at varied rates.
