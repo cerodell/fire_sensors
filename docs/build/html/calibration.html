@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>Calibration</title>
+    <title>Performance</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -89,7 +89,7 @@
  </li>
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   Calibration
+   Performance
   </a>
  </li>
 </ul>
@@ -164,8 +164,8 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#lets-call-in-the-opc-data">
-   Lets call in the OPC data!
+  <a class="reference internal nav-link" href="#call-in-the-opc-data">
+   Call in the OPC data!
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -185,6 +185,23 @@
    </li>
   </ul>
  </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preliminary-results">
+   Preliminary Results
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-through-time">
+     Plot counts of particle sizes through time.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-averaged-over-time">
+     Plot counts of particle sizes averaged over time.
+    </a>
+   </li>
+  </ul>
+ </li>
 </ul>
 
         </nav>
@@ -197,9 +214,10 @@
         
               <div>
                 
-  <section id="calibration">
-<h1>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h1>
-<p>The calibration was done by using salt solutions with varied molar concentrations. The salt solution was fed into an atomizer providing air-born salt particles. The particles were forced through an adjustable filter enabling varied concentrations and into a 22L glass chamber where the UBC OPC sensors were located. The Grimm OPC sensor pulled air from the chamber to sample the salt concentrations as well. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the chamber to mix the air.</p>
+  <section id="performance">
+<h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
+<p>We compared the low-cost UBC AQ sensors to a <a class="reference external" href="https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/">GRIMM</a> OPC sensor (Model: 1.109). In a controlled laboratory setting, we produced air-borne salt particles by feeding salt solutions with known molar concentrations into an atomizer. From the atomizer, the air-borne salt particles went through an adjustable filter (enabling concentrations control) and a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air.
+<img alt="Figure 1" src="_images/chamber.jpeg" /></p>
 <p>The two OPC sensors were sampling at varied rates.
 <br>
 <br></p>
@@ -207,8 +225,7 @@
 <br>
 THE GRIMM OPC: 1 min
 <br></p>
-<br>
-TODO add images of set up<div class="cell docutils container">
+<br><div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">context</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -236,8 +253,9 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-<section id="lets-call-in-the-opc-data">
-<h2>Lets call in the OPC data!<a class="headerlink" href="#lets-call-in-the-opc-data" title="Permalink to this headline">¶</a></h2>
+<section id="call-in-the-opc-data">
+<h2>Call in the OPC data!<a class="headerlink" href="#call-in-the-opc-data" title="Permalink to this headline">¶</a></h2>
+<p>UBC AQ data was one minute averaged to match the GRIMM sample rate.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1">## define date of interest</span>
@@ -246,8 +264,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 
 <span class="k">def</span> <span class="nf">prepare_df</span><span class="p">(</span><span class="n">df</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">  Function cleans UBC OPCs data by removeing duplicate headers and droping error values. </span>
-<span class="sd">  Once cleaned takes 1 min avg of data to match GRIM sample rate</span>
+<span class="sd">  Function cleans UBC OPCs data by removing duplicate headers and dropping error values. </span>
+<span class="sd">  Once cleaned takes 1 min avg of data to match GRIM sample rate.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">rtctime</span> <span class="o">==</span> <span class="s1">&#39;rtctime&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">)</span>
   <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="o">~</span><span class="n">df</span><span class="p">[</span><span class="s1">&#39;pm10_env&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">contains</span><span class="p">(</span><span class="s1">&#39;Rec&#39;</span><span class="p">)]</span>
@@ -312,6 +330,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 <section id="plot-pm-1-0">
 <h3>Plot PM 1.0<a class="headerlink" href="#plot-pm-1-0" title="Permalink to this headline">¶</a></h3>
+<p>Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grim_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)</span>
@@ -341,7 +360,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb662204850&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f8630ee36d0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_11_1.png" src="_images/calibration_11_1.png" />
@@ -350,6 +369,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </section>
 <section id="plot-pm-2-5">
 <h3>Plot PM 2.5<a class="headerlink" href="#plot-pm-2-5" title="Permalink to this headline">¶</a></h3>
+<p>Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -376,7 +396,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb66221e7d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f861a1d91d0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_13_1.png" src="_images/calibration_13_1.png" />
@@ -385,6 +405,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </section>
 <section id="plot-pm-10">
 <h3>Plot PM 10<a class="headerlink" href="#plot-pm-10" title="Permalink to this headline">¶</a></h3>
+<p>Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -411,10 +432,77 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb6c0e5ee10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f86314c1750&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
+</div>
+</div>
+</section>
+</section>
+<section id="preliminary-results">
+<h2>Preliminary Results<a class="headerlink" href="#preliminary-results" title="Permalink to this headline">¶</a></h2>
+<p>We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let’s figure out why this is happening.</p>
+<section id="plot-counts-of-particle-sizes-through-time">
+<h3>Plot counts of particle sizes through time.<a class="headerlink" href="#plot-counts-of-particle-sizes-through-time" title="Permalink to this headline">¶</a></h3>
+<p>The figure shows the counts/liter of particles of size XX um and lower through time.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Counts/liter of particles of size XX um and lower through time&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
+<span class="c1"># var_list = list(df_grim)[7:16]</span>
+<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">:</span>
+  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">],</span><span class="n">df_grim</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (MM-DD HH)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+  <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f86011a4d90&gt;
+</pre></div>
+</div>
+<img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
+</div>
+</div>
+</section>
+<section id="plot-counts-of-particle-sizes-averaged-over-time">
+<h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
+<p>The figure shows time averaged counts/liter of particles of size XX um and lower.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Time averaged counts/liter of particles of size XX um and lower&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
+<span class="n">var_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">]</span>
+<span class="n">df_grim_mean</span> <span class="o">=</span> <span class="n">df_grim</span><span class="p">[</span><span class="n">var_list</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span><span class="n">df_grim_mean</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Particles of size XX um and lower&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+  <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/rodell/miniconda3/envs/opc/lib/python3.7/site-packages/ipykernel_launcher.py:11: UserWarning: FixedFormatter should only be used together with FixedLocator
+  # This is added back by InteractiveShellApp.init_path()
+No handles with labels found to put in legend.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f8600bb3e90&gt;
+</pre></div>
+</div>
+<img alt="_images/calibration_20_2.png" src="_images/calibration_20_2.png" />
 </div>
 </div>
 </section>
