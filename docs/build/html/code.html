@@ -1,168 +1,207 @@
 
-
 <!DOCTYPE html>
-<html class="writer-html5" lang="en" >
-<head>
-  <meta charset="utf-8">
-  
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  
-  <title>Code &mdash; UBC AQ Sensor  documentation</title>
-  
 
-  
-  <link rel="stylesheet" href="_static/css/msmb.css" type="text/css" />
-  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-  
-  
-  
-  
-
-  
-  <!--[if lt IE 9]>
-    <script src="_static/js/html5shiv.min.js"></script>
-  <![endif]-->
-  
+    <title>Code</title>
     
-      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
-        <script src="_static/jquery.js"></script>
-        <script src="_static/underscore.js"></script>
-        <script src="_static/doctools.js"></script>
-        <script src="_static/language_data.js"></script>
-        <script src="_static/js/versions.js"></script>
-    
-    <script type="text/javascript" src="_static/js/theme.js"></script>
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
     
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" type="text/css" href="_static/pygments.css" />
+    <link rel="stylesheet" type="text/css" href="_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script data-url_root="./" id="documentation_options" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
     <link rel="index" title="Index" href="genindex.html" />
     <link rel="search" title="Search" href="search.html" />
     <link rel="next" title="Testing the PM Sensors" href="test.html" />
-    <link rel="prev" title="Biulding a PM Sensor" href="pmbuild.html" /> 
-</head>
+    <link rel="prev" title="Biulding a PM Sensor" href="pmbuild.html" />
 
-<body class="wy-body-for-nav">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
 
-   
-  <div class="wy-grid-for-nav">
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
     
-    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
-      <div class="wy-side-scroll">
-        <div class="wy-side-nav-search" >
+
+    <div class="container-xl">
+      <div class="row">
           
-
-          
-            <a href="index.html" class="icon icon-home" alt="Documentation Home"> UBC AQ Sensor
-          
-
-          
-          </a>
-
-          
-            
-            
-          
-
-          
-<div role="search">
-  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
-    <input type="text" name="q" placeholder="Search docs" />
-    <input type="hidden" name="check_keywords" value="yes" />
-    <input type="hidden" name="area" value="default" />
-  </form>
-</div>
-
-          
-        </div>
-
-        
-        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
-          
-            
-            
-              
-            
-            
-              <p class="caption"><span class="caption-text">Contents:</span></p>
-<ul class="current">
-<li class="toctree-l1"><a class="reference internal" href="pmbuild.html">Biulding a PM Sensor</a></li>
-<li class="toctree-l1 current"><a class="current reference internal" href="#">Code</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="#pm-sensor-transceiver">PM Sensor (Transceiver)</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#datalogger-receiver">Datalogger (Receiver)</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="test.html">Testing the PM Sensors</a></li>
-</ul>
-
-            
-          
-        </div>
-        
-      </div>
-    </nav>
-
-    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
-
-      
-      <nav class="wy-nav-top" aria-label="top navigation">
-        
-          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
-          <a href="index.html">UBC AQ Sensor</a>
-        
-      </nav>
-
-
-      <div class="wy-nav-content">
-        
-        <div class="rst-content">
-        
-          
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-<div role="navigation" aria-label="breadcrumbs navigation">
-
-  <ul class="wy-breadcrumbs">
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
     
-      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
-        
-      <li>Code</li>
-    
-    
-      <li class="wy-breadcrumbs-aside">
-        
-            
-            <a href="_sources/code.rst.txt" rel="nofollow"> View page source</a>
-          
-        
-      </li>
-    
-  </ul>
-
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
   
-  <hr/>
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pmbuild.html">
+   Biulding a PM Sensor
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Code
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="test.html">
+   Testing the PM Sensors
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
 </div>
-          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
-           <div itemprop="articleBody">
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
             
-  <div class="section" id="code">
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/code.rst.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.rst</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#pm-sensor-transceiver">
+   PM Sensor (Transceiver)
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#datalogger-receiver">
+   Datalogger (Receiver)
+  </a>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <section id="code">
 <h1>Code<a class="headerlink" href="#code" title="Permalink to this headline">¶</a></h1>
-<div class="section" id="pm-sensor-transceiver">
+<section id="pm-sensor-transceiver">
 <h2>PM Sensor (Transceiver)<a class="headerlink" href="#pm-sensor-transceiver" title="Permalink to this headline">¶</a></h2>
-<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
+<p>The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every two seconds
+The sketch makes use of the following tutorial by Adafruit.
+- Feather M0 Lora: <a class="reference external" href="https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview">https://learn.adafruit.com/adafruit-feather-m0-radio-with-lora-radio-module/overview</a>
+- PM2.5 air quality sensor: <a class="reference external" href="https://learn.adafruit.com/pm25-air-quality-sensor">https://learn.adafruit.com/pm25-air-quality-sensor</a>
+Portions of the example sketches in these tutorials are piecemealed to form this sketch.</p>
+<p>Thank you Adafruit :)</p>
+<div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="c1">// ############################################################################################################</span>
+<span class="c1">// #####################################      Transmitter Code       ##########################################</span>
+<span class="c1">// ############################################################################################################</span>
+<span class="c1">// Feather M0 (RH_RF95 915 MHz) and PM2.5 Air Quality Sensor</span>
+<span class="c1">//</span>
+<span class="c1">// The sketch transmits PM sensor data to another Feather M0 transceiver. Data is sent every one second</span>
+<span class="c1">// -*- mode: C++ -*-</span>
+
+
+<span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;RH_RF95.h&gt;</span><span class="cp"></span>
+<span class="c1">//#include &lt;SoftReset.h&gt;</span>
 
 
 <span class="c1">// for feather m0 */</span>
@@ -177,13 +216,286 @@
 <span class="cp">#define pmsSerial Serial1</span>
 
 <span class="c1">// TX</span>
-<span class="c1">// Change to 434.0 or other frequency, must match RX&#39;s freq!</span>
-<span class="cp">#define RF95_FREQ 915.0 </span><span class="c1">// UBC-PM 01</span>
-<span class="c1">// #define RF95_FREQ 925.0 // UBC-PM 02</span>
+<span class="c1">// Leagl operating frequency in North America 902-928, NOTE set freqmust match RX&#39;s freq!</span>
+<span class="c1">//#define RF95_FREQ 902.0 // UBC-PM 01</span>
+<span class="cp">#define RF95_FREQ 907.0 </span><span class="c1">// UBC-PM 02</span>
+<span class="c1">//#define RF95_FREQ 913.0 // UBC-PM 03</span>
+<span class="c1">//#define RF95_FREQ 918.0 // UBC-PM 04</span>
+<span class="c1">//#define RF95_FREQ 923.0 // UBC-PM 05</span>
+
+
+
+<span class="c1">// Singleton instance of the radio driver</span>
+<span class="n">RH_RF95</span> <span class="nf">rf95</span><span class="p">(</span><span class="n">RFM95_CS</span><span class="p">,</span> <span class="n">RFM95_INT</span><span class="p">);</span>
+
+
+
+<span class="c1">// #####################################  SET UP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">setup</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial baud rate (115200) and initiate LoRa Radio</span>
+<span class="c1">// ##################################################</span>
+<span class="n">pinMode</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">OUTPUT</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">115200</span><span class="p">);</span>
+
+<span class="cm">/*</span>
+<span class="cm">while (!Serial) {</span>
+<span class="cm">    delay(1);</span>
+<span class="cm">}</span>
+<span class="cm">*/</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">100</span><span class="p">);</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Feather LoRa TX Test!&quot;</span><span class="p">);</span>
+
+<span class="c1">// manual reset</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">LOW</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">digitalWrite</span><span class="p">(</span><span class="n">RFM95_RST</span><span class="p">,</span> <span class="n">HIGH</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+
+<span class="k">while</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">init</span><span class="p">())</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init failed&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Uncomment &#39;#define SERIAL_DEBUG&#39; in RH_RF95.cpp for detailed debug info&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;LoRa radio init OK!&quot;</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, modulation GFSK_Rb250Fd250, +13dbM</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="n">rf95</span><span class="p">.</span><span class="n">setFrequency</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">))</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;setFrequency failed&quot;</span><span class="p">);</span>
+    <span class="k">while</span> <span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+<span class="p">}</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Set Freq to: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">RF95_FREQ</span><span class="p">);</span>
+
+<span class="c1">// Defaults after init are 434.0MHz, 13dBm, Bw = 125 kHz, Cr = 4/5, Sf = 128chips/symbol, CRC on</span>
+
+<span class="c1">// The default transmitter power is 13dBm, using PA_BOOST.</span>
+<span class="c1">// If you are using RFM95/96/97/98 modules which uses the PA_BOOST transmitter pin, then</span>
+<span class="c1">// you can set transmitter powers from 5 to 23 dBm:</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">setTxPower</span><span class="p">(</span><span class="mi">23</span><span class="p">,</span> <span class="nb">false</span><span class="p">);</span>
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Start serial (pmsSerial) baud rate (9600) afor PM sensor</span>
+<span class="c1">// ##################################################</span>
+<span class="n">pmsSerial</span><span class="p">.</span><span class="n">begin</span><span class="p">(</span><span class="mi">9600</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">// ############################ PM sensor Data structure ##################################</span>
+
+<span class="c1">// TX</span>
+<span class="kt">int16_t</span> <span class="n">packetnum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>  <span class="c1">// packet counter, we increment per xmission</span>
+
+<span class="c1">// PM sensor Data structure</span>
+<span class="k">struct</span> <span class="nc">pms5003data</span> <span class="p">{</span>
+<span class="kt">uint16_t</span> <span class="n">framelen</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">pm10_standard</span><span class="p">,</span> <span class="n">pm25_standard</span><span class="p">,</span> <span class="n">pm100_standard</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">pm10_env</span><span class="p">,</span> <span class="n">pm25_env</span><span class="p">,</span> <span class="n">pm100_env</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">particles_03um</span><span class="p">,</span> <span class="n">particles_05um</span><span class="p">,</span> <span class="n">particles_10um</span><span class="p">,</span> <span class="n">particles_25um</span><span class="p">,</span> <span class="n">particles_50um</span><span class="p">,</span> <span class="n">particles_100um</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">unused</span><span class="p">;</span>
+<span class="kt">uint16_t</span> <span class="n">checksum</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">struct</span> <span class="nc">pms5003data</span> <span class="n">data</span><span class="p">;</span>
+
+
+
+<span class="c1">// #####################################  LOOP  ##########################################</span>
+
+<span class="kt">void</span> <span class="nf">loop</span><span class="p">()</span>
+<span class="p">{</span>
+<span class="c1">// ##################################################</span>
+<span class="c1">//  Get data for PM sensor from readPMSdata function</span>
+<span class="c1">// ##################################################</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">readPMSdata</span><span class="p">(</span><span class="o">&amp;</span><span class="n">pmsSerial</span><span class="p">))</span> <span class="p">{</span>
+    <span class="c1">// reading data was successful!</span>
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">();</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Concentration Units (standard)&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;PM 1.0: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_standard</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 2.5: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_standard</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 10: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_standard</span><span class="p">);</span>
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Concentration Units (environmental)&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;PM 1.0: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_env</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 2.5: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_env</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;</span><span class="se">\t\t</span><span class="s">PM 10: &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_env</span><span class="p">);</span>
+
+
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 0.3um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_03um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Part icles &gt; 0.5um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_05um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 1.0um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_10um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 2.5um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_25um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 5.0um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_50um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Particles &gt; 10.0 um / 0.1L air:&quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_100um</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;---------------------------------------&quot;</span><span class="p">);</span>
+
+<span class="p">}</span>
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Call on PIN A7 to measure battery voltage</span>
+<span class="c1">// ##################################################</span>
+<span class="kt">float</span> <span class="n">measuredvbat</span> <span class="o">=</span> <span class="n">analogRead</span><span class="p">(</span><span class="n">VBATPIN</span><span class="p">);</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mi">2</span><span class="p">;</span>    <span class="c1">// we divided by 2, so multiply back</span>
+<span class="n">measuredvbat</span> <span class="o">*=</span> <span class="mf">3.3</span><span class="p">;</span>  <span class="c1">// Multiply by 3.3V, our reference voltage</span>
+<span class="n">measuredvbat</span> <span class="o">/=</span> <span class="mi">1024</span><span class="p">;</span> <span class="c1">// convert to voltage</span>
+
+
+
+<span class="c1">// ##################################################</span>
+<span class="c1">// Pack PM data and transmit to reciver</span>
+<span class="c1">// #################################################</span>
+
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Transmitting...&quot;</span><span class="p">);</span> <span class="c1">// Send a message to rf95_server</span>
+    <span class="n">String</span> <span class="n">pm</span>  <span class="o">=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_env</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm10_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm100_standard</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_03um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_05um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_10um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_25um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_50um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">particles_100um</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="n">String</span><span class="p">(</span><span class="n">measuredvbat</span><span class="p">);</span>
+    <span class="n">pm</span> <span class="o">+=</span> <span class="s">&quot;,&quot;</span><span class="p">;</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">data</span><span class="p">.</span><span class="n">pm25_env</span> <span class="o">&gt;</span> <span class="mi">16000</span><span class="p">)</span>
+    <span class="p">{</span>
+<span class="c1">//      Watchdog.reset();</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;###############SOFT RESET##########################&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+<span class="c1">// convert pm data to bit16</span>
+<span class="kt">uint16_t</span> <span class="n">pm_len</span> <span class="o">=</span> <span class="n">pm</span><span class="p">.</span><span class="n">length</span><span class="p">()</span> <span class="o">+</span> <span class="mi">1</span><span class="p">;</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;PM of:  &quot;</span> <span class="o">+</span> <span class="n">pm</span><span class="p">);</span><span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">pm_len</span><span class="p">);</span>
+
+<span class="c1">// convert pm data to byte</span>
+<span class="kt">char</span> <span class="n">radiopacket</span><span class="p">[</span><span class="n">pm_len</span><span class="p">];</span>
+<span class="n">pm</span><span class="p">.</span><span class="n">toCharArray</span><span class="p">(</span><span class="n">radiopacket</span><span class="p">,</span> <span class="n">pm_len</span><span class="p">);</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;Sending &quot;</span><span class="p">);</span> <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">radiopacket</span><span class="p">);</span>
+
+<span class="c1">// Send PM data</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Sending...&quot;</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">send</span><span class="p">((</span><span class="kt">uint8_t</span> <span class="o">*</span><span class="p">)</span><span class="n">radiopacket</span><span class="p">,</span> <span class="n">pm_len</span><span class="p">);</span>
+
+<span class="c1">// Wait for PM data to be recived</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Waiting for packet to complete...&quot;</span><span class="p">);</span>
+<span class="n">delay</span><span class="p">(</span><span class="mi">10</span><span class="p">);</span>
+<span class="n">rf95</span><span class="p">.</span><span class="n">waitPacketSent</span><span class="p">();</span>
+<span class="c1">// Now wait for a reply</span>
+<span class="kt">uint8_t</span> <span class="n">buf</span><span class="p">[</span><span class="n">RH_RF95_MAX_MESSAGE_LEN</span><span class="p">];</span>
+<span class="kt">uint8_t</span> <span class="n">len</span> <span class="o">=</span> <span class="k">sizeof</span><span class="p">(</span><span class="n">buf</span><span class="p">);</span>
+
+<span class="c1">// Get confirmation of PM data recived</span>
+<span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Waiting for reply...&quot;</span><span class="p">);</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">waitAvailableTimeout</span><span class="p">(</span><span class="mi">1000</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="c1">// Should be a reply message for us now</span>
+    <span class="k">if</span> <span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">recv</span><span class="p">(</span><span class="n">buf</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">len</span><span class="p">))</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;RX reply: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">((</span><span class="kt">char</span><span class="o">*</span><span class="p">)</span><span class="n">buf</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">print</span><span class="p">(</span><span class="s">&quot;RSSI: &quot;</span><span class="p">);</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="n">rf95</span><span class="p">.</span><span class="n">lastRssi</span><span class="p">(),</span> <span class="n">DEC</span><span class="p">);</span>
+    <span class="p">}</span>
+    <span class="k">else</span>
+    <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Receive failed&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+<span class="k">else</span>
+<span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;No reply, is there a listener around?&quot;</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// delay(2300);</span>
+<span class="c1">// delay(10000);</span>
+
+
+
+<span class="p">}</span>
+
+
+
+<span class="c1">// ############################ PM sensor Data Function ##################################</span>
+
+<span class="n">boolean</span> <span class="nf">readPMSdata</span><span class="p">(</span><span class="n">Stream</span> <span class="o">*</span><span class="n">s</span><span class="p">)</span> <span class="p">{</span>
+<span class="k">if</span> <span class="p">(</span><span class="o">!</span> <span class="n">s</span><span class="o">-&gt;</span><span class="n">available</span><span class="p">())</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Read a byte at a time until we get to the special &#39;0x42&#39; start-byte</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">peek</span><span class="p">()</span> <span class="o">!=</span> <span class="mh">0x42</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">s</span><span class="o">-&gt;</span><span class="n">read</span><span class="p">();</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="c1">// Now read all 32 bytes</span>
+<span class="k">if</span> <span class="p">(</span><span class="n">s</span><span class="o">-&gt;</span><span class="n">available</span><span class="p">()</span> <span class="o">&lt;</span> <span class="mi">32</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+
+<span class="kt">uint8_t</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">32</span><span class="p">];</span>
+<span class="kt">uint16_t</span> <span class="n">sum</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="n">s</span><span class="o">-&gt;</span><span class="n">readBytes</span><span class="p">(</span><span class="n">buffer</span><span class="p">,</span> <span class="mi">32</span><span class="p">);</span>
+
+<span class="c1">// get checksum ready</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">30</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">sum</span> <span class="o">+=</span> <span class="n">buffer</span><span class="p">[</span><span class="n">i</span><span class="p">];</span>
+<span class="p">}</span>
+
+<span class="cm">/* debugging</span>
+<span class="cm">for (uint8_t i=2; i&lt;32; i++) {</span>
+<span class="cm">    Serial.print(&quot;0x&quot;); Serial.print(buffer[i], HEX); Serial.print(&quot;, &quot;);</span>
+<span class="cm">}</span>
+<span class="cm">Serial.println();</span>
+<span class="cm">*/</span>
+
+<span class="c1">// The data comes in endian&#39;d, this solves it so it works on all platforms</span>
+<span class="kt">uint16_t</span> <span class="n">buffer_u16</span><span class="p">[</span><span class="mi">15</span><span class="p">];</span>
+<span class="k">for</span> <span class="p">(</span><span class="kt">uint8_t</span> <span class="n">i</span><span class="o">=</span><span class="mi">0</span><span class="p">;</span> <span class="n">i</span><span class="o">&lt;</span><span class="mi">15</span><span class="p">;</span> <span class="n">i</span><span class="o">++</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">buffer_u16</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">buffer</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">1</span><span class="p">];</span>
+    <span class="n">buffer_u16</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="p">(</span><span class="n">buffer</span><span class="p">[</span><span class="mi">2</span> <span class="o">+</span> <span class="n">i</span><span class="o">*</span><span class="mi">2</span><span class="p">]</span> <span class="o">&lt;&lt;</span> <span class="mi">8</span><span class="p">);</span>
+<span class="p">}</span>
+
+<span class="c1">// put it into a nice struct :)</span>
+<span class="n">memcpy</span><span class="p">((</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="o">&amp;</span><span class="n">data</span><span class="p">,</span> <span class="p">(</span><span class="kt">void</span> <span class="o">*</span><span class="p">)</span><span class="n">buffer_u16</span><span class="p">,</span> <span class="mi">30</span><span class="p">);</span>
+
+<span class="k">if</span> <span class="p">(</span><span class="n">sum</span> <span class="o">!=</span> <span class="n">data</span><span class="p">.</span><span class="n">checksum</span><span class="p">)</span> <span class="p">{</span>
+    <span class="n">Serial</span><span class="p">.</span><span class="n">println</span><span class="p">(</span><span class="s">&quot;Checksum failure&quot;</span><span class="p">);</span>
+    <span class="k">return</span> <span class="nb">false</span><span class="p">;</span>
+<span class="p">}</span>
+<span class="c1">// success!</span>
+<span class="k">return</span> <span class="nb">true</span><span class="p">;</span>
+<span class="p">}</span>
 </pre></div>
 </div>
-</div>
-<div class="section" id="datalogger-receiver">
+</section>
+<section id="datalogger-receiver">
 <h2>Datalogger (Receiver)<a class="headerlink" href="#datalogger-receiver" title="Permalink to this headline">¶</a></h2>
 <div class="highlight-c++ notranslate"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;SD.h&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;SPI.h&gt;</span><span class="cp"></span>
@@ -197,73 +509,42 @@
 <span class="k">static</span> <span class="kt">char</span> <span class="n">header</span><span class="p">[]</span> <span class="o">=</span> <span class="p">{</span><span class="s">&quot;rtctime,millis,pm10_env,pm25_env,pm100_env,pm10_standard,pm25_standard,pm100_standard,particles_03um,particles_05um,particles_10um,particles_25um,particles_50um,particles_100um,TX_batvolt,RX_batvolt&quot;</span><span class="p">};</span>
 </pre></div>
 </div>
-</div>
-</div>
+</section>
+</section>
 
 
-           </div>
-           
-          </div>
-          <footer>
-  
-    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="test.html" class="btn btn-neutral float-right" title="Testing the PM Sensors" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
-      
-      
-        <a href="pmbuild.html" class="btn btn-neutral float-left" title="Biulding a PM Sensor" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
-      
-    </div>
-  
-
-  <hr/>
-
-  <div role="contentinfo">
-    <p>
+              </div>
+              
         
-        &copy; Copyright 2020, Christopher Rodell
-
-    </p>
-  </div> 
-
-</footer>
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="pmbuild.html" title="previous page">Biulding a PM Sensor</a>
+    <a class='right-next' id="next-link" href="test.html" title="next page">Testing the PM Sensors</a>
 
         </div>
-      </div>
-
-    </section>
-
-  </div>
-  <script>
-    var versions_json_url = ''
-</script>
-
-<div class="rst-versions" data-toggle="rst-versions" role="note"
-     aria-label="versions">
-    <span class="rst-current-version" data-toggle="rst-current-version">
-      <span class="fa fa-book"></span>
         
-      <span class="fa fa-caret-down"></span>
-    </span>
-
-    <div class="rst-other-versions">
-        <dl id="versionselector">
-            <dt>Other Versions</dt>
-        </dl>
-
+        </div>
     </div>
-</div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Christopher Rodell<br/>
+        
+            &copy; Copyright 2020, Christopher Rodell.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
 
-  <script type="text/javascript">
-      jQuery(function () {
-          SphinxRtdTheme.Navigation.enable(true);
-      });
-  </script>
 
-  
-  
+      </div>
+    </div>
+
     
-   
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
 
-</body>
+
+    
+  </body>
 </html>

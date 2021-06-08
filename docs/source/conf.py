@@ -31,9 +31,17 @@ author = 'Christopher Rodell'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
+# extensions = [
+#     'sphinx.ext.todo',
+#     'sphinx.ext.githubpages',
+# ]
 extensions = [
-    'sphinx.ext.todo',
-    'sphinx.ext.githubpages',
+    "sphinx.ext.autodoc",
+    "sphinx.ext.coverage",
+    "sphinx.ext.napoleon",
+    "sphinx_automodapi.automodapi",
+    # "sphinxcontrib.inlinesyntaxhighlight",
+    # "sphinx.ext.mathjax",
 ]
 
 # Add any paths that contain templates here, relative to this directory.
@@ -74,7 +82,9 @@ pygments_style = 'sphinx'
 # further.  For a list of options available for each theme, see the
 # documentation.
 #
-# html_theme_options = {}
+html_theme = "sphinx_book_theme"
+html_title = ""
+
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
@@ -90,6 +100,6 @@ html_static_path = ['_static']
 # 'searchbox.html']``.
 #
 # html_sidebars = {}
-html_theme = 'msmb_theme'
-import msmb_theme
-html_theme_path = [msmb_theme.get_html_theme_path()]
+# html_theme = 'msmb_theme'
+# import msmb_theme
+# html_theme_path = [msmb_theme.get_html_theme_path()]
