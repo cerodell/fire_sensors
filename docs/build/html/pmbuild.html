@@ -6,7 +6,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
 
-    <title>The particulate matter sensor</title>
+    <title>The Sensor</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
 
@@ -80,7 +80,7 @@
 <ul class="current nav sidenav_l1">
  <li class="toctree-l1 current active">
   <a class="current reference internal" href="#">
-   The particulate matter sensor
+   The Sensor
   </a>
  </li>
  <li class="toctree-l1">
@@ -165,8 +165,13 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#build">
-   Build
+  <a class="reference internal nav-link" href="#components">
+   Components
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#broadcast-data">
+   Broadcast Data
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -205,19 +210,19 @@
         
               <div>
                 
-  <section id="the-particulate-matter-sensor">
-<h1>The particulate matter sensor<a class="headerlink" href="#the-particulate-matter-sensor" title="Permalink to this headline">¶</a></h1>
-<p>The UBC AQ instrument uses the <a class="reference external" href="http://www.plantower.com/en/content/?108.html">plantower pms5003</a> air quality sensor. The sensor is considered an optical particle counter.</p>
+  <section id="the-sensor">
+<h1>The Sensor<a class="headerlink" href="#the-sensor" title="Permalink to this headline">¶</a></h1>
+<section id="components">
+<h2>Components<a class="headerlink" href="#components" title="Permalink to this headline">¶</a></h2>
+<p>The UBC AQ instrument uses the <a class="reference external" href="http://www.plantower.com/en/content/?108.html">plantower pms5003</a> air quality sensor. The sensor is an optical particle counter (OPC) that works by measuring the orthogonal scattering of a laser beam by the particles (<a class="reference external" href="https://doi.org/10.1117/12.869629">Weber et al., 2010</a>).</p>
+<p>The detector observes the scattered rays and measures the single in multiple channels, which correlate with the size distribution. The size distribution is converted to mass fractions PM10, PM2.5, PM1.0 by assuming a fixed volume of air traveling through the sensor.</p>
 <p><img alt="Principle of optical particle counter OPC" src="_images/opc_drawing.png" /></p>
-<p>credit: Weber et al., 2010</p>
-<p>OPC senors work by……</p>
-<p>This OPC sensor has become popular and is used by <a class="reference external" href="https://www2.purpleair.com/?gclid=Cj0KCQjwh_eFBhDZARIsALHjIKflOmByuJ0A_mMy2lciYPGGEEeVXIl6s4t98ah8vJy6T58homDww-0aAvuMEALw_wcB">PurpleAir</a> and others</p>
-<section id="build">
-<h2>Build<a class="headerlink" href="#build" title="Permalink to this headline">¶</a></h2>
-<p>To treat the PM sensor as radiosondes/dropsonde requires the date to be broadcast remotely.
-This is made possible by using a Long Range (LoRa) packet radio transceiver. The transceiver
-used for this project is the Adafruit Feather M0 Radio with LoRa Radio Module (link).
-For legal (link)use in North America, the Feather M0 broadcast frequency is set between (902 - 928 MHz).</p>
+<p>credit:<a class="reference external" href="https://doi.org/10.1117/12.869629">Weber et al., 2010</a></p>
+</section>
+<section id="broadcast-data">
+<h2>Broadcast Data<a class="headerlink" href="#broadcast-data" title="Permalink to this headline">¶</a></h2>
+<p>The UBC Air Quality (AQ) Sensor broadcasts measured PM values using Long Range (LoRa) packet radio. The radio packet also contains sensor diagnoses such as battery voltage which, is received by a datalogger. An OLED screen (on the datalogger) displays (portions of) the incoming information—the datalogger stores all the data on a micro SD card as a text file.</p>
+<p>Legal operating radiofrequency for amateur use in North American is between (902 - 928 MHz).<a class="reference external" href="https://www.ic.gc.ca/eic/site/smt-gst.nsf/eng/sf10759.html#t2">Reference</a></p>
 <section id="pm-sensor-transceiver">
 <h3>PM Sensor (Transceiver)<a class="headerlink" href="#pm-sensor-transceiver" title="Permalink to this headline">¶</a></h3>
 <section id="top-view">

@@ -1,24 +1,21 @@
 
+# The Sensor
+## Components
 
-# The particulate matter sensor
+The UBC AQ instrument uses the [plantower pms5003](http://www.plantower.com/en/content/?108.html) air quality sensor. The sensor is an optical particle counter (OPC) that works by measuring the orthogonal scattering of a laser beam by the particles ([Weber et al., 2010](https://doi.org/10.1117/12.869629)).
 
-The UBC AQ instrument uses the [plantower pms5003](http://www.plantower.com/en/content/?108.html) air quality sensor. The sensor is considered an optical particle counter.
+The detector observes the scattered rays and measures the single in multiple channels, which correlate with the size distribution. The size distribution is converted to mass fractions PM10, PM2.5, PM1.0 by assuming a fixed volume of air traveling through the sensor. 
+
 
 ![Principle of optical particle counter OPC](_static/img/opc_drawing.png)
 
-credit: Weber et al., 2010
+credit:[Weber et al., 2010](https://doi.org/10.1117/12.869629)
 
   
-OPC senors work by......
+## Broadcast Data
+The UBC Air Quality (AQ) Sensor broadcasts measured PM values using Long Range (LoRa) packet radio. The radio packet also contains sensor diagnoses such as battery voltage which, is received by a datalogger. An OLED screen (on the datalogger) displays (portions of) the incoming information—the datalogger stores all the data on a micro SD card as a text file. 
 
-This OPC sensor has become popular and is used by [PurpleAir](https://www2.purpleair.com/?gclid=Cj0KCQjwh_eFBhDZARIsALHjIKflOmByuJ0A_mMy2lciYPGGEEeVXIl6s4t98ah8vJy6T58homDww-0aAvuMEALw_wcB) and others
-
-
-## Build
-To treat the PM sensor as radiosondes/dropsonde requires the date to be broadcast remotely. 
-This is made possible by using a Long Range (LoRa) packet radio transceiver. The transceiver
-used for this project is the Adafruit Feather M0 Radio with LoRa Radio Module (link). 
-For legal (link)use in North America, the Feather M0 broadcast frequency is set between (902 - 928 MHz).
+Legal operating radiofrequency for amateur use in North American is between (902 - 928 MHz).[Reference](https://www.ic.gc.ca/eic/site/smt-gst.nsf/eng/sf10759.html#t2)
 
 
 ### PM Sensor (Transceiver)
