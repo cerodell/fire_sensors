@@ -1,7 +1,7 @@
-UBC AQ Sensor documentation
+UBC Air Quality Sensor 
 =============================
 
-The UBC AQ Sensor project aims to build dispensable particular matter sensors to profile wildfire smoke plumes.
+The UBC Air Quality (AQ) Sensor project aims to build expendable particular matter sensors to profile wildfire smoke plumes.
 The sensors will be treated as radiosondes or dropsonde to make in-situ observations of PM [1, 2.5, 10] 
 concentrations within a wildfire smoke plume. The sensor will be attached to a Windsond radiosonde instrument 
 that measure the vertical profile of temperature, dew point, wind speed, and direction. Compiling the 
