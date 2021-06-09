@@ -164,8 +164,8 @@
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
  <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#call-in-the-opc-data">
-   Call in the OPC data!
+  <a class="reference internal nav-link" href="#import-opc-data">
+   Import OPC data!
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
@@ -222,6 +222,7 @@
 <img src="_static/img/chamber.jpeg" alt="chamber" width="300"/>
 <br>
 <br></p>
+<p>Lets dive in.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">context</span>
@@ -250,8 +251,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-<section id="call-in-the-opc-data">
-<h2>Call in the OPC data!<a class="headerlink" href="#call-in-the-opc-data" title="Permalink to this headline">¶</a></h2>
+<section id="import-opc-data">
+<h2>Import OPC data!<a class="headerlink" href="#import-opc-data" title="Permalink to this headline">¶</a></h2>
 <p>UBC AQ data was one minute averaged to match the GRIMM sample rate.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -310,7 +311,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-<p>Define default font sizes</p>
+<p>Define default font sizes for ploting</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">params</span> <span class="o">=</span> <span class="p">{</span>
@@ -327,7 +328,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 <section id="plot-pm-1-0">
 <h3>Plot PM 1.0<a class="headerlink" href="#plot-pm-1-0" title="Permalink to this headline">¶</a></h3>
-<p>Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">grim_vars</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)</span>
@@ -357,16 +357,16 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff5225300d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa40214f510&gt;
 </pre></div>
 </div>
-<img alt="_images/calibration_11_1.png" src="_images/calibration_11_1.png" />
+<img alt="_images/calibration_12_1.png" src="_images/calibration_12_1.png" />
 </div>
 </div>
+<p>Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
 <section id="plot-pm-2-5">
 <h3>Plot PM 2.5<a class="headerlink" href="#plot-pm-2-5" title="Permalink to this headline">¶</a></h3>
-<p>Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -393,16 +393,16 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff520afa310&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa420b3a510&gt;
 </pre></div>
 </div>
-<img alt="_images/calibration_13_1.png" src="_images/calibration_13_1.png" />
+<img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
 </div>
 </div>
+<p>Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
 <section id="plot-pm-10">
 <h3>Plot PM 10<a class="headerlink" href="#plot-pm-10" title="Permalink to this headline">¶</a></h3>
-<p>Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -429,12 +429,13 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff4e171be10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa3f0676d10&gt;
 </pre></div>
 </div>
-<img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
+<img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
 </div>
 </div>
+<p>Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
 </section>
 <section id="preliminary-results">
@@ -442,7 +443,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <p>We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let’s figure out why this is happening.</p>
 <section id="plot-counts-of-particle-sizes-through-time">
 <h3>Plot counts of particle sizes through time.<a class="headerlink" href="#plot-counts-of-particle-sizes-through-time" title="Permalink to this headline">¶</a></h3>
-<p>The figure shows the counts/liter of particles of size XX um.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -461,16 +461,16 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7ff4e87cccd0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa3e0da4890&gt;
 </pre></div>
 </div>
-<img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
+<img alt="_images/calibration_22_1.png" src="_images/calibration_22_1.png" />
 </div>
 </div>
+<p>The figure shows the counts/liter of particles of size XX um.</p>
 </section>
 <section id="plot-counts-of-particle-sizes-averaged-over-time">
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
-<p>The figure shows time averaged counts/liter of particles of size XX um.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
@@ -525,9 +525,10 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
  Text(30, 0, &#39;32.00 um&#39;)]
 </pre></div>
 </div>
-<img alt="_images/calibration_20_2.png" src="_images/calibration_20_2.png" />
+<img alt="_images/calibration_25_2.png" src="_images/calibration_25_2.png" />
 </div>
 </div>
+<p>The figure shows time averaged counts/liter of particles of size XX um.</p>
 </section>
 </section>
 </section>

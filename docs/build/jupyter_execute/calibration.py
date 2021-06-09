@@ -1,7 +1,6 @@
 #!/usr/bin/env python
 # coding: utf-8
 
-# 
 # # Performance
 # In a laboratory setting, we compared the low-cost UBC AQ sensors to a [GRIMM](https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/) OPC sensor (Model: 1.109).  We produced air-borne salt particles as a measurand by feeding salt solutions with known molar concentrations into an atomizer. After the atomizer made the air-borne salt particles, they traveled through an adjustable filter (enabling concentrations control) and into a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations simultaneously. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air. 
 # <br>
@@ -9,6 +8,8 @@
 # <img src="_static/img/chamber.jpeg" alt="chamber" width="300"/>
 # <br>
 # <br>
+
+# Lets dive in.
 
 # In[1]:
 
@@ -27,7 +28,7 @@ from context import data_dir, save_dir
 
 
 # 
-# ## Call in the OPC data!
+# ## Import OPC data!
 # UBC AQ data was one minute averaged to match the GRIMM sample rate.
 
 # In[2]:
@@ -88,7 +89,7 @@ except:
 
 
 
-# Define default font sizes
+# Define default font sizes for ploting
 
 # In[5]:
 
@@ -104,7 +105,6 @@ pylab.rcParams.update(params)
 
 
 # ### Plot PM 1.0 
-# Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
 
 # In[6]:
 
@@ -134,8 +134,9 @@ ax.legend(
 )
 
 
+# Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
+
 # ### Plot PM 2.5 
-# Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
 
 # In[7]:
 
@@ -163,8 +164,9 @@ ax.legend(
 )
 
 
+# Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
+
 # ### Plot PM 10 
-# Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
 
 # In[8]:
 
@@ -192,11 +194,12 @@ ax.legend(
 )
 
 
+# Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
+
 # ## Preliminary Results
 # We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let's figure out why this is happening. 
 
 # ### Plot counts of particle sizes through time.
-# The figure shows the counts/liter of particles of size XX um. 
 
 # In[9]:
 
@@ -215,8 +218,9 @@ ax.legend(
 )
 
 
+# The figure shows the counts/liter of particles of size XX um. 
+
 # ### Plot counts of particle sizes averaged over time.
-# The figure shows time averaged counts/liter of particles of size XX um. 
 
 # In[10]:
 
@@ -233,6 +237,8 @@ ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Particles of size XX um')
 ax.set_xticklabels(var_labels, rotation = 45)
 
+
+# The figure shows time averaged counts/liter of particles of size XX um. 
 
 # In[ ]:
 
