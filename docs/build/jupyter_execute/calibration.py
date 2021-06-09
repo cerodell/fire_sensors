@@ -239,9 +239,6 @@ ax.bar(var_labels,df_grim_mean)
 ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Particles of size XX um')
 ax.set_xticklabels(var_labels, rotation = 45)
-ax.legend(
-  bbox_to_anchor=(1.2, 1.2),
-)
 
 
 # In[ ]:
