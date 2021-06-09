@@ -475,7 +475,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
 <span class="n">xfmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2"> %H:00&quot;</span><span class="p">)</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;PM 1.0 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;PM 10 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM10 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;GRIMM&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;UBC_PM_01_pm100_env&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;UBC-PM-01&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
@@ -537,8 +537,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
 <span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_final</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
-<span class="c1"># var_list = list(df_grim)[7:16]</span>
+<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_final</span><span class="p">)[</span><span class="mi">6</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span>
 <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">:</span>
   <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
@@ -550,7 +549,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fd2f0c48910&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9bfa415950&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_22_1.png" src="_images/calibration_22_1.png" />
@@ -562,13 +561,13 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Time averaged counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_final</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_final</span><span class="p">)[</span><span class="mi">6</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span>
 <span class="n">var_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">]</span>
 <span class="n">df_final_mean</span> <span class="o">=</span> <span class="n">df_final</span><span class="p">[</span><span class="n">var_list</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
 
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Time averaged counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span><span class="n">df_final_mean</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Particles of size XX um&#39;</span><span class="p">)</span>
@@ -577,37 +576,37 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;0.28 um&#39;),
- Text(1, 0, &#39;0.30 um&#39;),
- Text(2, 0, &#39;0.35 um&#39;),
- Text(3, 0, &#39;0.40 um&#39;),
- Text(4, 0, &#39;0.45 um&#39;),
- Text(5, 0, &#39;0.50 um&#39;),
- Text(6, 0, &#39;0.58 um&#39;),
- Text(7, 0, &#39;0.65 um&#39;),
- Text(8, 0, &#39;0.70 um&#39;),
- Text(9, 0, &#39;0.80 um&#39;),
- Text(10, 0, &#39;1.00 um&#39;),
- Text(11, 0, &#39;1.30 um&#39;),
- Text(12, 0, &#39;1.60 um&#39;),
- Text(13, 0, &#39;2.00 um&#39;),
- Text(14, 0, &#39;2.50 um&#39;),
- Text(15, 0, &#39;3.00 um&#39;),
- Text(16, 0, &#39;3.50 um&#39;),
- Text(17, 0, &#39;4.00 um&#39;),
- Text(18, 0, &#39;5.00 um&#39;),
- Text(19, 0, &#39;6.50 um&#39;),
- Text(20, 0, &#39;7.50 um&#39;),
- Text(21, 0, &#39;8.50 um&#39;),
- Text(22, 0, &#39;10.00 um&#39;),
- Text(23, 0, &#39;12.50 um&#39;),
- Text(24, 0, &#39;15.00 um&#39;),
- Text(25, 0, &#39;17.50 um&#39;),
- Text(26, 0, &#39;20.00 um&#39;),
- Text(27, 0, &#39;25.00 um&#39;),
- Text(28, 0, &#39;30.00 um&#39;),
- Text(29, 0, &#39;32.00 um&#39;),
- Text(30, 0, &#39;0.25 &#39;)]
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;0.25 um&#39;),
+ Text(1, 0, &#39;0.28 um&#39;),
+ Text(2, 0, &#39;0.30 um&#39;),
+ Text(3, 0, &#39;0.35 um&#39;),
+ Text(4, 0, &#39;0.40 um&#39;),
+ Text(5, 0, &#39;0.45 um&#39;),
+ Text(6, 0, &#39;0.50 um&#39;),
+ Text(7, 0, &#39;0.58 um&#39;),
+ Text(8, 0, &#39;0.65 um&#39;),
+ Text(9, 0, &#39;0.70 um&#39;),
+ Text(10, 0, &#39;0.80 um&#39;),
+ Text(11, 0, &#39;1.00 um&#39;),
+ Text(12, 0, &#39;1.30 um&#39;),
+ Text(13, 0, &#39;1.60 um&#39;),
+ Text(14, 0, &#39;2.00 um&#39;),
+ Text(15, 0, &#39;2.50 um&#39;),
+ Text(16, 0, &#39;3.00 um&#39;),
+ Text(17, 0, &#39;3.50 um&#39;),
+ Text(18, 0, &#39;4.00 um&#39;),
+ Text(19, 0, &#39;5.00 um&#39;),
+ Text(20, 0, &#39;6.50 um&#39;),
+ Text(21, 0, &#39;7.50 um&#39;),
+ Text(22, 0, &#39;8.50 um&#39;),
+ Text(23, 0, &#39;10.00 um&#39;),
+ Text(24, 0, &#39;12.50 um&#39;),
+ Text(25, 0, &#39;15.00 um&#39;),
+ Text(26, 0, &#39;17.50 um&#39;),
+ Text(27, 0, &#39;20.00 um&#39;),
+ Text(28, 0, &#39;25.00 um&#39;),
+ Text(29, 0, &#39;30.00 um&#39;),
+ Text(30, 0, &#39;32.00 um&#39;)]
 </pre></div>
 </div>
 <img alt="_images/calibration_25_1.png" src="_images/calibration_25_1.png" />

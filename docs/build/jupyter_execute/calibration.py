@@ -244,7 +244,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 fig = plt.figure(figsize=(14, 12))
 fig.autofmt_xdate()
 xfmt = DateFormatter("%m-%d %H:00")
-fig.suptitle(r"PM 1.0 ($\frac{\mu g}{m^3}$)", fontsize=16)
+fig.suptitle(r"PM 10 ($\frac{\mu g}{m^3}$)", fontsize=16)
 ax = fig.add_subplot(2, 1, 2)
 ax.plot(df_final.index,df_final['PM10 [ug/m3]'], lw = 4.0, label = 'GRIMM', color = colors[0])
 ax.plot(df_final.index,df_final['UBC_PM_01_pm100_env'], label = 'UBC-PM-01', color = colors[1])
@@ -298,8 +298,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 fig = plt.figure(figsize=(14, 6))
 fig.suptitle("Counts/liter of particles of size XX um", fontsize=16)
 ax = fig.add_subplot(1, 1, 1)
-var_list = list(df_final)[7:38]
-# var_list = list(df_grim)[7:16]
+var_list = list(df_final)[6:37]
 for var in var_list:
   ax.plot(df_final.index,df_final[var], lw = 2.0, label = var[:-2])
 ax.set_ylabel('Counts/liter')
@@ -316,13 +315,14 @@ ax.legend(
 # In[10]:
 
 
-fig = plt.figure(figsize=(14, 6))
-fig.suptitle("Time averaged counts/liter of particles of size XX um", fontsize=16)
-ax = fig.add_subplot(1, 1, 1)
-var_list = list(df_final)[7:38]
+
+var_list = list(df_final)[6:37]
 var_labels = [var[:-2] for var in var_list]
 df_final_mean = df_final[var_list].mean()
 
+fig = plt.figure(figsize=(14, 6))
+fig.suptitle("Time averaged counts/liter of particles of size XX um", fontsize=16)
+ax = fig.add_subplot(1, 1, 1)
 ax.bar(var_labels,df_final_mean)
 ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Particles of size XX um')
