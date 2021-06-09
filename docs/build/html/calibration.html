@@ -216,7 +216,7 @@
                 
   <section id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
-<p>We compared the low-cost UBC AQ sensors to a <a class="reference external" href="https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/">GRIMM</a> OPC sensor (Model: 1.109). In a controlled laboratory setting, we produced air-borne salt particles by feeding salt solutions with known molar concentrations into an atomizer. From the atomizer, the air-borne salt particles went through an adjustable filter (enabling concentrations control) and a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air.
+<p>In a laboratory setting, we compared the low-cost UBC AQ sensors to a <a class="reference external" href="https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/">GRIMM</a> OPC sensor (Model: 1.109).  We produced air-borne salt particles as a measurand by feeding salt solutions with known molar concentrations into an atomizer. After the atomizer made the air-borne salt particles, they traveled through an adjustable filter (enabling concentrations control) and into a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations simultaneously. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air.
 <img alt="Figure 1" src="_images/chamber.jpeg" /></p>
 <p>The two OPC sensors were sampling at varied rates.
 <br>
@@ -360,7 +360,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fcf18a1a390&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7faa4015a7d0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_11_1.png" src="_images/calibration_11_1.png" />
@@ -396,7 +396,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fcf1878b990&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7faa90d840d0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_13_1.png" src="_images/calibration_13_1.png" />
@@ -432,7 +432,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fcf39705390&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7faa793ef250&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
@@ -445,11 +445,11 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <p>We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let’s figure out why this is happening.</p>
 <section id="plot-counts-of-particle-sizes-through-time">
 <h3>Plot counts of particle sizes through time.<a class="headerlink" href="#plot-counts-of-particle-sizes-through-time" title="Permalink to this headline">¶</a></h3>
-<p>The figure shows the counts/liter of particles of size XX um and lower through time.</p>
+<p>The figure shows the counts/liter of particles of size XX um.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Counts/liter of particles of size XX um and lower through time&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
 <span class="c1"># var_list = list(df_grim)[7:16]</span>
@@ -464,7 +464,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fcf5973c9d0&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7faa70a0de90&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
@@ -473,11 +473,11 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </section>
 <section id="plot-counts-of-particle-sizes-averaged-over-time">
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
-<p>The figure shows time averaged counts/liter of particles of size XX um and lower.</p>
+<p>The figure shows time averaged counts/liter of particles of size XX um.</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Time averaged counts/liter of particles of size XX um and lower&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Time averaged counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
 <span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_grim</span><span class="p">)[</span><span class="mi">7</span><span class="p">:</span><span class="mi">38</span><span class="p">]</span>
 <span class="n">var_labels</span> <span class="o">=</span> <span class="p">[</span><span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">]</span>
@@ -485,7 +485,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 
 <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span><span class="n">df_grim_mean</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Particles of size XX um and lower&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Particles of size XX um&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
   <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span>
@@ -499,7 +499,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 No handles with labels found to put in legend.
 </pre></div>
 </div>
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fcf6862d310&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7faa7092e910&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_20_2.png" src="_images/calibration_20_2.png" />

@@ -3,7 +3,7 @@
 
 # 
 # # Performance
-# We compared the low-cost UBC AQ sensors to a [GRIMM](https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/) OPC sensor (Model: 1.109). In a controlled laboratory setting, we produced air-borne salt particles by feeding salt solutions with known molar concentrations into an atomizer. From the atomizer, the air-borne salt particles went through an adjustable filter (enabling concentrations control) and a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air. 
+# In a laboratory setting, we compared the low-cost UBC AQ sensors to a [GRIMM](https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/) OPC sensor (Model: 1.109).  We produced air-borne salt particles as a measurand by feeding salt solutions with known molar concentrations into an atomizer. After the atomizer made the air-borne salt particles, they traveled through an adjustable filter (enabling concentrations control) and into a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations simultaneously. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air. 
 # ![Figure 1](_static/img/chamber.jpeg)
 # 
 # The two OPC sensors were sampling at varied rates.
@@ -203,13 +203,13 @@ ax.legend(
 # We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let's figure out why this is happening. 
 
 # ### Plot counts of particle sizes through time.
-# The figure shows the counts/liter of particles of size XX um and lower through time. 
+# The figure shows the counts/liter of particles of size XX um. 
 
 # In[9]:
 
 
 fig = plt.figure(figsize=(14, 6))
-fig.suptitle("Counts/liter of particles of size XX um and lower through time", fontsize=16)
+fig.suptitle("Counts/liter of particles of size XX um", fontsize=16)
 ax = fig.add_subplot(1, 1, 1)
 var_list = list(df_grim)[7:38]
 # var_list = list(df_grim)[7:16]
@@ -223,13 +223,13 @@ ax.legend(
 
 
 # ### Plot counts of particle sizes averaged over time.
-# The figure shows time averaged counts/liter of particles of size XX um and lower. 
+# The figure shows time averaged counts/liter of particles of size XX um. 
 
 # In[10]:
 
 
 fig = plt.figure(figsize=(14, 6))
-fig.suptitle("Time averaged counts/liter of particles of size XX um and lower", fontsize=16)
+fig.suptitle("Time averaged counts/liter of particles of size XX um", fontsize=16)
 ax = fig.add_subplot(1, 1, 1)
 var_list = list(df_grim)[7:38]
 var_labels = [var[:-2] for var in var_list]
@@ -237,7 +237,7 @@ df_grim_mean = df_grim[var_list].mean()
 
 ax.bar(var_labels,df_grim_mean)
 ax.set_ylabel('Counts/liter')
-ax.set_xlabel('Particles of size XX um and lower')
+ax.set_xlabel('Particles of size XX um')
 ax.set_xticklabels(var_labels, rotation = 45)
 ax.legend(
   bbox_to_anchor=(1.2, 1.2),
