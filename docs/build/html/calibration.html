@@ -236,6 +236,10 @@
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span> <span class="nn">context</span> <span class="kn">import</span> <span class="n">data_dir</span><span class="p">,</span> <span class="n">save_dir</span>
+
+<span class="c1"># Back pratices but this keeps the notebook clean when displaying on html</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="n">warnings</span><span class="o">.</span><span class="n">filterwarnings</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -357,7 +361,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa40214f510&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb9a1c63090&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_12_1.png" src="_images/calibration_12_1.png" />
@@ -393,7 +397,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa420b3a510&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb9a1c60fd0&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
@@ -429,7 +433,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa3f0676d10&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb9a0a9ba10&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
@@ -461,7 +465,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fa3e0da4890&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7fb9a0a8c490&gt;
 </pre></div>
 </div>
 <img alt="_images/calibration_22_1.png" src="_images/calibration_22_1.png" />
@@ -488,10 +492,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output stderr highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/rodell/miniconda3/envs/opc/lib/python3.7/site-packages/ipykernel_launcher.py:11: UserWarning: FixedFormatter should only be used together with FixedLocator
-  # This is added back by InteractiveShellApp.init_path()
-</pre></div>
-</div>
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;0.25 um&#39;),
  Text(1, 0, &#39;0.28 um&#39;),
  Text(2, 0, &#39;0.30 um&#39;),
@@ -525,7 +525,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
  Text(30, 0, &#39;32.00 um&#39;)]
 </pre></div>
 </div>
-<img alt="_images/calibration_25_2.png" src="_images/calibration_25_2.png" />
+<img alt="_images/calibration_25_1.png" src="_images/calibration_25_1.png" />
 </div>
 </div>
 <p>The figure shows time averaged counts/liter of particles of size XX um.</p>

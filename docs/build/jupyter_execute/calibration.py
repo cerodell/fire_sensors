@@ -26,6 +26,10 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from context import data_dir, save_dir
 
+# Back pratices but this keeps the notebook clean when displaying on html
+import warnings
+warnings.filterwarnings("ignore")
+
 
 # 
 # ## Import OPC data!
