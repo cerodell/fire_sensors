@@ -298,10 +298,10 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 fig = plt.figure(figsize=(14, 6))
 fig.suptitle("Counts/liter of particles of size XX um", fontsize=16)
 ax = fig.add_subplot(1, 1, 1)
-var_list = list(df_grim)[7:38]
+var_list = list(df_final)[7:38]
 # var_list = list(df_grim)[7:16]
 for var in var_list:
-  ax.plot(df_grim['date & time'],df_grim[var], lw = 2.0, label = var[:-2])
+  ax.plot(df_final.index,df_final[var], lw = 2.0, label = var[:-2])
 ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Time (MM-DD HH)')
 ax.legend(
@@ -313,17 +313,17 @@ ax.legend(
 
 # ### Plot counts of particle sizes averaged over time.
 
-# In[ ]:
+# In[10]:
 
 
 fig = plt.figure(figsize=(14, 6))
 fig.suptitle("Time averaged counts/liter of particles of size XX um", fontsize=16)
 ax = fig.add_subplot(1, 1, 1)
-var_list = list(df_grim)[7:38]
+var_list = list(df_final)[7:38]
 var_labels = [var[:-2] for var in var_list]
-df_grim_mean = df_grim[var_list].mean()
+df_final_mean = df_final[var_list].mean()
 
-ax.bar(var_labels,df_grim_mean)
+ax.bar(var_labels,df_final_mean)
 ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Particles of size XX um')
 ax.set_xticklabels(var_labels, rotation = 45)
