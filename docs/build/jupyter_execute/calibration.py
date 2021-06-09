@@ -43,11 +43,12 @@ warnings.filterwarnings("ignore")
 date_of_int = '20210430' # options 20210430 or 20210502
 
 
-def prepare_df(df):
+def prepare_df(ubc_pm):
   """
   Function cleans UBC OPCs data by removing duplicate headers and dropping error values. 
   Once cleaned takes 1 min avg of data to match GRIM sample rate.
   """
+  df = pd.read_csv(str(data_dir) + ubc_pm + date_of_int + '.TXT')
   df = df.drop(df[df.rtctime == 'rtctime'].index)
   df = df[~df['pm10_env'].str.contains('Rec')]
   time = pd.to_datetime(df['rtctime'])
@@ -60,6 +61,12 @@ def prepare_df(df):
 
   df = df.resample('1Min').mean()
 
+  col = ubc_pm.strip('/').replace('-','_')
+  new_name = {}
+  for name in list(df):
+    new_name.update({name : col+'_'+name} )
+  df = df.rename(new_name, axis='columns')
+
   return df
 
 
@@ -68,11 +75,15 @@ def prepare_df(df):
 # In[3]:
 
 
-df_pm01 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-01/" + date_of_int + '.TXT'))
-df_pm02 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-02/" + date_of_int + '.TXT'))
-df_pm03 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-03/" + date_of_int + '.TXT'))
-df_pm04 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-04/" + date_of_int + '.TXT'))
-df_pm05 = prepare_df(pd.read_csv(str(data_dir) + "/UBC-PM-05/" + date_of_int + '.TXT'))
+
+df_pm01 = prepare_df("/UBC-PM-01/")
+df_pm02 = prepare_df("/UBC-PM-02/")
+df_pm03 = prepare_df("/UBC-PM-03/")
+df_pm04 = prepare_df("/UBC-PM-04/")
+df_pm05 = prepare_df("/UBC-PM-05/")
+
+df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), [df_pm01, df_pm02, df_pm03, df_pm04, df_pm05])
+df_ubc.columns = df_ubc.columns.str.replace('_y', '')
 
 
 # Open the grim opc
@@ -91,6 +102,14 @@ except:
   df_grim['date & time'] = pd.to_datetime(df_grim['date & time'], dayfirst=True)
   df_grim.to_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv', index=False)
 
+
+df_grim['date & time'] = df_grim['date & time'].dt.round('1min')  
+df_grim = df_grim.set_index('date & time')
+df_grim = df_grim.join(df_pm03, how='outer')
+df_grim = df_grim.dropna()
+
+df_final = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
+df_final.columns = df_final.columns.str.replace('_y', '')
 
 
 # Define default font sizes for ploting
@@ -113,29 +132,52 @@ pylab.rcParams.update(params)
 # In[6]:
 
 
-grim_vars = list(df_grim)
-ubc_vars = list(df_pm01)
-fig = plt.figure(figsize=(14, 6))
+
+colors = plt.rcParams['axes.prop_cycle'].by_key()['color']
+
+
+fig = plt.figure(figsize=(14, 12))
 fig.autofmt_xdate()
 xfmt = DateFormatter("%m-%d %H:00")
-fig.suptitle(r"PM 1 ($\frac{\mu g}{m^3}$)", fontsize=16)
-ax = fig.add_subplot(1, 1, 1)
-ax.plot(df_grim['date & time'],df_grim['PM1 [ug/m3]'], lw = 4.0, label = 'GRIM')
-ax.plot(df_pm01.index,df_pm01['pm10_env'], label = 'UBC-PM-01')
-# ax.plot(df_pm02.index,df_pm02['pm10_env'], label = 'UBC-PM-02')
-ax.plot(df_pm03.index,df_pm03['pm10_env'], label = 'UBC-PM-03')
-ax.plot(df_pm04.index,df_pm04['pm10_env'], label = 'UBC-PM-04')
-ax.plot(df_pm05.index,df_pm05['pm10_env'], label = 'UBC-PM-05')
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$')
+fig.suptitle(r"PM 1.0 ($\frac{\mu g}{m^3}$)", fontsize=16)
+ax = fig.add_subplot(2, 1, 2)
+ax.plot(df_final.index,df_final['PM1 [ug/m3]'], lw = 4.0, label = 'GRIMM', color = colors[0])
+ax.plot(df_final.index,df_final['UBC_PM_01_pm10_env'], label = 'UBC-PM-01', color = colors[1])
+# ax.plot(df_final.index,df_final['UBC_PM_02_pm10_env'], label = 'UBC-PM-02', color = colors[2])
+ax.plot(df_final.index,df_final['UBC_PM_03_pm10_env'], label = 'UBC-PM-03', color = colors[3])
+ax.plot(df_final.index,df_final['UBC_PM_04_pm10_env'], label = 'UBC-PM-04', color = colors[4])
+ax.plot(df_final.index,df_final['UBC_PM_05_pm10_env'], label = 'UBC-PM-05', color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel('Time (MM-DD HH)')
-
 ax.legend(
     loc="upper center",
-    bbox_to_anchor=(0.5, 1.04),
+    bbox_to_anchor=(0.5, 2.44),
     ncol=6,
     fancybox=True,
     shadow=True,
 )
+ax = fig.add_subplot(2, 2, 1)
+size = 6
+ax.scatter(df_final['PM1 [ug/m3]'], df_final['PM1 [ug/m3]'], s=size, color = colors[0])
+ax.scatter(df_final['PM1 [ug/m3]'], df_final['UBC_PM_01_pm10_env'], s=size, color = colors[1])
+# ax.scatter(df_grim['PM1 [ug/m3]'], df_final['UBC_PM_02_pm10_env'], s=size, color = colors[2])
+ax.scatter(df_final['PM1 [ug/m3]'], df_final['UBC_PM_03_pm10_env'], s=size, color = colors[3])
+ax.scatter(df_final['PM1 [ug/m3]'], df_final['UBC_PM_04_pm10_env'], s=size, color = colors[4])
+ax.scatter(df_final['PM1 [ug/m3]'], df_final['UBC_PM_05_pm10_env'], s=size, color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+ax = fig.add_subplot(2, 2, 2)
+bins = 20
+alpha = 0.6
+ax.hist(df_final['PM1 [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
+ax.hist(df_final['UBC_PM_01_pm10_env'],bins, alpha = alpha, color = colors[1])
+# ax.hist(df_final['UBC_PM_02_pm10_env'],bins, alpha = alpha,color = colors[2])
+ax.hist(df_final['UBC_PM_03_pm10_env'],bins, alpha = alpha, color = colors[3])
+ax.hist(df_final['UBC_PM_04_pm10_env'],bins, alpha = alpha,color = colors[4])
+ax.hist(df_final['UBC_PM_05_pm10_env'],bins, alpha = alpha, color = colors[5])
+ax.set_ylabel('Count')
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 
 # Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
@@ -146,26 +188,49 @@ ax.legend(
 
 
 
-fig = plt.figure(figsize=(14, 6))
+
+fig = plt.figure(figsize=(14, 12))
 fig.autofmt_xdate()
 xfmt = DateFormatter("%m-%d %H:00")
 fig.suptitle(r"PM 2.5 ($\frac{\mu g}{m^3}$)", fontsize=16)
-ax = fig.add_subplot(1, 1, 1)
-ax.plot(df_grim['date & time'],df_grim['PM2.5 [ug/m3]'], lw = 4.0, label = 'GRIM')
-ax.plot(df_pm01.index,df_pm01['pm25_env'], label = 'UBC-PM-01')
-# ax.plot(df_pm02.index,df_pm02['pm25_env'], label = 'UBC-PM-02')
-ax.plot(df_pm03.index,df_pm03['pm25_env'], label = 'UBC-PM-03')
-ax.plot(df_pm04.index,df_pm04['pm25_env'], label = 'UBC-PM-04')
-ax.plot(df_pm05.index,df_pm05['pm25_env'], label = 'UBC-PM-05')
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$')
+ax = fig.add_subplot(2, 1, 2)
+ax.plot(df_final.index,df_final['PM2.5 [ug/m3]'], lw = 4.0, label = 'GRIMM', color = colors[0])
+ax.plot(df_final.index,df_final['UBC_PM_01_pm25_env'], label = 'UBC-PM-01', color = colors[1])
+# ax.plot(df_final.index,df_final['UBC_PM_02_pm10_env'], label = 'UBC-PM-02', color = colors[2])
+ax.plot(df_final.index,df_final['UBC_PM_03_pm25_env'], label = 'UBC-PM-03', color = colors[3])
+ax.plot(df_final.index,df_final['UBC_PM_04_pm25_env'], label = 'UBC-PM-04', color = colors[4])
+ax.plot(df_final.index,df_final['UBC_PM_05_pm25_env'], label = 'UBC-PM-05', color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel('Time (MM-DD HH)')
 ax.legend(
     loc="upper center",
-    bbox_to_anchor=(0.5, 1.04),
+    bbox_to_anchor=(0.5, 2.44),
     ncol=6,
     fancybox=True,
     shadow=True,
 )
+ax = fig.add_subplot(2, 2, 1)
+size = 6
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['PM2.5 [ug/m3]'], s=size, color = colors[0])
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_01_pm25_env'], s=size, color = colors[1])
+# ax.scatter(df_grim['PM2.5 [ug/m3]'], df_final['UBC_PM_02_pm25_env'], s=size, color = colors[2])
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_03_pm25_env'], s=size, color = colors[3])
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_04_pm25_env'], s=size, color = colors[4])
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_05_pm25_env'], s=size, color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+ax = fig.add_subplot(2, 2, 2)
+bins = 20
+alpha = 0.6
+ax.hist(df_final['PM2.5 [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
+ax.hist(df_final['UBC_PM_01_pm25_env'],bins, alpha = alpha, color = colors[1])
+# ax.hist(df_final['UBC_PM_02_pm25_env'],bins, alpha = alpha,color = colors[2])
+ax.hist(df_final['UBC_PM_03_pm25_env'],bins, alpha = alpha, color = colors[3])
+ax.hist(df_final['UBC_PM_04_pm25_env'],bins, alpha = alpha,color = colors[4])
+ax.hist(df_final['UBC_PM_05_pm25_env'],bins, alpha = alpha, color = colors[5])
+ax.set_ylabel('Count')
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 
 # Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
@@ -176,26 +241,48 @@ ax.legend(
 
 
 
-fig = plt.figure(figsize=(14, 6))
+fig = plt.figure(figsize=(14, 12))
 fig.autofmt_xdate()
 xfmt = DateFormatter("%m-%d %H:00")
-fig.suptitle(r"PM 10.0 ($\frac{\mu g}{m^3}$)", fontsize=16)
-ax = fig.add_subplot(1, 1, 1)
-ax.plot(df_grim['date & time'],df_grim['PM10 [ug/m3]'], lw = 4.0, label = 'GRIM')
-ax.plot(df_pm01.index,df_pm01['pm100_env'], label = 'UBC-PM-01')
-# ax.plot(df_pm02.index,df_pm02['pm100_env'], label = 'UBC-PM-02')
-ax.plot(df_pm03.index,df_pm03['pm100_env'], label = 'UBC-PM-03')
-ax.plot(df_pm04.index,df_pm04['pm100_env'], label = 'UBC-PM-04')
-ax.plot(df_pm05.index,df_pm05['pm100_env'], label = 'UBC-PM-05')
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$')
+fig.suptitle(r"PM 1.0 ($\frac{\mu g}{m^3}$)", fontsize=16)
+ax = fig.add_subplot(2, 1, 2)
+ax.plot(df_final.index,df_final['PM10 [ug/m3]'], lw = 4.0, label = 'GRIMM', color = colors[0])
+ax.plot(df_final.index,df_final['UBC_PM_01_pm100_env'], label = 'UBC-PM-01', color = colors[1])
+# ax.plot(df_final.index,df_final['UBC_PM_02_pm100_env'], label = 'UBC-PM-02', color = colors[2])
+ax.plot(df_final.index,df_final['UBC_PM_03_pm100_env'], label = 'UBC-PM-03', color = colors[3])
+ax.plot(df_final.index,df_final['UBC_PM_04_pm100_env'], label = 'UBC-PM-04', color = colors[4])
+ax.plot(df_final.index,df_final['UBC_PM_05_pm100_env'], label = 'UBC-PM-05', color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel('Time (MM-DD HH)')
 ax.legend(
     loc="upper center",
-    bbox_to_anchor=(0.5, 1.04),
+    bbox_to_anchor=(0.5, 2.44),
     ncol=6,
     fancybox=True,
     shadow=True,
 )
+ax = fig.add_subplot(2, 2, 1)
+size = 6
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['PM10 [ug/m3]'], s=size, color = colors[0])
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['UBC_PM_01_pm100_env'], s=size, color = colors[1])
+# ax.scatter(df_grim['PM10 [ug/m3]'], df_final['UBC_PM_02_pm100_env'], s=size, color = colors[2])
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['UBC_PM_03_pm100_env'], s=size, color = colors[3])
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['UBC_PM_04_pm100_env'], s=size, color = colors[4])
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['UBC_PM_05_pm100_env'], s=size, color = colors[5])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+ax = fig.add_subplot(2, 2, 2)
+bins = 20
+alpha = 0.6
+ax.hist(df_final['PM10 [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
+ax.hist(df_final['UBC_PM_01_pm100_env'],bins, alpha = alpha, color = colors[1])
+# ax.hist(df_final['UBC_PM_02_pm10_env'],bins, alpha = alpha,color = colors[2])
+ax.hist(df_final['UBC_PM_03_pm100_env'],bins, alpha = alpha, color = colors[3])
+ax.hist(df_final['UBC_PM_04_pm100_env'],bins, alpha = alpha,color = colors[4])
+ax.hist(df_final['UBC_PM_05_pm100_env'],bins, alpha = alpha, color = colors[5])
+ax.set_ylabel('Count')
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 
 # Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. 
@@ -226,7 +313,7 @@ ax.legend(
 
 # ### Plot counts of particle sizes averaged over time.
 
-# In[10]:
+# In[ ]:
 
 
 fig = plt.figure(figsize=(14, 6))
