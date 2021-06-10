@@ -191,8 +191,8 @@
   </a>
   <ul class="nav section-nav flex-column">
    <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-through-time">
-     Plot counts of particle sizes through time.
+    <a class="reference internal nav-link" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
+     Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
     </a>
    </li>
    <li class="toc-h3 nav-item toc-entry">
@@ -530,32 +530,58 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <section id="preliminary-results">
 <h2>Preliminary Results<a class="headerlink" href="#preliminary-results" title="Permalink to this headline">¶</a></h2>
 <p>We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let’s figure out why this is happening.</p>
-<section id="plot-counts-of-particle-sizes-through-time">
-<h3>Plot counts of particle sizes through time.<a class="headerlink" href="#plot-counts-of-particle-sizes-through-time" title="Permalink to this headline">¶</a></h3>
+<section id="plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
+<h3>Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.<a class="headerlink" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
-<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="s2">&quot;Counts/liter of particles of size XX um&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
-<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
-<span class="n">var_list</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">df_final</span><span class="p">)[</span><span class="mi">6</span><span class="p">:</span><span class="mi">37</span><span class="p">]</span>
-<span class="k">for</span> <span class="n">var</span> <span class="ow">in</span> <span class="n">var_list</span><span class="p">:</span>
-  <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="n">var</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">2.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="n">var</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+<span class="n">xfmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2"> %H:00&quot;</span><span class="p">)</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.7</span>
+
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;GRIMM PM [1, 2.5, 10] ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM1 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;PM1&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM2.5 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;PM2.5&#39;</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM10 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;PM10&#39;</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (MM-DD HH)&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
-  <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">1.2</span><span class="p">,</span> <span class="mf">1.2</span><span class="p">),</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.44</span><span class="p">),</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM1 [ug/m3]&#39;</span><span class="p">],</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM1 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM2.5 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM2.5 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM10 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM10 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span><span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM1 [ug/m3]&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM2.5 [ug/m3]&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM10 [ug/m3]&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">],</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
 <div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>&lt;matplotlib.legend.Legend at 0x7f9bfa415950&gt;
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
 </pre></div>
 </div>
 <img alt="_images/calibration_22_1.png" src="_images/calibration_22_1.png" />
 </div>
 </div>
-<p>The figure shows the counts/liter of particles of size XX um.</p>
+<p>The figure shows a time series comparison of the  GRIMM sensor PM [1, 2.5, 10]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00.</p>
 </section>
 <section id="plot-counts-of-particle-sizes-averaged-over-time">
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
@@ -571,7 +597,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">ax</span><span class="o">.</span><span class="n">bar</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span><span class="n">df_final_mean</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Counts/liter&#39;</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Particles of size XX um&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span> <span class="n">rotation</span> <span class="o">=</span> <span class="mi">45</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
 </div>
@@ -612,7 +638,13 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <img alt="_images/calibration_25_1.png" src="_images/calibration_25_1.png" />
 </div>
 </div>
-<p>The figure shows time averaged counts/liter of particles of size XX um.</p>
+<p>The figure shows time averaged counts/liter of particles of size XX um.
+<br>
+<br></p>
+<p>We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be a deviation in PM concentration for P 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing PM [1.0, 2.5, 10] as measure by the GRIM supports this.
+<br>
+<br>
+We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10.</p>
 </section>
 </section>
 </section>

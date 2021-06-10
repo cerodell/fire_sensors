@@ -290,25 +290,51 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 # ## Preliminary Results
 # We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let's figure out why this is happening. 
 
-# ### Plot counts of particle sizes through time.
+# ### Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
 
 # In[9]:
 
 
-fig = plt.figure(figsize=(14, 6))
-fig.suptitle("Counts/liter of particles of size XX um", fontsize=16)
-ax = fig.add_subplot(1, 1, 1)
-var_list = list(df_final)[6:37]
-for var in var_list:
-  ax.plot(df_final.index,df_final[var], lw = 2.0, label = var[:-2])
-ax.set_ylabel('Counts/liter')
+fig = plt.figure(figsize=(14, 12))
+fig.autofmt_xdate()
+xfmt = DateFormatter("%m-%d %H:00")
+alpha = 0.7
+
+fig.suptitle(r"GRIMM PM [1, 2.5, 10] ($\frac{\mu g}{m^3}$)", fontsize=16)
+ax = fig.add_subplot(2, 1, 2)
+ax.plot(df_final.index,df_final['PM1 [ug/m3]'], lw = 4.0, label = 'PM1', alpha = alpha,color = colors[0])
+ax.plot(df_final.index,df_final['PM2.5 [ug/m3]'], lw = 4.0, label = 'PM2.5',alpha = alpha, color = colors[1])
+ax.plot(df_final.index,df_final['PM10 [ug/m3]'], lw = 4.0, label = 'PM10', alpha = alpha,color = colors[2])
+
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel('Time (MM-DD HH)')
 ax.legend(
-  bbox_to_anchor=(1.2, 1.2),
+    loc="upper center",
+    bbox_to_anchor=(0.5, 2.44),
+    ncol=6,
+    fancybox=True,
+    shadow=True,
 )
+ax = fig.add_subplot(2, 2, 1)
+size = 6
+ax.scatter(df_final['PM1 [ug/m3]'],df_final['PM1 [ug/m3]'], s=size, alpha = alpha,color = colors[0])
+ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['PM2.5 [ug/m3]'], s=size,alpha = alpha, color = colors[1])
+ax.scatter(df_final['PM10 [ug/m3]'], df_final['PM10 [ug/m3]'], s=size, alpha = alpha,color = colors[2])
+
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+ax = fig.add_subplot(2, 2, 2)
+bins = 20
+ax.hist(df_final['PM1 [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
+ax.hist(df_final['PM2.5 [ug/m3]'],bins,alpha = alpha, color = colors[1], zorder = 10)
+ax.hist(df_final['PM10 [ug/m3]'],bins,alpha = alpha, color = colors[2], zorder = 10)
+
+ax.set_ylabel('Count')
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 
-# The figure shows the counts/liter of particles of size XX um. 
+# The figure shows a time series comparison of the  GRIMM sensor PM [1, 2.5, 10]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00. 
 
 # ### Plot counts of particle sizes averaged over time.
 
@@ -326,13 +352,14 @@ ax = fig.add_subplot(1, 1, 1)
 ax.bar(var_labels,df_final_mean)
 ax.set_ylabel('Counts/liter')
 ax.set_xlabel('Particles of size XX um')
-ax.set_xticklabels(var_labels, rotation = 45)
+ax.set_xticklabels(var_labels, rotation=70, ha='right')
 
 
 # The figure shows time averaged counts/liter of particles of size XX um. 
+# <br>
+# <br>
 
-# In[ ]:
-
-
-
-
+# We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be a deviation in PM concentration for P 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing PM [1.0, 2.5, 10] as measure by the GRIM supports this. 
+# <br>
+# <br>
+# We infer that our UBC-PM sensors aren't sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10. 
