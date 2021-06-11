@@ -379,7 +379,7 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 # We infer that our UBC-PM sensors aren't sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10. 
 
 # ## Calibration
-# We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors. # %% [markdown]
+# We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors.
 # ### Correct PM 1.0 with an MLP
 # First, subset dataframe and normalize
 
@@ -439,23 +439,38 @@ except:
 # In[14]:
 
 
+# open all ubc_pm datafiles into a list
 ubc_list = [prepare_df(f"/UBC-PM-0{i}/", '20210502') for i in range(1,6)]
+## combine them to one dataframe
 df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)
+## drop odd character header added when combining
 df_ubc.columns = df_ubc.columns.str.replace('_y', '')
+## find the ubc dataframe with the lowest time stapms
 min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])
+## open the GRIMM dataset and restrict time to smallest ubc pm timeseries
 df_grim = open_grimm('20210502', ubc_list[min_ubc])
+## combine all the ubc pm dataframes with the grimm dataframe
 df_final2 = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
+## drop odd character header added when combining
 df_final2.columns = df_final2.columns.str.replace('_y', '')
+## drop the last 30 mins for this datafile as the sensors were removed form the glass chamber but still sampling
 df_final2 = df_final2[:'2021-05-02T18:50']
+
+
+# reduce dataframe to be only a few variable of interest..print last 5 rows
+
+# In[15]:
+
+
 keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']
 df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])
 df2[f'{ubc_pm}{pm_u}_env2'] = df2[f'{ubc_pm}{pm_u}_env']
 df2.tail()
 
 
-# Normalize this data and use our mlp model to correct to grimm
+# Normalize this reduce dataframe and use our mlp model to correct to grimm
 
-# In[15]:
+# In[16]:
 
 
 scaler2 = MinMaxScaler()
@@ -471,7 +486,7 @@ y_predict = model.predict(
 
 # Inverse transform or "unnormalize" data
 
-# In[16]:
+# In[17]:
 
 
 y_predict  = np.column_stack((y_predict,x2))
@@ -481,7 +496,7 @@ df_final2[f'{ubc_pm}{pm_u}_cor'] = unscaled[:,0]
 
 # Plot corrected UBC PM 2.5 
 
-# In[17]:
+# In[18]:
 
 
 

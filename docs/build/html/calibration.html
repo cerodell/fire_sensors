@@ -842,7 +842,7 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </section>
 <section id="calibration">
 <h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
-<p>We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors. # %% [markdown]</p>
+<p>We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors.</p>
 <section id="correct-pm-1-0-with-an-mlp">
 <h3>Correct PM 1.0 with an MLP<a class="headerlink" href="#correct-pm-1-0-with-an-mlp" title="Permalink to this headline">¶</a></h3>
 <p>First, subset dataframe and normalize</p>
@@ -964,15 +964,30 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 <p>Open a dataset from another days comparisons of the GRIMM v UBC-PMs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s1">&#39;20210502&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># open all ubc_pm datafiles into a list</span>
+<span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s1">&#39;20210502&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<span class="c1">## combine them to one dataframe</span>
 <span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
+<span class="c1">## drop odd character header added when combining</span>
 <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="c1">## find the ubc dataframe with the lowest time stapms</span>
 <span class="n">min_ubc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">))])</span>
+<span class="c1">## open the GRIMM dataset and restrict time to smallest ubc pm timeseries</span>
 <span class="n">df_grim</span> <span class="o">=</span> <span class="n">open_grimm</span><span class="p">(</span><span class="s1">&#39;20210502&#39;</span><span class="p">,</span> <span class="n">ubc_list</span><span class="p">[</span><span class="n">min_ubc</span><span class="p">])</span>
+<span class="c1">## combine all the ubc pm dataframes with the grimm dataframe</span>
 <span class="n">df_final2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df_grim</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df_ubc</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="c1">## drop odd character header added when combining</span>
 <span class="n">df_final2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_final2</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="c1">## drop the last 30 mins for this datafile as the sensors were removed form the glass chamber but still sampling</span>
 <span class="n">df_final2</span> <span class="o">=</span> <span class="n">df_final2</span><span class="p">[:</span><span class="s1">&#39;2021-05-02T18:50&#39;</span><span class="p">]</span>
-<span class="n">keep_vars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ubc_pm</span><span class="si">}{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>reduce dataframe to be only a few variable of interest..print last 5 rows</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep_vars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ubc_pm</span><span class="si">}{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
 <span class="n">df2</span> <span class="o">=</span> <span class="n">df_final2</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_final2</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_vars</span><span class="p">])</span>
 <span class="n">df2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ubc_pm</span><span class="si">}{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ubc_pm</span><span class="si">}{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
 <span class="n">df2</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
@@ -1038,7 +1053,7 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </table>
 </div></div></div>
 </div>
-<p>Normalize this data and use our mlp model to correct to grimm</p>
+<p>Normalize this reduce dataframe and use our mlp model to correct to grimm</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler2</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
@@ -1138,7 +1153,7 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 <div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
 </pre></div>
 </div>
-<img alt="_images/calibration_41_1.png" src="_images/calibration_41_1.png" />
+<img alt="_images/calibration_43_1.png" src="_images/calibration_43_1.png" />
 </div>
 </div>
 </section>
