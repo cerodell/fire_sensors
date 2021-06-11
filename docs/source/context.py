@@ -31,7 +31,7 @@ from pathlib import Path
 path = Path(__file__).resolve()  # this file
 this_dir = path.parent  # this folder
 notebooks_dir = this_dir
-root_dir = notebooks_dir.parents[0]
+root_dir = notebooks_dir.parents[1]
 # data_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/data/")
 # save_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/images/")
 

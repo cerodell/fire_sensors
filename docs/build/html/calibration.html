@@ -290,7 +290,7 @@
 <div class="cell_output docutils container">
 <div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>******************************
 context imported. Front of path:
-/Users/rodell/Documents/Arduino/docs
+/Users/rodell/Documents/Arduino
 /Users/rodell/Documents/Arduino/docs/source
 ******************************
 
@@ -346,69 +346,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
-<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
-<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">d42620ba145d</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-<span class="nn">&lt;ipython-input-3-d42620ba145d&gt;</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
-<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
-<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
-<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
-
-<span class="nn">&lt;ipython-input-2-d14a11630560&gt;</span> in <span class="ni">prepare_df</span><span class="nt">(ubc_pm, date_of_int)</span>
-<span class="g g-Whitespace">      </span><span class="mi">8</span>   <span class="n">Once</span> <span class="n">cleaned</span> <span class="n">takes</span> <span class="mi">1</span> <span class="nb">min</span> <span class="n">avg</span> <span class="n">of</span> <span class="n">data</span> <span class="n">to</span> <span class="n">match</span> <span class="n">GRIM</span> <span class="n">sample</span> <span class="n">rate</span><span class="o">.</span>
-<span class="g g-Whitespace">      </span><span class="mi">9</span>   <span class="s2">&quot;&quot;&quot;</span>
-<span class="ne">---&gt; </span><span class="mi">10</span><span class="s2">   df = pd.read_csv(str(data_dir) + ubc_pm + date_of_int + &#39;.TXT&#39;)</span>
-<span class="g g-Whitespace">     </span><span class="mi">11</span><span class="s2">   df = df.drop(df[df.rtctime == &#39;rtctime&#39;].index)</span>
-<span class="g g-Whitespace">     </span><span class="mi">12</span><span class="s2">   df = df[~df[&#39;pm10_env&#39;].str.contains(&#39;Rec&#39;)]</span>
-
-<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)</span>
-<span class="g g-Whitespace">    </span><span class="mi">684</span><span class="s2">     )</span>
-<span class="g g-Whitespace">    </span><span class="mi">685</span><span class="s2"> </span>
-<span class="ne">--&gt; </span><span class="mi">686</span><span class="s2">     return _read(filepath_or_buffer, kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">687</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">688</span><span class="s2"> </span>
-
-<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">450</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">451</span><span class="s2">     # Create the parser.</span>
-<span class="ne">--&gt; </span><span class="mi">452</span><span class="s2">     parser = TextFileReader(fp_or_buf, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">453</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">454</span><span class="s2">     if chunksize or iterator:</span>
-
-<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">__init__</span><span class="nt">(self, f, engine, **kwds)</span>
-<span class="g g-Whitespace">    </span><span class="mi">934</span><span class="s2">             self.options[&quot;has_index_names&quot;] = kwds[&quot;has_index_names&quot;]</span>
-<span class="g g-Whitespace">    </span><span class="mi">935</span><span class="s2"> </span>
-<span class="ne">--&gt; </span><span class="mi">936</span><span class="s2">         self._make_engine(self.engine)</span>
-<span class="g g-Whitespace">    </span><span class="mi">937</span><span class="s2"> </span>
-<span class="g g-Whitespace">    </span><span class="mi">938</span><span class="s2">     def close(self):</span>
-
-<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">_make_engine</span><span class="nt">(self, engine)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1166</span><span class="s2">     def _make_engine(self, engine=&quot;c&quot;):</span>
-<span class="g g-Whitespace">   </span><span class="mi">1167</span><span class="s2">         if engine == &quot;c&quot;:</span>
-<span class="ne">-&gt; </span><span class="mi">1168</span><span class="s2">             self._engine = CParserWrapper(self.f, **self.options)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1169</span><span class="s2">         else:</span>
-<span class="g g-Whitespace">   </span><span class="mi">1170</span><span class="s2">             if engine == &quot;python&quot;:</span>
-
-<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">__init__</span><span class="nt">(self, src, **kwds)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1996</span><span class="s2">         kwds[&quot;usecols&quot;] = self.usecols</span>
-<span class="g g-Whitespace">   </span><span class="mi">1997</span><span class="s2"> </span>
-<span class="ne">-&gt; </span><span class="mi">1998</span><span class="s2">         self._reader = parsers.TextReader(src, **kwds)</span>
-<span class="g g-Whitespace">   </span><span class="mi">1999</span><span class="s2">         self.unnamed_cols = self._reader.unnamed_cols</span>
-<span class="g g-Whitespace">   </span><span class="mi">2000</span><span class="s2"> </span>
-
-<span class="nn">pandas/_libs/parsers.pyx</span> in <span class="ni">pandas._libs.parsers.TextReader.__cinit__</span><span class="nt">()</span>
-
-<span class="nn">pandas/_libs/parsers.pyx</span> in <span class="ni">pandas._libs.parsers.TextReader._setup_parser_source</span><span class="nt">()</span>
-
-<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/Users/rodell/Documents/Arduino/docs/data/UBC-PM-01/20210430.TXT&#39;
-</pre></div>
-</div>
-</div>
 </div>
 <p>Open the grim opc</p>
 <div class="cell docutils container">
@@ -447,6 +384,173 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PM10 [ug/m3]</th>
+      <th>PM2.5 [ug/m3]</th>
+      <th>PM1 [ug/m3]</th>
+      <th>Inhalable [ug/m3]</th>
+      <th>Thoracic [ug/m3]</th>
+      <th>Alveolic [ug/m3]</th>
+      <th>0.25 um_x</th>
+      <th>0.28 um_x</th>
+      <th>0.30 um_x</th>
+      <th>0.35 um_x</th>
+      <th>...</th>
+      <th>UBC_PM_05_pm25_standard</th>
+      <th>UBC_PM_05_pm100_standard</th>
+      <th>UBC_PM_05_particles_03um</th>
+      <th>UBC_PM_05_particles_05um</th>
+      <th>UBC_PM_05_particles_10um</th>
+      <th>UBC_PM_05_particles_25um</th>
+      <th>UBC_PM_05_particles_50um</th>
+      <th>UBC_PM_05_particles_100um</th>
+      <th>UBC_PM_05_TX_batvolt</th>
+      <th>UBC_PM_05_RX_batvolt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-04-30 09:27:00</th>
+      <td>18.8</td>
+      <td>18.8</td>
+      <td>18.7</td>
+      <td>18.8</td>
+      <td>18.8</td>
+      <td>18.8</td>
+      <td>257654.0</td>
+      <td>104605.0</td>
+      <td>23570.0</td>
+      <td>7505.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>209.750000</td>
+      <td>58.125000</td>
+      <td>9.250000</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.320208</td>
+      <td>4.274375</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 09:28:00</th>
+      <td>19.1</td>
+      <td>19.1</td>
+      <td>19.0</td>
+      <td>19.1</td>
+      <td>19.1</td>
+      <td>19.1</td>
+      <td>267314.0</td>
+      <td>107470.0</td>
+      <td>23815.0</td>
+      <td>7135.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>159.319149</td>
+      <td>43.531915</td>
+      <td>5.234043</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.320000</td>
+      <td>4.272766</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 09:29:00</th>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>19.5</td>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>278557.0</td>
+      <td>110995.0</td>
+      <td>23810.0</td>
+      <td>7395.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>191.361702</td>
+      <td>56.936170</td>
+      <td>4.978723</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.320426</td>
+      <td>4.275745</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 09:30:00</th>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>19.5</td>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>19.6</td>
+      <td>285831.0</td>
+      <td>111255.0</td>
+      <td>23620.0</td>
+      <td>7360.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>162.255319</td>
+      <td>48.255319</td>
+      <td>7.234043</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.320213</td>
+      <td>4.274255</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 09:31:00</th>
+      <td>20.0</td>
+      <td>20.0</td>
+      <td>20.0</td>
+      <td>20.0</td>
+      <td>20.0</td>
+      <td>20.0</td>
+      <td>298343.0</td>
+      <td>115235.0</td>
+      <td>23745.0</td>
+      <td>7190.0</td>
+      <td>...</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>231.319149</td>
+      <td>60.893617</td>
+      <td>8.510638</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>0.0</td>
+      <td>4.320426</td>
+      <td>4.274468</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 176 columns</p>
+</div></div></div>
 </div>
 <p>Define default font sizes for ploting</p>
 <div class="cell docutils container">
@@ -515,6 +619,12 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
+</pre></div>
+</div>
+<img alt="_images/calibration_14_1.png" src="_images/calibration_14_1.png" />
+</div>
 </div>
 <p>Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
@@ -566,6 +676,12 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
+</pre></div>
+</div>
+<img alt="_images/calibration_17_1.png" src="_images/calibration_17_1.png" />
 </div>
 </div>
 <p>Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
@@ -619,6 +735,12 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
+</pre></div>
+</div>
+<img alt="_images/calibration_20_1.png" src="_images/calibration_20_1.png" />
+</div>
 </div>
 <p>Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
@@ -670,6 +792,12 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
+</pre></div>
+</div>
+<img alt="_images/calibration_24_1.png" src="_images/calibration_24_1.png" />
+</div>
 </div>
 <p>The figure shows a comparison of the  GRIMM sensor PM [1, 2.5, 10].</p>
 </section>
@@ -690,6 +818,42 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xticklabels</span><span class="p">(</span><span class="n">var_labels</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">70</span><span class="p">,</span> <span class="n">ha</span><span class="o">=</span><span class="s1">&#39;right&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;0.25 um&#39;),
+ Text(1, 0, &#39;0.28 um&#39;),
+ Text(2, 0, &#39;0.30 um&#39;),
+ Text(3, 0, &#39;0.35 um&#39;),
+ Text(4, 0, &#39;0.40 um&#39;),
+ Text(5, 0, &#39;0.45 um&#39;),
+ Text(6, 0, &#39;0.50 um&#39;),
+ Text(7, 0, &#39;0.58 um&#39;),
+ Text(8, 0, &#39;0.65 um&#39;),
+ Text(9, 0, &#39;0.70 um&#39;),
+ Text(10, 0, &#39;0.80 um&#39;),
+ Text(11, 0, &#39;1.00 um&#39;),
+ Text(12, 0, &#39;1.30 um&#39;),
+ Text(13, 0, &#39;1.60 um&#39;),
+ Text(14, 0, &#39;2.00 um&#39;),
+ Text(15, 0, &#39;2.50 um&#39;),
+ Text(16, 0, &#39;3.00 um&#39;),
+ Text(17, 0, &#39;3.50 um&#39;),
+ Text(18, 0, &#39;4.00 um&#39;),
+ Text(19, 0, &#39;5.00 um&#39;),
+ Text(20, 0, &#39;6.50 um&#39;),
+ Text(21, 0, &#39;7.50 um&#39;),
+ Text(22, 0, &#39;8.50 um&#39;),
+ Text(23, 0, &#39;10.00 um&#39;),
+ Text(24, 0, &#39;12.50 um&#39;),
+ Text(25, 0, &#39;15.00 um&#39;),
+ Text(26, 0, &#39;17.50 um&#39;),
+ Text(27, 0, &#39;20.00 um&#39;),
+ Text(28, 0, &#39;25.00 um&#39;),
+ Text(29, 0, &#39;30.00 um&#39;),
+ Text(30, 0, &#39;32.00 um&#39;)]
+</pre></div>
+</div>
+<img alt="_images/calibration_27_1.png" src="_images/calibration_27_1.png" />
 </div>
 </div>
 <p>The figure shows time averaged counts/liter of particles of size XX um.
@@ -718,6 +882,64 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PM2.5 [ug/m3]</th>
+      <th>UBC_PM_03_pm25_env</th>
+      <th>UBC_PM_03_pm25_env2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-04-30 21:28:00</th>
+      <td>82.3</td>
+      <td>123.391304</td>
+      <td>123.391304</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 21:29:00</th>
+      <td>81.3</td>
+      <td>117.155556</td>
+      <td>117.155556</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 21:30:00</th>
+      <td>80.7</td>
+      <td>119.413043</td>
+      <td>119.413043</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 21:31:00</th>
+      <td>79.7</td>
+      <td>116.304348</td>
+      <td>116.304348</td>
+    </tr>
+    <tr>
+      <th>2021-04-30 21:32:00</th>
+      <td>78.1</td>
+      <td>114.217391</td>
+      <td>114.217391</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 </section>
@@ -751,6 +973,12 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLPRegressor(batch_size=32, early_stopping=True, hidden_layer_sizes=(8, 2),
+             learning_rate_init=0.0001, max_iter=1500, validation_fraction=0.2)
+</pre></div>
+</div>
+</div>
 </div>
 <p>Open a dataset from another days comparison</p>
 <div class="cell docutils container">
@@ -767,6 +995,173 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PM10 [ug/m3]</th>
+      <th>PM2.5 [ug/m3]</th>
+      <th>PM1 [ug/m3]</th>
+      <th>Inhalable [ug/m3]</th>
+      <th>Thoracic [ug/m3]</th>
+      <th>Alveolic [ug/m3]</th>
+      <th>0.25 um_x</th>
+      <th>0.28 um_x</th>
+      <th>0.30 um_x</th>
+      <th>0.35 um_x</th>
+      <th>...</th>
+      <th>UBC_PM_05_pm25_standard</th>
+      <th>UBC_PM_05_pm100_standard</th>
+      <th>UBC_PM_05_particles_03um</th>
+      <th>UBC_PM_05_particles_05um</th>
+      <th>UBC_PM_05_particles_10um</th>
+      <th>UBC_PM_05_particles_25um</th>
+      <th>UBC_PM_05_particles_50um</th>
+      <th>UBC_PM_05_particles_100um</th>
+      <th>UBC_PM_05_TX_batvolt</th>
+      <th>UBC_PM_05_RX_batvolt</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-05-02 14:28:00</th>
+      <td>4.9</td>
+      <td>3.4</td>
+      <td>1.8</td>
+      <td>8.7</td>
+      <td>5.6</td>
+      <td>3.8</td>
+      <td>12415.0</td>
+      <td>3980.0</td>
+      <td>1605.0</td>
+      <td>1030.0</td>
+      <td>...</td>
+      <td>2.354167</td>
+      <td>2.666667</td>
+      <td>666.625</td>
+      <td>182.083333</td>
+      <td>18.000000</td>
+      <td>3.958333</td>
+      <td>0.125</td>
+      <td>0.041667</td>
+      <td>4.319375</td>
+      <td>4.275208</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 14:29:00</th>
+      <td>2.2</td>
+      <td>2.0</td>
+      <td>1.3</td>
+      <td>2.2</td>
+      <td>2.2</td>
+      <td>2.1</td>
+      <td>11810.0</td>
+      <td>3700.0</td>
+      <td>1515.0</td>
+      <td>700.0</td>
+      <td>...</td>
+      <td>2.312500</td>
+      <td>3.166667</td>
+      <td>669.625</td>
+      <td>193.750000</td>
+      <td>18.000000</td>
+      <td>3.000000</td>
+      <td>1.625</td>
+      <td>0.000000</td>
+      <td>4.319792</td>
+      <td>4.274167</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 14:30:00</th>
+      <td>1.6</td>
+      <td>1.3</td>
+      <td>1.0</td>
+      <td>1.6</td>
+      <td>1.6</td>
+      <td>1.3</td>
+      <td>10645.0</td>
+      <td>3585.0</td>
+      <td>1355.0</td>
+      <td>610.0</td>
+      <td>...</td>
+      <td>1.145833</td>
+      <td>1.500000</td>
+      <td>551.625</td>
+      <td>157.750000</td>
+      <td>11.291667</td>
+      <td>0.875000</td>
+      <td>0.000</td>
+      <td>0.000000</td>
+      <td>4.319792</td>
+      <td>4.275417</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 14:31:00</th>
+      <td>0.9</td>
+      <td>0.9</td>
+      <td>0.8</td>
+      <td>0.9</td>
+      <td>0.9</td>
+      <td>0.9</td>
+      <td>10910.0</td>
+      <td>3385.0</td>
+      <td>1155.0</td>
+      <td>490.0</td>
+      <td>...</td>
+      <td>2.354167</td>
+      <td>2.354167</td>
+      <td>626.500</td>
+      <td>171.875000</td>
+      <td>14.500000</td>
+      <td>0.833333</td>
+      <td>0.000</td>
+      <td>0.000000</td>
+      <td>4.319792</td>
+      <td>4.272917</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 14:32:00</th>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>0.9</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>1.0</td>
+      <td>12765.0</td>
+      <td>4010.0</td>
+      <td>1370.0</td>
+      <td>565.0</td>
+      <td>...</td>
+      <td>2.604167</td>
+      <td>2.604167</td>
+      <td>786.125</td>
+      <td>215.166667</td>
+      <td>15.208333</td>
+      <td>0.833333</td>
+      <td>0.000</td>
+      <td>0.000000</td>
+      <td>4.319583</td>
+      <td>4.275208</td>
+    </tr>
+  </tbody>
+</table>
+<p>5 rows × 176 columns</p>
+</div></div></div>
 </div>
 <p>Normalize this data and use our mlp model to correct to grimm</p>
 <div class="cell docutils container">
@@ -778,6 +1173,64 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 </pre></div>
 </div>
 </div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>PM2.5 [ug/m3]</th>
+      <th>UBC_PM_03_pm25_env</th>
+      <th>UBC_PM_03_pm25_env2</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>2021-05-02 18:46:00</th>
+      <td>139.1</td>
+      <td>260.733333</td>
+      <td>260.733333</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 18:47:00</th>
+      <td>142.2</td>
+      <td>260.217391</td>
+      <td>260.217391</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 18:48:00</th>
+      <td>124.6</td>
+      <td>239.066667</td>
+      <td>239.066667</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 18:49:00</th>
+      <td>108.3</td>
+      <td>192.511111</td>
+      <td>192.511111</td>
+    </tr>
+    <tr>
+      <th>2021-05-02 18:50:00</th>
+      <td>105.5</td>
+      <td>182.413043</td>
+      <td>182.413043</td>
+    </tr>
+  </tbody>
+</table>
+</div></div></div>
 </div>
 </section>
 <section id="id1">
@@ -839,6 +1292,12 @@ We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
+</pre></div>
+</div>
+<img alt="_images/calibration_40_1.png" src="_images/calibration_40_1.png" />
 </div>
 </div>
 </section>

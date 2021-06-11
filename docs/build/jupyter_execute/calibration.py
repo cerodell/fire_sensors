@@ -88,7 +88,7 @@ df_ubc.columns = df_ubc.columns.str.replace('_y', '')
 
 # Open the grim opc
 
-# In[ ]:
+# In[4]:
 
 
 def open_grimm(date_of_int, min_ubc):
@@ -116,7 +116,7 @@ df_grim = open_grimm(date_of_int, ubc_list[min_ubc])
 
 # Merge UBC dfs with Grimm df and print first five rows 
 
-# In[ ]:
+# In[5]:
 
 
 df_final = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
@@ -126,7 +126,7 @@ df_final.head()
 
 # Define default font sizes for ploting
 
-# In[ ]:
+# In[6]:
 
 
 params = {
@@ -141,7 +141,7 @@ pylab.rcParams.update(params)
 
 # ### Plot PM 1.0 
 
-# In[ ]:
+# In[7]:
 
 
 
@@ -196,7 +196,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot PM 2.5 
 
-# In[ ]:
+# In[8]:
 
 
 
@@ -249,7 +249,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot PM 10 
 
-# In[ ]:
+# In[9]:
 
 
 
@@ -304,7 +304,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
 
-# In[ ]:
+# In[10]:
 
 
 fig = plt.figure(figsize=(14, 12))
@@ -350,7 +350,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot counts of particle sizes averaged over time.
 
-# In[ ]:
+# In[11]:
 
 
 
@@ -381,7 +381,7 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 # ### Correct PM 1.0 with an MLP
 # First, subset dataframe and normalize
 
-# In[ ]:
+# In[12]:
 
 
 pm = '2.5' 
@@ -394,7 +394,7 @@ df.tail()
 
 # # normalize data and print
 
-# In[ ]:
+# In[13]:
 
 
 scaler = MinMaxScaler()
@@ -423,7 +423,7 @@ model.fit(x, y)  # train the model
 
 # Open a dataset from another days comparison
 
-# In[ ]:
+# In[14]:
 
 
 ubc_list = [prepare_df(f"/UBC-PM-0{i}/", '20210502') for i in range(1,6)]
@@ -439,7 +439,7 @@ df_final2.head()
 
 # Normalize this data and use our mlp model to correct to grimm
 
-# In[ ]:
+# In[15]:
 
 
 keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
@@ -450,7 +450,7 @@ df2.tail()
 
 # # normalize data and print
 
-# In[ ]:
+# In[16]:
 
 
 scaler2 = MinMaxScaler()
@@ -468,7 +468,7 @@ unscaled = scaler.inverse_transform(y_predict)
 df_final2[f'UBC_PM_03_pm{pm_u}_cor'] = unscaled[:,0]
 
 
-# In[ ]:
+# In[17]:
 
 
 fig = plt.figure(figsize=(14, 12))
