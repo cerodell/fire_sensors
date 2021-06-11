@@ -21,11 +21,13 @@ import pandas as pd
 from functools import reduce
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
+from matplotlib.offsetbox import AnchoredText
 import matplotlib.pylab as pylab
 import sklearn
 from sklearn.neural_network import MLPRegressor
 from sklearn.preprocessing import MinMaxScaler
-
+from sklearn.metrics import mean_squared_error
+from scipy import stats
 
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -386,9 +388,10 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 
 pm = '2.5' 
 pm_u = pm.replace('.', '')
-keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
+ubc_pm = 'UBC_PM_03_pm'
+keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']
 df = df_final.drop(columns=[col for col in df_final if col not in keep_vars])
-df[f'UBC_PM_03_pm{pm_u}_env2'] = df[f'UBC_PM_03_pm{pm_u}_env']
+df[f'{ubc_pm}{pm_u}_env2'] = df[f'{ubc_pm}{pm_u}_env']
 df.tail()
 
 
@@ -404,24 +407,34 @@ scaled = scaler.fit_transform(df)
 y = scaled[:,0]
 x = scaled[:,1:]
 
-nhn = 8 
-hidden_layers = 2
-model = MLPRegressor(
-    hidden_layer_sizes=(nhn, hidden_layers),
-    verbose=False,
-    max_iter=1500,
-    early_stopping=True,
-    validation_fraction=0.2 ,
-    batch_size=32,
-    solver="adam" ,
-    activation="relu",
-    learning_rate_init=0.0001,
-)
+try:
+  # load mlp
+  with open(str(data_dir)+f'/mlps/{ubc_pm}{pm_u}.pkl', 'rb') as fid:
+      model = pickle.load(fid)
+  print(f'found mpl for {ubc_pm}{pm_u}')
+except:
+  print(f'can not find mpl for {ubc_pm}{pm_u}, building...')
+  nhn = 8 
+  hidden_layers = 2
+  model = MLPRegressor(
+      hidden_layer_sizes=(nhn, hidden_layers),
+      verbose=False,
+      max_iter=1500,
+      early_stopping=True,
+      validation_fraction=0.2 ,
+      batch_size=32,
+      solver="adam" ,
+      activation="relu",
+      learning_rate_init=0.0001,
+  )
 
-model.fit(x, y)  # train the model
+  model.fit(x, y)  # train the model
+  # save the mlp
+  with open(str(data_dir)+f'/mlps/{ubc_pm}{pm_u}.pkl', 'wb') as fid:
+      pickle.dump(model, fid)    
 
 
-# Open a dataset from another days comparison
+# Open a dataset from another days comparisons of the GRIMM v UBC-PMs
 
 # In[14]:
 
@@ -434,7 +447,10 @@ df_grim = open_grimm('20210502', ubc_list[min_ubc])
 df_final2 = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
 df_final2.columns = df_final2.columns.str.replace('_y', '')
 df_final2 = df_final2[:'2021-05-02T18:50']
-df_final2.head()
+keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']
+df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])
+df2[f'{ubc_pm}{pm_u}_env2'] = df2[f'{ubc_pm}{pm_u}_env']
+df2.tail()
 
 
 # Normalize this data and use our mlp model to correct to grimm
@@ -442,10 +458,6 @@ df_final2.head()
 # In[15]:
 
 
-keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
-df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])
-df2[f'UBC_PM_03_pm{pm_u}_env2'] = df2[f'UBC_PM_03_pm{pm_u}_env']
-df2.tail()
 scaler2 = MinMaxScaler()
 scaled2 = scaler2.fit_transform(df2)
 
@@ -456,14 +468,50 @@ y_predict = model.predict(
     x2
 ) 
 
-y_predict  = np.column_stack((y_predict,x2))
-unscaled = scaler.inverse_transform(y_predict)
-df_final2[f'UBC_PM_03_pm{pm_u}_cor'] = unscaled[:,0]
 
-
-# Plot corrected
+# Inverse transform or "unnormalize" data
 
 # In[16]:
+
+
+y_predict  = np.column_stack((y_predict,x2))
+unscaled = scaler.inverse_transform(y_predict)
+df_final2[f'{ubc_pm}{pm_u}_cor'] = unscaled[:,0]
+
+
+# Plot corrected UBC PM 2.5 
+
+# In[17]:
+
+
+
+r2value_cor = round(
+    stats.pearsonr(df_final2[f'PM{pm} [ug/m3]'].values, df_final2[f'{ubc_pm}{pm_u}_cor'].values)[0], 2
+)
+r2value = round(
+    stats.pearsonr(df_final2[f'PM{pm} [ug/m3]'].values, df_final2[f'{ubc_pm}{pm_u}_env'].values)[0], 2
+)
+rmse_cor = str(
+    round(
+        mean_squared_error(
+            df_final2[f'PM{pm} [ug/m3]'].values, df_final2[f'{ubc_pm}{pm_u}_cor'].values, squared=False
+        ),
+        2,
+    )
+)
+rmse = str(
+    round(
+        mean_squared_error(
+            df_final2[f'PM{pm} [ug/m3]'].values, df_final2[f'{ubc_pm}{pm_u}_env'].values, squared=False
+        ),
+        2,
+    )
+)
+anchored_text = AnchoredText(
+    "UBC-PM-03:        " + r"$r$ " + f"{r2value} rmse: {rmse}" + " \nUBC-PM-03 Cor:  " + r"$r$ " + f"{r2value_cor} rmse: {rmse_cor}"  ,
+    loc="upper left",
+    prop={"size": 12, "zorder": 10},
+)
 
 
 fig = plt.figure(figsize=(14, 12))
@@ -472,8 +520,8 @@ xfmt = DateFormatter("%m-%d %H:00")
 fig.suptitle(r"PM 2.5 ($\frac{\mu g}{m^3}$)", fontsize=16)
 ax = fig.add_subplot(2, 1, 2)
 ax.plot(df_final2.index,df_final2[f'PM{pm} [ug/m3]'].values, lw = 4.0, label = 'GRIMM', color = colors[0])
-ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_cor'], label = 'UBC-PM-03 Corrected', color = colors[1])
-ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_env'].values, label = 'UBC-PM-03', color = colors[2])
+ax.plot(df_final2.index,df_final2[f'{ubc_pm}{pm_u}_cor'], label = 'UBC-PM-03 Corrected', color = colors[1])
+ax.plot(df_final2.index,df_final2[f'{ubc_pm}{pm_u}_env'].values, label = 'UBC-PM-03', color = colors[2])
 ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel('Time (MM-DD HH)')
 ax.legend(
@@ -486,17 +534,18 @@ ax.legend(
 ax = fig.add_subplot(2, 2, 1)
 size = 6
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'PM{pm} [ug/m3]'], s=size, color = colors[0])
-ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_cor'], s=size, color = colors[1])
-ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_env'], s=size, color = colors[2])
+ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_cor'], s=size, color = colors[1])
+ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_env'], s=size, color = colors[2])
 ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+ax.add_artist(anchored_text)
 
 ax = fig.add_subplot(2, 2, 2)
 bins = 20
 alpha = 0.6
 ax.hist(df_final2[f'PM{pm} [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
-ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_cor'],bins, alpha = alpha, color = colors[1])
-ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_env'],bins, alpha = alpha, color = colors[2])
+ax.hist(df_final2[f'{ubc_pm}{pm_u}_cor'],bins, alpha = alpha, color = colors[1])
+ax.hist(df_final2[f'{ubc_pm}{pm_u}_env'],bins, alpha = alpha, color = colors[2])
 
 ax.set_ylabel('Count')
 ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
