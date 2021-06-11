@@ -92,6 +92,16 @@
    Performance
   </a>
  </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#normalize-data-and-print">
+   normalize data and print
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="#id1">
+   normalize data and print
+  </a>
+ </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -163,44 +173,73 @@
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#import-opc-data">
-   Import OPC data!
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#">
+   Performance
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-pm-1-0">
-     Plot PM 1.0
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#import-opc-data">
+     Import OPC data!
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#plot-pm-1-0">
+       Plot PM 1.0
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#plot-pm-2-5">
+       Plot PM 2.5
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#plot-pm-10">
+       Plot PM 10
+      </a>
+     </li>
+    </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-pm-2-5">
-     Plot PM 2.5
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#preliminary-results">
+     Preliminary Results
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
+       Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
+      </a>
+     </li>
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-averaged-over-time">
+       Plot counts of particle sizes averaged over time.
+      </a>
+     </li>
+    </ul>
    </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-pm-10">
-     Plot PM 10
+   <li class="toc-h2 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#calibration">
+     Calibration
     </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h3 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#correct-pm-1-0-with-an-mlp">
+       Correct PM 1.0 with an MLP
+      </a>
+     </li>
+    </ul>
    </li>
   </ul>
  </li>
- <li class="toc-h2 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#preliminary-results">
-   Preliminary Results
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#normalize-data-and-print">
+   normalize data and print
   </a>
-  <ul class="nav section-nav flex-column">
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
-     Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
-    </a>
-   </li>
-   <li class="toc-h3 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-averaged-over-time">
-     Plot counts of particle sizes averaged over time.
-    </a>
-   </li>
-  </ul>
+ </li>
+ <li class="toc-h1 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#id1">
+   normalize data and print
+  </a>
  </li>
 </ul>
 
@@ -226,12 +265,17 @@
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">context</span>
+<span class="kn">import</span> <span class="nn">pickle</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">from</span> <span class="nn">functools</span> <span class="kn">import</span> <span class="n">reduce</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="kn">import</span> <span class="n">DateFormatter</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">pylab</span>
+<span class="kn">import</span> <span class="nn">sklearn</span>
+<span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
+<span class="kn">from</span> <span class="nn">sklearn.preprocessing</span> <span class="kn">import</span> <span class="n">MinMaxScaler</span>
+
 
 <span class="kn">from</span> <span class="nn">datetime</span> <span class="kn">import</span> <span class="n">datetime</span><span class="p">,</span> <span class="n">timedelta</span>
 <span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
@@ -264,7 +308,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">date_of_int</span> <span class="o">=</span> <span class="s1">&#39;20210430&#39;</span> <span class="c1"># options 20210430 or 20210502</span>
 
 
-<span class="k">def</span> <span class="nf">prepare_df</span><span class="p">(</span><span class="n">ubc_pm</span><span class="p">):</span>
+<span class="k">def</span> <span class="nf">prepare_df</span><span class="p">(</span><span class="n">ubc_pm</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Function cleans UBC OPCs data by removing duplicate headers and dropping error values. </span>
 <span class="sd">  Once cleaned takes 1 min avg of data to match GRIM sample rate.</span>
@@ -296,14 +340,72 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <p>Open the ubc opcs</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_pm01</span> <span class="o">=</span> <span class="n">prepare_df</span><span class="p">(</span><span class="s2">&quot;/UBC-PM-01/&quot;</span><span class="p">)</span>
-<span class="n">df_pm02</span> <span class="o">=</span> <span class="n">prepare_df</span><span class="p">(</span><span class="s2">&quot;/UBC-PM-02/&quot;</span><span class="p">)</span>
-<span class="n">df_pm03</span> <span class="o">=</span> <span class="n">prepare_df</span><span class="p">(</span><span class="s2">&quot;/UBC-PM-03/&quot;</span><span class="p">)</span>
-<span class="n">df_pm04</span> <span class="o">=</span> <span class="n">prepare_df</span><span class="p">(</span><span class="s2">&quot;/UBC-PM-04/&quot;</span><span class="p">)</span>
-<span class="n">df_pm05</span> <span class="o">=</span> <span class="n">prepare_df</span><span class="p">(</span><span class="s2">&quot;/UBC-PM-05/&quot;</span><span class="p">)</span>
-
-<span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="p">[</span><span class="n">df_pm01</span><span class="p">,</span> <span class="n">df_pm02</span><span class="p">,</span> <span class="n">df_pm03</span><span class="p">,</span> <span class="n">df_pm04</span><span class="p">,</span> <span class="n">df_pm05</span><span class="p">])</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
 <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output traceback highlight-ipythontb notranslate"><div class="highlight"><pre><span></span><span class="gt">---------------------------------------------------------------------------</span>
+<span class="ne">FileNotFoundError</span><span class="g g-Whitespace">                         </span>Traceback (most recent call last)
+<span class="o">&lt;</span><span class="n">ipython</span><span class="o">-</span><span class="nb">input</span><span class="o">-</span><span class="mi">3</span><span class="o">-</span><span class="n">d42620ba145d</span><span class="o">&gt;</span> <span class="ow">in</span> <span class="o">&lt;</span><span class="n">module</span><span class="o">&gt;</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="nn">&lt;ipython-input-3-d42620ba145d&gt;</span> in <span class="ni">&lt;listcomp&gt;</span><span class="nt">(.0)</span>
+<span class="ne">----&gt; </span><span class="mi">1</span> <span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="n">date_of_int</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<span class="g g-Whitespace">      </span><span class="mi">2</span> <span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
+<span class="g g-Whitespace">      </span><span class="mi">3</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<span class="nn">&lt;ipython-input-2-d14a11630560&gt;</span> in <span class="ni">prepare_df</span><span class="nt">(ubc_pm, date_of_int)</span>
+<span class="g g-Whitespace">      </span><span class="mi">8</span>   <span class="n">Once</span> <span class="n">cleaned</span> <span class="n">takes</span> <span class="mi">1</span> <span class="nb">min</span> <span class="n">avg</span> <span class="n">of</span> <span class="n">data</span> <span class="n">to</span> <span class="n">match</span> <span class="n">GRIM</span> <span class="n">sample</span> <span class="n">rate</span><span class="o">.</span>
+<span class="g g-Whitespace">      </span><span class="mi">9</span>   <span class="s2">&quot;&quot;&quot;</span>
+<span class="ne">---&gt; </span><span class="mi">10</span><span class="s2">   df = pd.read_csv(str(data_dir) + ubc_pm + date_of_int + &#39;.TXT&#39;)</span>
+<span class="g g-Whitespace">     </span><span class="mi">11</span><span class="s2">   df = df.drop(df[df.rtctime == &#39;rtctime&#39;].index)</span>
+<span class="g g-Whitespace">     </span><span class="mi">12</span><span class="s2">   df = df[~df[&#39;pm10_env&#39;].str.contains(&#39;Rec&#39;)]</span>
+
+<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">read_csv</span><span class="nt">(filepath_or_buffer, sep, delimiter, header, names, index_col, usecols, squeeze, prefix, mangle_dupe_cols, dtype, engine, converters, true_values, false_values, skipinitialspace, skiprows, skipfooter, nrows, na_values, keep_default_na, na_filter, verbose, skip_blank_lines, parse_dates, infer_datetime_format, keep_date_col, date_parser, dayfirst, cache_dates, iterator, chunksize, compression, thousands, decimal, lineterminator, quotechar, quoting, doublequote, escapechar, comment, encoding, dialect, error_bad_lines, warn_bad_lines, delim_whitespace, low_memory, memory_map, float_precision)</span>
+<span class="g g-Whitespace">    </span><span class="mi">684</span><span class="s2">     )</span>
+<span class="g g-Whitespace">    </span><span class="mi">685</span><span class="s2"> </span>
+<span class="ne">--&gt; </span><span class="mi">686</span><span class="s2">     return _read(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">687</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">688</span><span class="s2"> </span>
+
+<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">_read</span><span class="nt">(filepath_or_buffer, kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">450</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">451</span><span class="s2">     # Create the parser.</span>
+<span class="ne">--&gt; </span><span class="mi">452</span><span class="s2">     parser = TextFileReader(fp_or_buf, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">453</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">454</span><span class="s2">     if chunksize or iterator:</span>
+
+<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">__init__</span><span class="nt">(self, f, engine, **kwds)</span>
+<span class="g g-Whitespace">    </span><span class="mi">934</span><span class="s2">             self.options[&quot;has_index_names&quot;] = kwds[&quot;has_index_names&quot;]</span>
+<span class="g g-Whitespace">    </span><span class="mi">935</span><span class="s2"> </span>
+<span class="ne">--&gt; </span><span class="mi">936</span><span class="s2">         self._make_engine(self.engine)</span>
+<span class="g g-Whitespace">    </span><span class="mi">937</span><span class="s2"> </span>
+<span class="g g-Whitespace">    </span><span class="mi">938</span><span class="s2">     def close(self):</span>
+
+<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">_make_engine</span><span class="nt">(self, engine)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1166</span><span class="s2">     def _make_engine(self, engine=&quot;c&quot;):</span>
+<span class="g g-Whitespace">   </span><span class="mi">1167</span><span class="s2">         if engine == &quot;c&quot;:</span>
+<span class="ne">-&gt; </span><span class="mi">1168</span><span class="s2">             self._engine = CParserWrapper(self.f, **self.options)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1169</span><span class="s2">         else:</span>
+<span class="g g-Whitespace">   </span><span class="mi">1170</span><span class="s2">             if engine == &quot;python&quot;:</span>
+
+<span class="nn">~/miniconda3/envs/opc/lib/python3.7/site-packages/pandas/io/parsers.py</span> in <span class="ni">__init__</span><span class="nt">(self, src, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1996</span><span class="s2">         kwds[&quot;usecols&quot;] = self.usecols</span>
+<span class="g g-Whitespace">   </span><span class="mi">1997</span><span class="s2"> </span>
+<span class="ne">-&gt; </span><span class="mi">1998</span><span class="s2">         self._reader = parsers.TextReader(src, **kwds)</span>
+<span class="g g-Whitespace">   </span><span class="mi">1999</span><span class="s2">         self.unnamed_cols = self._reader.unnamed_cols</span>
+<span class="g g-Whitespace">   </span><span class="mi">2000</span><span class="s2"> </span>
+
+<span class="nn">pandas/_libs/parsers.pyx</span> in <span class="ni">pandas._libs.parsers.TextReader.__cinit__</span><span class="nt">()</span>
+
+<span class="nn">pandas/_libs/parsers.pyx</span> in <span class="ni">pandas._libs.parsers.TextReader._setup_parser_source</span><span class="nt">()</span>
+
+<span class="ne">FileNotFoundError</span>: [Errno 2] No such file or directory: &#39;/Users/rodell/Documents/Arduino/docs/data/UBC-PM-01/20210430.TXT&#39;
 </pre></div>
 </div>
 </div>
@@ -311,25 +413,37 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <p>Open the grim opc</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
-<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">try</span><span class="p">:</span>
-  <span class="n">df_grim</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/GRIM/</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
-  <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">])</span>
-<span class="k">except</span><span class="p">:</span>
-  <span class="n">pathlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/2021_OPCintercomparison/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">*&#39;</span><span class="p">))</span>
-  <span class="n">sheets</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PM values&#39;</span><span class="p">,</span> <span class="s1">&#39;Count values&#39;</span><span class="p">,</span> <span class="s1">&#39;Mass values&#39;</span><span class="p">,</span> <span class="s1">&#39;Log values&#39;</span><span class="p">]</span>
-  <span class="n">df_grim</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s1">_sample01.xlsx&#39;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">sheets</span><span class="p">]</span>
-  <span class="n">df_grim</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">),</span> <span class="n">df_grim</span><span class="p">)</span>
-  <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-  <span class="n">df_grim</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/GRIM/</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">open_grimm</span><span class="p">(</span><span class="n">date_of_int</span><span class="p">,</span> <span class="n">min_ubc</span><span class="p">):</span>
+  <span class="k">try</span><span class="p">:</span>
+    <span class="n">df_grim</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/GRIM/</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">)</span>
+    <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">])</span>
+  <span class="k">except</span><span class="p">:</span>
+    <span class="n">pathlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39;/2021_OPCintercomparison/&#39;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">*&#39;</span><span class="p">))</span>
+    <span class="n">sheets</span> <span class="o">=</span> <span class="p">[</span><span class="s1">&#39;PM values&#39;</span><span class="p">,</span> <span class="s1">&#39;Count values&#39;</span><span class="p">,</span> <span class="s1">&#39;Mass values&#39;</span><span class="p">,</span> <span class="s1">&#39;Log values&#39;</span><span class="p">]</span>
+    <span class="n">df_grim</span> <span class="o">=</span> <span class="p">[</span><span class="n">pd</span><span class="o">.</span><span class="n">read_excel</span><span class="p">(</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="si">}</span><span class="s1">/</span><span class="si">{</span><span class="n">pathlist</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s1">_sample01.xlsx&#39;</span><span class="p">,</span> <span class="n">sheet_name</span><span class="o">=</span> <span class="n">sheet</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span> <span class="n">engine</span><span class="o">=</span><span class="s1">&#39;openpyxl&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">sheet</span> <span class="ow">in</span> <span class="n">sheets</span><span class="p">]</span>
+    <span class="n">df_grim</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">),</span> <span class="n">df_grim</span><span class="p">)</span>
+    <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">],</span> <span class="n">dayfirst</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">df_grim</span><span class="o">.</span><span class="n">to_csv</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s1">&#39;/GRIM/</span><span class="si">{</span><span class="n">date_of_int</span><span class="si">}</span><span class="s1">.csv&#39;</span><span class="p">,</span> <span class="n">index</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
 
-<span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="s1">&#39;1min&#39;</span><span class="p">)</span>  
-<span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">)</span>
-<span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">df_pm03</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
-<span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+  <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df_grim</span><span class="p">[</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">dt</span><span class="o">.</span><span class="n">round</span><span class="p">(</span><span class="s1">&#39;1min&#39;</span><span class="p">)</span>  
+  <span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;date &amp; time&#39;</span><span class="p">)</span>
+  <span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">min_ubc</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;outer&#39;</span><span class="p">)</span>
+  <span class="n">df_grim</span> <span class="o">=</span> <span class="n">df_grim</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+  <span class="k">return</span> <span class="n">df_grim</span>
 
-<span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df_grim</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df_ubc</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">min_ubc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">))])</span>
+<span class="n">df_grim</span> <span class="o">=</span> <span class="n">open_grimm</span><span class="p">(</span><span class="n">date_of_int</span><span class="p">,</span> <span class="n">ubc_list</span><span class="p">[</span><span class="n">min_ubc</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Merge UBC dfs with Grimm df and print first five rows</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df_final</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df_grim</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df_ubc</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
 <span class="n">df_final</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_final</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">df_final</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 </div>
 </div>
@@ -401,12 +515,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
-</pre></div>
-</div>
-<img alt="_images/calibration_12_1.png" src="_images/calibration_12_1.png" />
-</div>
 </div>
 <p>Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
@@ -458,12 +566,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-</div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
-</pre></div>
-</div>
-<img alt="_images/calibration_15_1.png" src="_images/calibration_15_1.png" />
 </div>
 </div>
 <p>Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
@@ -517,12 +619,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
-</pre></div>
-</div>
-<img alt="_images/calibration_18_1.png" src="_images/calibration_18_1.png" />
-</div>
 </div>
 <p>Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00.</p>
 </section>
@@ -574,14 +670,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Text(0.5, 0, &#39;$\\frac{\\mu g}{m^3}$&#39;)
-</pre></div>
 </div>
-<img alt="_images/calibration_22_1.png" src="_images/calibration_22_1.png" />
-</div>
-</div>
-<p>The figure shows a time series comparison of the  GRIMM sensor PM [1, 2.5, 10]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00.</p>
+<p>The figure shows a comparison of the  GRIMM sensor PM [1, 2.5, 10].</p>
 </section>
 <section id="plot-counts-of-particle-sizes-averaged-over-time">
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
@@ -601,52 +691,156 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </pre></div>
 </div>
 </div>
-<div class="cell_output docutils container">
-<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>[Text(0, 0, &#39;0.25 um&#39;),
- Text(1, 0, &#39;0.28 um&#39;),
- Text(2, 0, &#39;0.30 um&#39;),
- Text(3, 0, &#39;0.35 um&#39;),
- Text(4, 0, &#39;0.40 um&#39;),
- Text(5, 0, &#39;0.45 um&#39;),
- Text(6, 0, &#39;0.50 um&#39;),
- Text(7, 0, &#39;0.58 um&#39;),
- Text(8, 0, &#39;0.65 um&#39;),
- Text(9, 0, &#39;0.70 um&#39;),
- Text(10, 0, &#39;0.80 um&#39;),
- Text(11, 0, &#39;1.00 um&#39;),
- Text(12, 0, &#39;1.30 um&#39;),
- Text(13, 0, &#39;1.60 um&#39;),
- Text(14, 0, &#39;2.00 um&#39;),
- Text(15, 0, &#39;2.50 um&#39;),
- Text(16, 0, &#39;3.00 um&#39;),
- Text(17, 0, &#39;3.50 um&#39;),
- Text(18, 0, &#39;4.00 um&#39;),
- Text(19, 0, &#39;5.00 um&#39;),
- Text(20, 0, &#39;6.50 um&#39;),
- Text(21, 0, &#39;7.50 um&#39;),
- Text(22, 0, &#39;8.50 um&#39;),
- Text(23, 0, &#39;10.00 um&#39;),
- Text(24, 0, &#39;12.50 um&#39;),
- Text(25, 0, &#39;15.00 um&#39;),
- Text(26, 0, &#39;17.50 um&#39;),
- Text(27, 0, &#39;20.00 um&#39;),
- Text(28, 0, &#39;25.00 um&#39;),
- Text(29, 0, &#39;30.00 um&#39;),
- Text(30, 0, &#39;32.00 um&#39;)]
-</pre></div>
-</div>
-<img alt="_images/calibration_25_1.png" src="_images/calibration_25_1.png" />
-</div>
 </div>
 <p>The figure shows time averaged counts/liter of particles of size XX um.
 <br>
 <br></p>
-<p>We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be a deviation in PM concentration for P 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing PM [1.0, 2.5, 10] as measure by the GRIM supports this.
+<p>We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be no deviation in PM concentration for PM 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing the GRIMM measured PM [1.0, 2.5, 10] supports this as they are all effectively equal.
 <br>
 <br>
 We infer that our UBC-PM sensors aren’t sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10.</p>
 </section>
 </section>
+<section id="calibration">
+<h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
+<p>We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors. # %% [markdown]</p>
+<section id="correct-pm-1-0-with-an-mlp">
+<h3>Correct PM 1.0 with an MLP<a class="headerlink" href="#correct-pm-1-0-with-an-mlp" title="Permalink to this headline">¶</a></h3>
+<p>First, subset dataframe and normalize</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm</span> <span class="o">=</span> <span class="s1">&#39;2.5&#39;</span> 
+<span class="n">pm_u</span> <span class="o">=</span> <span class="n">pm</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;.&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">keep_vars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">df_final</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_final</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_vars</span><span class="p">])</span>
+<span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+<section id="normalize-data-and-print">
+<h1>normalize data and print<a class="headerlink" href="#normalize-data-and-print" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">scaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+
+<span class="c1"># split up data</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">scaled</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">scaled</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+
+<span class="n">nhn</span> <span class="o">=</span> <span class="mi">8</span> 
+<span class="n">hidden_layers</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MLPRegressor</span><span class="p">(</span>
+    <span class="n">hidden_layer_sizes</span><span class="o">=</span><span class="p">(</span><span class="n">nhn</span><span class="p">,</span> <span class="n">hidden_layers</span><span class="p">),</span>
+    <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="n">max_iter</span><span class="o">=</span><span class="mi">1500</span><span class="p">,</span>
+    <span class="n">early_stopping</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">validation_fraction</span><span class="o">=</span><span class="mf">0.2</span> <span class="p">,</span>
+    <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">,</span>
+    <span class="n">solver</span><span class="o">=</span><span class="s2">&quot;adam&quot;</span> <span class="p">,</span>
+    <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;relu&quot;</span><span class="p">,</span>
+    <span class="n">learning_rate_init</span><span class="o">=</span><span class="mf">0.0001</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># train the model</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Open a dataset from another days comparison</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubc_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">prepare_df</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;/UBC-PM-0</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">,</span> <span class="s1">&#39;20210502&#39;</span><span class="p">)</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span><span class="mi">6</span><span class="p">)]</span>
+<span class="n">df_ubc</span> <span class="o">=</span> <span class="n">reduce</span><span class="p">(</span><span class="k">lambda</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">on</span><span class="o">=</span><span class="s1">&#39;rtctime&#39;</span><span class="p">),</span> <span class="n">ubc_list</span><span class="p">)</span>
+<span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_ubc</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">min_ubc</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">argmin</span><span class="p">([</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_list</span><span class="p">))])</span>
+<span class="n">df_grim</span> <span class="o">=</span> <span class="n">open_grimm</span><span class="p">(</span><span class="s1">&#39;20210502&#39;</span><span class="p">,</span> <span class="n">ubc_list</span><span class="p">[</span><span class="n">min_ubc</span><span class="p">])</span>
+<span class="n">df_final2</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">merge</span><span class="p">(</span><span class="n">left</span><span class="o">=</span><span class="n">df_grim</span><span class="p">,</span> <span class="n">right</span><span class="o">=</span><span class="n">df_ubc</span><span class="p">,</span> <span class="n">left_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">right_index</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">how</span><span class="o">=</span><span class="s1">&#39;left&#39;</span><span class="p">)</span>
+<span class="n">df_final2</span><span class="o">.</span><span class="n">columns</span> <span class="o">=</span> <span class="n">df_final2</span><span class="o">.</span><span class="n">columns</span><span class="o">.</span><span class="n">str</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s1">&#39;_y&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">)</span>
+<span class="n">df_final2</span> <span class="o">=</span> <span class="n">df_final2</span><span class="p">[:</span><span class="s1">&#39;2021-05-02T18:50&#39;</span><span class="p">]</span>
+<span class="n">df_final2</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Normalize this data and use our mlp model to correct to grimm</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">keep_vars</span> <span class="o">=</span> <span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">,</span> <span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
+<span class="n">df2</span> <span class="o">=</span> <span class="n">df_final2</span><span class="o">.</span><span class="n">drop</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">[</span><span class="n">col</span> <span class="k">for</span> <span class="n">col</span> <span class="ow">in</span> <span class="n">df_final2</span> <span class="k">if</span> <span class="n">col</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">keep_vars</span><span class="p">])</span>
+<span class="n">df2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env2&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span>
+<span class="n">df2</span><span class="o">.</span><span class="n">tail</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="id1">
+<h1>normalize data and print<a class="headerlink" href="#id1" title="Permalink to this headline">¶</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">scaler2</span> <span class="o">=</span> <span class="n">MinMaxScaler</span><span class="p">()</span>
+<span class="n">scaled2</span> <span class="o">=</span> <span class="n">scaler2</span><span class="o">.</span><span class="n">fit_transform</span><span class="p">(</span><span class="n">df2</span><span class="p">)</span>
+
+<span class="c1"># split up data</span>
+<span class="n">y2</span> <span class="o">=</span> <span class="n">scaled2</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">x2</span> <span class="o">=</span> <span class="n">scaled2</span><span class="p">[:,</span><span class="mi">1</span><span class="p">:]</span>
+<span class="n">y_predict</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
+    <span class="n">x2</span>
+<span class="p">)</span> 
+
+<span class="n">y_predict</span>  <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">column_stack</span><span class="p">((</span><span class="n">y_predict</span><span class="p">,</span><span class="n">x2</span><span class="p">))</span>
+<span class="n">unscaled</span> <span class="o">=</span> <span class="n">scaler</span><span class="o">.</span><span class="n">inverse_transform</span><span class="p">(</span><span class="n">y_predict</span><span class="p">)</span>
+<span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_cor&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="n">unscaled</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">12</span><span class="p">))</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+<span class="n">xfmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%m-</span><span class="si">%d</span><span class="s2"> %H:00&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">suptitle</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">lw</span> <span class="o">=</span> <span class="mf">4.0</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;GRIMM&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_cor&#39;</span><span class="p">],</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;UBC-PM-03 Corrected&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">df_final2</span><span class="o">.</span><span class="n">index</span><span class="p">,</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">,</span> <span class="n">label</span> <span class="o">=</span> <span class="s1">&#39;UBC-PM-03&#39;</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;Time (MM-DD HH)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper center&quot;</span><span class="p">,</span>
+    <span class="n">bbox_to_anchor</span><span class="o">=</span><span class="p">(</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">2.44</span><span class="p">),</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">6</span><span class="p">,</span>
+    <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">size</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_cor&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
+<span class="n">alpha</span> <span class="o">=</span> <span class="mf">0.6</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span><span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">zorder</span> <span class="o">=</span> <span class="mi">10</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_cor&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">hist</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;UBC_PM_03_pm</span><span class="si">{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">],</span><span class="n">bins</span><span class="p">,</span> <span class="n">alpha</span> <span class="o">=</span> <span class="n">alpha</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;Count&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;$\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
 </section>
 
 

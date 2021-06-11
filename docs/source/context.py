@@ -32,11 +32,11 @@ path = Path(__file__).resolve()  # this file
 this_dir = path.parent  # this folder
 notebooks_dir = this_dir
 root_dir = notebooks_dir.parents[0]
-data_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/data/")
-save_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/images/")
+# data_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/data/")
+# save_dir = Path("/Users/rodell/Google Drive/Shared drives/Research/FireSmoke/FieldWork/OPC/images/")
 
-# data_dir = root_dir / Path("data")
-# save_dir = root_dir / Path("img")
+data_dir = root_dir / Path("data")
+save_dir = root_dir / Path("data/img")
 
 
 

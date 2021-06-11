@@ -31,12 +31,17 @@
    "outputs": [],
    "source": [
     "import context\n",
+    "import pickle\n",
     "import numpy as np\n",
     "import pandas as pd\n",
     "from functools import reduce\n",
     "import matplotlib.pyplot as plt\n",
     "from matplotlib.dates import DateFormatter\n",
     "import matplotlib.pylab as pylab\n",
+    "import sklearn\n",
+    "from sklearn.neural_network import MLPRegressor\n",
+    "from sklearn.preprocessing import MinMaxScaler\n",
+    "\n",
     "\n",
     "from datetime import datetime, timedelta\n",
     "from pathlib import Path\n",
@@ -67,7 +72,7 @@
     "date_of_int = '20210430' # options 20210430 or 20210502\n",
     "\n",
     "\n",
-    "def prepare_df(ubc_pm):\n",
+    "def prepare_df(ubc_pm, date_of_int):\n",
     "  \"\"\"\n",
     "  Function cleans UBC OPCs data by removing duplicate headers and dropping error values. \n",
     "  Once cleaned takes 1 min avg of data to match GRIM sample rate.\n",
@@ -111,15 +116,9 @@
    "outputs": [],
    "source": [
     "\n",
-    "df_pm01 = prepare_df(\"/UBC-PM-01/\")\n",
-    "df_pm02 = prepare_df(\"/UBC-PM-02/\")\n",
-    "df_pm03 = prepare_df(\"/UBC-PM-03/\")\n",
-    "df_pm04 = prepare_df(\"/UBC-PM-04/\")\n",
-    "df_pm05 = prepare_df(\"/UBC-PM-05/\")\n",
-    "\n",
-    "df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), [df_pm01, df_pm02, df_pm03, df_pm04, df_pm05])\n",
-    "df_ubc.columns = df_ubc.columns.str.replace('_y', '')\n",
-    "\n"
+    "ubc_list = [prepare_df(f\"/UBC-PM-0{i}/\", date_of_int) for i in range(1,6)]\n",
+    "df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)\n",
+    "df_ubc.columns = df_ubc.columns.str.replace('_y', '')"
    ]
   },
   {
@@ -139,25 +138,49 @@
    },
    "outputs": [],
    "source": [
-    "try:\n",
-    "  df_grim = pd.read_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv')\n",
-    "  df_grim['date & time'] = pd.to_datetime(df_grim['date & time'])\n",
-    "except:\n",
-    "  pathlist = sorted(Path(str(data_dir) + '/2021_OPCintercomparison/').glob(f'{date_of_int}*'))\n",
-    "  sheets = ['PM values', 'Count values', 'Mass values', 'Log values']\n",
-    "  df_grim = [pd.read_excel(f'{pathlist[0]}/{pathlist[0].stem}_sample01.xlsx', sheet_name= sheet, skiprows=4, engine='openpyxl') for sheet in sheets]\n",
-    "  df_grim = reduce(lambda x, y: pd.merge(x, y, on='date & time'), df_grim)\n",
-    "  df_grim['date & time'] = pd.to_datetime(df_grim['date & time'], dayfirst=True)\n",
-    "  df_grim.to_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv', index=False)\n",
+    "def open_grimm(date_of_int, min_ubc):\n",
+    "  try:\n",
+    "    df_grim = pd.read_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv')\n",
+    "    df_grim['date & time'] = pd.to_datetime(df_grim['date & time'])\n",
+    "  except:\n",
+    "    pathlist = sorted(Path(str(data_dir) + '/2021_OPCintercomparison/').glob(f'{date_of_int}*'))\n",
+    "    sheets = ['PM values', 'Count values', 'Mass values', 'Log values']\n",
+    "    df_grim = [pd.read_excel(f'{pathlist[0]}/{pathlist[0].stem}_sample01.xlsx', sheet_name= sheet, skiprows=4, engine='openpyxl') for sheet in sheets]\n",
+    "    df_grim = reduce(lambda x, y: pd.merge(x, y, on='date & time'), df_grim)\n",
+    "    df_grim['date & time'] = pd.to_datetime(df_grim['date & time'], dayfirst=True)\n",
+    "    df_grim.to_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv', index=False)\n",
     "\n",
     "\n",
-    "df_grim['date & time'] = df_grim['date & time'].dt.round('1min')  \n",
-    "df_grim = df_grim.set_index('date & time')\n",
-    "df_grim = df_grim.join(df_pm03, how='outer')\n",
-    "df_grim = df_grim.dropna()\n",
+    "  df_grim['date & time'] = df_grim['date & time'].dt.round('1min')  \n",
+    "  df_grim = df_grim.set_index('date & time')\n",
+    "  df_grim = df_grim.join(min_ubc, how='outer')\n",
+    "  df_grim = df_grim.dropna()\n",
+    "  return df_grim\n",
     "\n",
+    "min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])\n",
+    "df_grim = open_grimm(date_of_int, ubc_list[min_ubc])"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "Merge UBC dfs with Grimm df and print first five rows "
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "outputs": [],
+   "source": [
     "df_final = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')\n",
-    "df_final.columns = df_final.columns.str.replace('_y', '')"
+    "df_final.columns = df_final.columns.str.replace('_y', '')\n",
+    "df_final.head()"
    ]
   },
   {
@@ -470,7 +493,7 @@
     "lines_to_next_cell": 0
    },
    "source": [
-    "The figure shows a time series comparison of the  GRIMM sensor PM [1, 2.5, 10]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00. "
+    "The figure shows a comparison of the  GRIMM sensor PM [1, 2.5, 10]. "
    ]
   },
   {
@@ -515,13 +538,210 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
-    "We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be a deviation in PM concentration for P 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing PM [1.0, 2.5, 10] as measure by the GRIM supports this. \n",
+    "We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be no deviation in PM concentration for PM 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing the GRIMM measured PM [1.0, 2.5, 10] supports this as they are all effectively equal. \n",
     "<br>\n",
     "<br>\n",
     "We infer that our UBC-PM sensors aren't sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10. "
    ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "## Calibration\n",
+    "We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors. # %% [markdown]\n",
+    "### Correct PM 1.0 with an MLP\n",
+    "First, subset dataframe and normalize"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "pm = '2.5' \n",
+    "pm_u = pm.replace('.', '')\n",
+    "keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']\n",
+    "df = df_final.drop(columns=[col for col in df_final if col not in keep_vars])\n",
+    "df[f'UBC_PM_03_pm{pm_u}_env2'] = df[f'UBC_PM_03_pm{pm_u}_env']\n",
+    "df.tail()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "# normalize data and print"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "scaler = MinMaxScaler()\n",
+    "scaled = scaler.fit_transform(df)\n",
+    "\n",
+    "# split up data\n",
+    "y = scaled[:,0]\n",
+    "x = scaled[:,1:]\n",
+    "\n",
+    "nhn = 8 \n",
+    "hidden_layers = 2\n",
+    "model = MLPRegressor(\n",
+    "    hidden_layer_sizes=(nhn, hidden_layers),\n",
+    "    verbose=False,\n",
+    "    max_iter=1500,\n",
+    "    early_stopping=True,\n",
+    "    validation_fraction=0.2 ,\n",
+    "    batch_size=32,\n",
+    "    solver=\"adam\" ,\n",
+    "    activation=\"relu\",\n",
+    "    learning_rate_init=0.0001,\n",
+    ")\n",
+    "\n",
+    "model.fit(x, y)  # train the model"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "Open a dataset from another days comparison"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "ubc_list = [prepare_df(f\"/UBC-PM-0{i}/\", '20210502') for i in range(1,6)]\n",
+    "df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)\n",
+    "df_ubc.columns = df_ubc.columns.str.replace('_y', '')\n",
+    "min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])\n",
+    "df_grim = open_grimm('20210502', ubc_list[min_ubc])\n",
+    "df_final2 = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')\n",
+    "df_final2.columns = df_final2.columns.str.replace('_y', '')\n",
+    "df_final2 = df_final2[:'2021-05-02T18:50']\n",
+    "df_final2.head()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "Normalize this data and use our mlp model to correct to grimm"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']\n",
+    "df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])\n",
+    "df2[f'UBC_PM_03_pm{pm_u}_env2'] = df2[f'UBC_PM_03_pm{pm_u}_env']\n",
+    "df2.tail()"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "# normalize data and print"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "lines_to_next_cell": 2
+   },
+   "outputs": [],
+   "source": [
+    "scaler2 = MinMaxScaler()\n",
+    "scaled2 = scaler2.fit_transform(df2)\n",
+    "\n",
+    "# split up data\n",
+    "y2 = scaled2[:,0]\n",
+    "x2 = scaled2[:,1:]\n",
+    "y_predict = model.predict(\n",
+    "    x2\n",
+    ") \n",
+    "\n",
+    "y_predict  = np.column_stack((y_predict,x2))\n",
+    "unscaled = scaler.inverse_transform(y_predict)\n",
+    "df_final2[f'UBC_PM_03_pm{pm_u}_cor'] = unscaled[:,0]"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "outputs": [],
+   "source": [
+    "fig = plt.figure(figsize=(14, 12))\n",
+    "fig.autofmt_xdate()\n",
+    "xfmt = DateFormatter(\"%m-%d %H:00\")\n",
+    "fig.suptitle(r\"PM 2.5 ($\\frac{\\mu g}{m^3}$)\", fontsize=16)\n",
+    "ax = fig.add_subplot(2, 1, 2)\n",
+    "ax.plot(df_final2.index,df_final2[f'PM{pm} [ug/m3]'].values, lw = 4.0, label = 'GRIMM', color = colors[0])\n",
+    "ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_cor'], label = 'UBC-PM-03 Corrected', color = colors[1])\n",
+    "ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_env'].values, label = 'UBC-PM-03', color = colors[2])\n",
+    "ax.set_ylabel(r'$\\frac{\\mu g}{m^3}$', rotation=0)\n",
+    "ax.set_xlabel('Time (MM-DD HH)')\n",
+    "ax.legend(\n",
+    "    loc=\"upper center\",\n",
+    "    bbox_to_anchor=(0.5, 2.44),\n",
+    "    ncol=6,\n",
+    "    fancybox=True,\n",
+    "    shadow=True,\n",
+    ")\n",
+    "ax = fig.add_subplot(2, 2, 1)\n",
+    "size = 6\n",
+    "ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'PM{pm} [ug/m3]'], s=size, color = colors[0])\n",
+    "ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_cor'], s=size, color = colors[1])\n",
+    "ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_env'], s=size, color = colors[2])\n",
+    "ax.set_ylabel(r'$\\frac{\\mu g}{m^3}$', rotation=0)\n",
+    "ax.set_xlabel(r'$\\frac{\\mu g}{m^3}$')\n",
+    "\n",
+    "ax = fig.add_subplot(2, 2, 2)\n",
+    "bins = 20\n",
+    "alpha = 0.6\n",
+    "ax.hist(df_final2[f'PM{pm} [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)\n",
+    "ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_cor'],bins, alpha = alpha, color = colors[1])\n",
+    "ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_env'],bins, alpha = alpha, color = colors[2])\n",
+    "\n",
+    "ax.set_ylabel('Count')\n",
+    "ax.set_xlabel(r'$\\frac{\\mu g}{m^3}$')"
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": []
   }
  ],
  "metadata": {

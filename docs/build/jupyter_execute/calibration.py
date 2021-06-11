@@ -15,12 +15,17 @@
 
 
 import context
+import pickle
 import numpy as np
 import pandas as pd
 from functools import reduce
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 import matplotlib.pylab as pylab
+import sklearn
+from sklearn.neural_network import MLPRegressor
+from sklearn.preprocessing import MinMaxScaler
+
 
 from datetime import datetime, timedelta
 from pathlib import Path
@@ -43,7 +48,7 @@ warnings.filterwarnings("ignore")
 date_of_int = '20210430' # options 20210430 or 20210502
 
 
-def prepare_df(ubc_pm):
+def prepare_df(ubc_pm, date_of_int):
   """
   Function cleans UBC OPCs data by removing duplicate headers and dropping error values. 
   Once cleaned takes 1 min avg of data to match GRIM sample rate.
@@ -76,45 +81,52 @@ def prepare_df(ubc_pm):
 
 
 
-df_pm01 = prepare_df("/UBC-PM-01/")
-df_pm02 = prepare_df("/UBC-PM-02/")
-df_pm03 = prepare_df("/UBC-PM-03/")
-df_pm04 = prepare_df("/UBC-PM-04/")
-df_pm05 = prepare_df("/UBC-PM-05/")
-
-df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), [df_pm01, df_pm02, df_pm03, df_pm04, df_pm05])
+ubc_list = [prepare_df(f"/UBC-PM-0{i}/", date_of_int) for i in range(1,6)]
+df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)
 df_ubc.columns = df_ubc.columns.str.replace('_y', '')
 
 
 # Open the grim opc
 
-# In[4]:
+# In[ ]:
 
 
-try:
-  df_grim = pd.read_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv')
-  df_grim['date & time'] = pd.to_datetime(df_grim['date & time'])
-except:
-  pathlist = sorted(Path(str(data_dir) + '/2021_OPCintercomparison/').glob(f'{date_of_int}*'))
-  sheets = ['PM values', 'Count values', 'Mass values', 'Log values']
-  df_grim = [pd.read_excel(f'{pathlist[0]}/{pathlist[0].stem}_sample01.xlsx', sheet_name= sheet, skiprows=4, engine='openpyxl') for sheet in sheets]
-  df_grim = reduce(lambda x, y: pd.merge(x, y, on='date & time'), df_grim)
-  df_grim['date & time'] = pd.to_datetime(df_grim['date & time'], dayfirst=True)
-  df_grim.to_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv', index=False)
+def open_grimm(date_of_int, min_ubc):
+  try:
+    df_grim = pd.read_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv')
+    df_grim['date & time'] = pd.to_datetime(df_grim['date & time'])
+  except:
+    pathlist = sorted(Path(str(data_dir) + '/2021_OPCintercomparison/').glob(f'{date_of_int}*'))
+    sheets = ['PM values', 'Count values', 'Mass values', 'Log values']
+    df_grim = [pd.read_excel(f'{pathlist[0]}/{pathlist[0].stem}_sample01.xlsx', sheet_name= sheet, skiprows=4, engine='openpyxl') for sheet in sheets]
+    df_grim = reduce(lambda x, y: pd.merge(x, y, on='date & time'), df_grim)
+    df_grim['date & time'] = pd.to_datetime(df_grim['date & time'], dayfirst=True)
+    df_grim.to_csv(str(data_dir) + f'/GRIM/{date_of_int}.csv', index=False)
 
 
-df_grim['date & time'] = df_grim['date & time'].dt.round('1min')  
-df_grim = df_grim.set_index('date & time')
-df_grim = df_grim.join(df_pm03, how='outer')
-df_grim = df_grim.dropna()
+  df_grim['date & time'] = df_grim['date & time'].dt.round('1min')  
+  df_grim = df_grim.set_index('date & time')
+  df_grim = df_grim.join(min_ubc, how='outer')
+  df_grim = df_grim.dropna()
+  return df_grim
+
+min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])
+df_grim = open_grimm(date_of_int, ubc_list[min_ubc])
+
+
+# Merge UBC dfs with Grimm df and print first five rows 
+
+# In[ ]:
+
 
 df_final = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
 df_final.columns = df_final.columns.str.replace('_y', '')
+df_final.head()
 
 
 # Define default font sizes for ploting
 
-# In[5]:
+# In[ ]:
 
 
 params = {
@@ -129,7 +141,7 @@ pylab.rcParams.update(params)
 
 # ### Plot PM 1.0 
 
-# In[6]:
+# In[ ]:
 
 
 
@@ -184,7 +196,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot PM 2.5 
 
-# In[7]:
+# In[ ]:
 
 
 
@@ -237,7 +249,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot PM 10 
 
-# In[8]:
+# In[ ]:
 
 
 
@@ -292,7 +304,7 @@ ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 # ### Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
 
-# In[9]:
+# In[ ]:
 
 
 fig = plt.figure(figsize=(14, 12))
@@ -334,11 +346,11 @@ ax.set_ylabel('Count')
 ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 
 
-# The figure shows a time series comparison of the  GRIMM sensor PM [1, 2.5, 10]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00. 
+# The figure shows a comparison of the  GRIMM sensor PM [1, 2.5, 10]. 
 
 # ### Plot counts of particle sizes averaged over time.
 
-# In[10]:
+# In[ ]:
 
 
 
@@ -359,7 +371,144 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 # <br>
 # <br>
 
-# We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be a deviation in PM concentration for P 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing PM [1.0, 2.5, 10] as measure by the GRIM supports this. 
+# We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be no deviation in PM concentration for PM 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing the GRIMM measured PM [1.0, 2.5, 10] supports this as they are all effectively equal. 
 # <br>
 # <br>
 # We infer that our UBC-PM sensors aren't sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10. 
+
+# ## Calibration
+# We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors. # %% [markdown]
+# ### Correct PM 1.0 with an MLP
+# First, subset dataframe and normalize
+
+# In[ ]:
+
+
+pm = '2.5' 
+pm_u = pm.replace('.', '')
+keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
+df = df_final.drop(columns=[col for col in df_final if col not in keep_vars])
+df[f'UBC_PM_03_pm{pm_u}_env2'] = df[f'UBC_PM_03_pm{pm_u}_env']
+df.tail()
+
+
+# # normalize data and print
+
+# In[ ]:
+
+
+scaler = MinMaxScaler()
+scaled = scaler.fit_transform(df)
+
+# split up data
+y = scaled[:,0]
+x = scaled[:,1:]
+
+nhn = 8 
+hidden_layers = 2
+model = MLPRegressor(
+    hidden_layer_sizes=(nhn, hidden_layers),
+    verbose=False,
+    max_iter=1500,
+    early_stopping=True,
+    validation_fraction=0.2 ,
+    batch_size=32,
+    solver="adam" ,
+    activation="relu",
+    learning_rate_init=0.0001,
+)
+
+model.fit(x, y)  # train the model
+
+
+# Open a dataset from another days comparison
+
+# In[ ]:
+
+
+ubc_list = [prepare_df(f"/UBC-PM-0{i}/", '20210502') for i in range(1,6)]
+df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)
+df_ubc.columns = df_ubc.columns.str.replace('_y', '')
+min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])
+df_grim = open_grimm('20210502', ubc_list[min_ubc])
+df_final2 = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')
+df_final2.columns = df_final2.columns.str.replace('_y', '')
+df_final2 = df_final2[:'2021-05-02T18:50']
+df_final2.head()
+
+
+# Normalize this data and use our mlp model to correct to grimm
+
+# In[ ]:
+
+
+keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
+df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])
+df2[f'UBC_PM_03_pm{pm_u}_env2'] = df2[f'UBC_PM_03_pm{pm_u}_env']
+df2.tail()
+
+
+# # normalize data and print
+
+# In[ ]:
+
+
+scaler2 = MinMaxScaler()
+scaled2 = scaler2.fit_transform(df2)
+
+# split up data
+y2 = scaled2[:,0]
+x2 = scaled2[:,1:]
+y_predict = model.predict(
+    x2
+) 
+
+y_predict  = np.column_stack((y_predict,x2))
+unscaled = scaler.inverse_transform(y_predict)
+df_final2[f'UBC_PM_03_pm{pm_u}_cor'] = unscaled[:,0]
+
+
+# In[ ]:
+
+
+fig = plt.figure(figsize=(14, 12))
+fig.autofmt_xdate()
+xfmt = DateFormatter("%m-%d %H:00")
+fig.suptitle(r"PM 2.5 ($\frac{\mu g}{m^3}$)", fontsize=16)
+ax = fig.add_subplot(2, 1, 2)
+ax.plot(df_final2.index,df_final2[f'PM{pm} [ug/m3]'].values, lw = 4.0, label = 'GRIMM', color = colors[0])
+ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_cor'], label = 'UBC-PM-03 Corrected', color = colors[1])
+ax.plot(df_final2.index,df_final2[f'UBC_PM_03_pm{pm_u}_env'].values, label = 'UBC-PM-03', color = colors[2])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel('Time (MM-DD HH)')
+ax.legend(
+    loc="upper center",
+    bbox_to_anchor=(0.5, 2.44),
+    ncol=6,
+    fancybox=True,
+    shadow=True,
+)
+ax = fig.add_subplot(2, 2, 1)
+size = 6
+ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'PM{pm} [ug/m3]'], s=size, color = colors[0])
+ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_cor'], s=size, color = colors[1])
+ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'UBC_PM_03_pm{pm_u}_env'], s=size, color = colors[2])
+ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+ax = fig.add_subplot(2, 2, 2)
+bins = 20
+alpha = 0.6
+ax.hist(df_final2[f'PM{pm} [ug/m3]'],bins,alpha = alpha, color = colors[0], zorder = 10)
+ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_cor'],bins, alpha = alpha, color = colors[1])
+ax.hist(df_final2[f'UBC_PM_03_pm{pm_u}_env'],bins, alpha = alpha, color = colors[2])
+
+ax.set_ylabel('Count')
+ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+
+
+# In[ ]:
+
+
+
+
