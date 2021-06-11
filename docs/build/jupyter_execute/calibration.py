@@ -392,7 +392,7 @@ df[f'UBC_PM_03_pm{pm_u}_env2'] = df[f'UBC_PM_03_pm{pm_u}_env']
 df.tail()
 
 
-# # normalize data and print
+# Normalize data and print
 
 # In[13]:
 
@@ -446,13 +446,6 @@ keep_vars = [f'PM{pm} [ug/m3]', f'UBC_PM_03_pm{pm_u}_env']
 df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])
 df2[f'UBC_PM_03_pm{pm_u}_env2'] = df2[f'UBC_PM_03_pm{pm_u}_env']
 df2.tail()
-
-
-# # normalize data and print
-
-# In[16]:
-
-
 scaler2 = MinMaxScaler()
 scaled2 = scaler2.fit_transform(df2)
 
@@ -468,7 +461,9 @@ unscaled = scaler.inverse_transform(y_predict)
 df_final2[f'UBC_PM_03_pm{pm_u}_cor'] = unscaled[:,0]
 
 
-# In[17]:
+# Plot corrected
+
+# In[16]:
 
 
 fig = plt.figure(figsize=(14, 12))
