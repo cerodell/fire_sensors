@@ -92,3 +92,18 @@ ax[2].yaxis.grid(color='gray', linestyle='dashed')
 
 plt.show()
 fig.savefig(save + "/Env_PM/" + filename[0:7])
+
+
+
+
+# fig = plt.figure(figsize=(14, 6))
+# fig.suptitle("Counts/liter of particles of size XX um", fontsize=16)
+# ax = fig.add_subplot(1, 1, 1)
+# var_list = list(df_final)[6:37]
+# for var in var_list:
+#   ax.plot(df_final.index,df_final[var], lw = 2.0, label = var[:-2])
+# ax.set_ylabel('Counts/liter')
+# ax.set_xlabel('Time (MM-DD HH)')
+# ax.legend(
+#   bbox_to_anchor=(1.2, 1.2),
+# )

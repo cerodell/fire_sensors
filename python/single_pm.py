@@ -87,3 +87,10 @@ ax[2].yaxis.grid(color='gray', linestyle='dashed')
 
 # plt.show()
 fig.savefig(save + '/' + filename[0:7], dpi = 250)
+
+
+
+
+
+
+

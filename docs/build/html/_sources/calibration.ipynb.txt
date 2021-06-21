@@ -7,7 +7,7 @@
    },
    "source": [
     "# Performance\n",
-    "In a laboratory setting, we compared the low-cost UBC AQ sensors to a [GRIMM](https://www.grimm-aerosol.com/products-en/dust-monitors/the-dust-decoder/11-d/) OPC sensor (Model: 1.109).  We produced air-borne salt particles as a measurand by feeding salt solutions with known molar concentrations into an atomizer. After the atomizer made the air-borne salt particles, they traveled through an adjustable filter (enabling concentrations control) and into a 22L glass chamber containing the UBC AQ sensors (Fig 1). The Grimm OPC sensor pulled air from the glass chamber to sample the salt concentrations simultaneously. There was an exhaust port to maintain persistent salt concentration levels and a small fan within the glass chamber to mix the air. \n",
+    "We compared our low-cost UBC - PM sensors to an industry-standard GRIMM OPC sensor (Model: 1.109). For the comparison, saltwater solutions with known molar concentrations were fed into an atomizer. The atomizer separated/produced air-borne salt particles that traveled through an adjustable filter and into a 22L glass chamber containing the five UBC – PM Sensors and a small fan to mix the air (Figure 4CR). Simultaneously, the Grimm OPC sensor pulled air from the glass chamber to sample particle concentrations. The chamber also had an exhaust port to help maintain consistent concentration levels.\n",
     "<br>\n",
     "<br>\n",
     "<img src=\"_static/img/chamber.jpeg\" alt=\"chamber\" width=\"300\"/>\n",
@@ -17,9 +17,17 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
-    "Lets dive in."
+    "The primary objective was to compare the UBC - PM Sensor's static and dynamic response to the GRIMM instrument. To accomplish this, adjustments to the inflow filter were made to moderate the concentrations of particles entering the chamber. An appropriate amount of time was given so that the concentration levels stabilize. Sampling time ranged between 15-30 minutes. Concentration values were varied so that a calibration curve could be derived and then applied to the UBC – PM sensors to correlate to the GRIMM measured values. In developing the calibration cure it was assumed that the GRIMM OPC provided a true measure of PM concentrations.\n",
+    "<br>\n",
+    "<br>\n",
+    "We conducted 16.5 hours of sampling over a two-day period. The GRIMM and UBC – PM sensors sample at one minute and 1.6 seconds, respectively. The UBC - PM sensors were time-averaged to the same one-minute sampling period of the GRIMM instrument for comparison. Of the five UBC – PM sensors, one malfunctioned and reported erroneous values and was removed from the study. \n",
+    "<br>\n",
+    "<br>\n",
+    "Lets Dive in and assess the the first 12 hours of sampling data (obtained on day one)."
    ]
   },
   {
@@ -279,9 +287,11 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
-    "Figure shows time series comparison of the measured PM 1.0 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. "
+    "Figure 1; scatter plots, histograms, and a times series comparison of the measured PM 1.0 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 1.0 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00"
    ]
   },
   {
@@ -349,9 +359,11 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
-    "Figure shows time series comparison of the measured PM 2.5 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. "
+    "Figure 2; scatter plots, histograms, and a times series comparison of the measured PM 2.5 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 2.5 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00"
    ]
   },
   {
@@ -418,9 +430,11 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
-    "Figure shows time series comparison of the measured PM 10 contractions of four UBC AQ Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (blue)] and the GRIM sensor [GRIMM (blue)]. The time series shows one minute averaged PM 1.0 contractions incremented from 2021-04-30 09:27:00 unitl 2021-04-30 21:36:00. "
+    "Figure 3; scatter plots, histograms, and a times series comparison of the measured PM 10 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 10 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00"
    ]
   },
   {
@@ -430,7 +444,9 @@
    },
    "source": [
     "## Preliminary Results\n",
-    "We see the UBC-AQ sensors are performing marginally well at PM 1.0 concentrations. However,  the UBC-AQ sensors are grossly over-predicting the concentration levels of PM 2.5 and 10. Let's figure out why this is happening. "
+    "Based upon the above graphics the UBC- PM sensors perform acceptably at PM 1.0 concentrations; however, they significantly over-predict the concentration levels of PM 2.5 and 10. \n",
+    "<br>\n",
+    "To understand why this occurred let's looked at a time series of the GRIMM PM 1.0, 2.5 and 10 and the particle size distribution."
    ]
   },
   {
@@ -495,7 +511,7 @@
     "lines_to_next_cell": 0
    },
    "source": [
-    "The figure shows a comparison of the  GRIMM sensor PM [1, 2.5, 10]. "
+    "Figure 4: A time series of the  GRIMM sensor PM [1, 2.5, 10] incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00. "
    ]
   },
   {
@@ -533,21 +549,27 @@
     "lines_to_next_cell": 0
    },
    "source": [
-    "The figure shows time averaged counts/liter of particles of size XX um. \n",
+    "Figure 5 Time-averaged counts/liter of particles of size XX um, as measured by the GRIMM sensor.\n",
     "<br>\n",
     "<br>"
    ]
   },
   {
    "cell_type": "markdown",
-   "metadata": {
-    "lines_to_next_cell": 0
-   },
+   "metadata": {},
    "source": [
-    "We see all air-borne salt particles are 0.7 um or lower, with the majority of size 0.3 um, meaning there should be no deviation in PM concentration for PM 1.0 2.5 and 10 values as they measure the particle size smaller than their respective values. Comparing the GRIMM measured PM [1.0, 2.5, 10] supports this as they are all effectively equal. \n",
+    "As depicted above all air-borne salt particles are 0.7 um or lower, with the majority at 0.3 um, implying that no deviation in PM concentration for PM 1.0, 2.5, and 10 values should exist. Comparing the GRIMM measured PM [1.0, 2.5, 10] supports this consideration.\n",
     "<br>\n",
     "<br>\n",
-    "We infer that our UBC-PM sensors aren't sensitive enough to delineate clusters of small practical from larger particles. As a result, we see high concentration values in the PM 2.5 and 10. "
+    "Based upon the above it is believed that our UBC-PM sensors aren’t sensitive enough to delineate clusters of small particles from larger particles. As a result, higher concentration values in PM 2.5 and 10 are indicated. More work needs to be done to support this statement."
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "## Calibration\n",
+    "We will construct a multilayer perceptron (MLP) model to try and correct our UBC-Pm sensor inaccuracy. We will test our UBC-PM-03 sensors using measured PM2.5 and particle counts at 03um, 05um, 10um 25um 50um, and 100um as input in the MLP. The MLP target will be the GRIMM PM2.5"
    ]
   },
   {
@@ -556,9 +578,41 @@
     "lines_to_next_cell": 0
    },
    "source": [
-    "## Calibration\n",
-    "We will test a multilayer perceptron (MLP) with a relu active function to determine the weights bias to correct inaccuracies of our UBC PM sensors.\n",
-    "### Correct PM 1.0 with an MLP\n",
+    "### Correct PM 2.5 with an linear regrestion.\n",
+    "# First, open another dataset and merge with the one we have been using."
+   ]
+  },
+  {
+   "cell_type": "code",
+   "execution_count": null,
+   "metadata": {},
+   "outputs": [],
+   "source": [
+    "# open all ubc_pm datafiles into a list\n",
+    "ubc_list = [prepare_df(f\"/UBC-PM-0{i}/\", '20210502') for i in range(1,6)]\n",
+    "## combine them to one dataframe\n",
+    "df_ubc = reduce(lambda x, y: pd.merge(x, y, on='rtctime'), ubc_list)\n",
+    "## drop odd character header added when combining\n",
+    "df_ubc.columns = df_ubc.columns.str.replace('_y', '')\n",
+    "## find the ubc dataframe with the lowest time stapms\n",
+    "min_ubc = np.argmin([len(ubc_list[i]) for i in range(len(ubc_list))])\n",
+    "## open the GRIMM dataset and restrict time to smallest ubc pm timeseries\n",
+    "df_grim = open_grimm('20210502', ubc_list[min_ubc])\n",
+    "## combine all the ubc pm dataframes with the grimm dataframe\n",
+    "df_final2 = pd.merge(left=df_grim, right=df_ubc, left_index=True, right_index=True, how='left')\n",
+    "## drop odd character header added when combining\n",
+    "df_final2.columns = df_final2.columns.str.replace('_y', '')\n",
+    "## drop the last 30 mins for this datafile as the sensors were removed form the glass chamber but still sampling\n",
+    "df_final2 = df_final2[:'2021-05-02T18:50']"
+   ]
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
+   "source": [
+    "### Correct PM 2.5 with an MLP\n",
     "First, subset dataframe and normalize"
    ]
   },
@@ -570,10 +624,11 @@
    "source": [
     "pm = '2.5' \n",
     "pm_u = pm.replace('.', '')\n",
+    "# pm = pm[0]\n",
     "ubc_pm = 'UBC_PM_03_pm'\n",
-    "keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']\n",
+    "keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env', f'{ubc_pm[:-3]}_particles_03um', f'{ubc_pm[:-3]}_particles_05um', f'{ubc_pm[:-3]}_particles_10um', f'{ubc_pm[:-3]}_particles_25um', f'{ubc_pm[:-3]}_particles_50um', f'{ubc_pm[:-3]}_particles_100um']\n",
     "df = df_final.drop(columns=[col for col in df_final if col not in keep_vars])\n",
-    "df[f'{ubc_pm}{pm_u}_env2'] = df[f'{ubc_pm}{pm_u}_env']\n",
+    "# df[f'{ubc_pm}{pm_u}_env2'] = df[f'{ubc_pm}{pm_u}_env']\n",
     "df.tail()"
    ]
   },
@@ -675,9 +730,10 @@
    "metadata": {},
    "outputs": [],
    "source": [
-    "keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']\n",
+    "# keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env']\n",
+    "keep_vars = [f'PM{pm} [ug/m3]', f'{ubc_pm}{pm_u}_env', f'{ubc_pm[:-3]}_particles_03um', f'{ubc_pm[:-3]}_particles_05um', f'{ubc_pm[:-3]}_particles_10um', f'{ubc_pm[:-3]}_particles_25um', f'{ubc_pm[:-3]}_particles_50um', f'{ubc_pm[:-3]}_particles_100um']\n",
     "df2 = df_final2.drop(columns=[col for col in df_final2 if col not in keep_vars])\n",
-    "df2[f'{ubc_pm}{pm_u}_env2'] = df2[f'{ubc_pm}{pm_u}_env']\n",
+    "# df2[f'{ubc_pm}{pm_u}_env2'] = df2[f'{ubc_pm}{pm_u}_env']\n",
     "df2.tail()"
    ]
   },
@@ -731,7 +787,9 @@
   },
   {
    "cell_type": "markdown",
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "source": [
     "Plot corrected UBC PM 2.5 "
    ]
@@ -814,9 +872,18 @@
   {
    "cell_type": "code",
    "execution_count": null,
-   "metadata": {},
+   "metadata": {
+    "lines_to_next_cell": 0
+   },
    "outputs": [],
    "source": []
+  },
+  {
+   "cell_type": "markdown",
+   "metadata": {},
+   "source": [
+    "While the MLP corrects the PM2.5 concentration values in the correct direction, we recognize this is approach will unlikely work when applied to our field measurements. Our current MLP model is trained from particular conditions with a narrow particle distribution size range. To make this more robust, we need to expose the sensors to a broader range of known particle compositions, sizes, and distributions in the lab. "
+   ]
   }
  ],
  "metadata": {
