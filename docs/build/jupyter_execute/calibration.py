@@ -237,8 +237,9 @@ ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_01_pm25_env'], s=size, co
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_03_pm25_env'], s=size, color = colors[2])
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_04_pm25_env'], s=size, color = colors[3])
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_05_pm25_env'], s=size, color = colors[4])
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
-ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
+ax.plot((0, 1), "r--", lw= 0.4)
 
 ax = fig.add_subplot(2, 2, 2)
 bins = 20
