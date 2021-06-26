@@ -586,8 +586,8 @@ size = 6
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'PM{pm} [ug/m3]'], s=size, color = colors[0])
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_cor'], s=size, color = colors[1])
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_env'], s=size, color = colors[2])
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
-ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
 ax.add_artist(anchored_text)
 
 ax = fig.add_subplot(2, 2, 2)
