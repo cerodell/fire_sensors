@@ -4,8 +4,7 @@
 <html>
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.17.1: http://docutils.sourceforge.net/" />
-
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Performance</title>
     
   <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
@@ -92,11 +91,6 @@
    Performance
   </a>
  </li>
- <li class="toctree-l1">
-  <a class="reference internal" href="#first-open-another-dataset-and-merge-with-the-one-we-have-been-using">
-   First, open another dataset and merge with the one we have been using.
-  </a>
- </li>
 </ul>
 
 </nav> <!-- To handle the deprecated key -->
@@ -168,70 +162,63 @@
         </div>
         <nav id="bd-toc-nav">
             <ul class="nav section-nav flex-column">
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#">
-   Performance
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#import-opc-data">
+   Import OPC data!
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#import-opc-data">
-     Import OPC data!
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-pm-1-0">
+     Plot PM 1.0
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#plot-pm-1-0">
-       Plot PM 1.0
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#plot-pm-2-5">
-       Plot PM 2.5
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#plot-pm-10">
-       Plot PM 10
-      </a>
-     </li>
-    </ul>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#preliminary-results">
-     Preliminary Results
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-pm-2-5">
+     Plot PM 2.5
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
-       Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
-      </a>
-     </li>
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-averaged-over-time">
-       Plot counts of particle sizes averaged over time.
-      </a>
-     </li>
-    </ul>
    </li>
-   <li class="toc-h2 nav-item toc-entry">
-    <a class="reference internal nav-link" href="#calibration">
-     Calibration
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-pm-10">
+     Plot PM 10
     </a>
-    <ul class="nav section-nav flex-column">
-     <li class="toc-h3 nav-item toc-entry">
-      <a class="reference internal nav-link" href="#correct-pm-2-5-with-an-linear-regrestion">
-       Correct PM 2.5 with an linear regrestion.
-      </a>
-     </li>
-    </ul>
    </li>
   </ul>
  </li>
- <li class="toc-h1 nav-item toc-entry">
-  <a class="reference internal nav-link" href="#first-open-another-dataset-and-merge-with-the-one-we-have-been-using">
-   First, open another dataset and merge with the one we have been using.
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#preliminary-results">
+   Preliminary Results
   </a>
   <ul class="nav section-nav flex-column">
-   <li class="toc-h2 nav-item toc-entry">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
+     Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.
+    </a>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#plot-counts-of-particle-sizes-averaged-over-time">
+     Plot counts of particle sizes averaged over time.
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#calibration">
+   Calibration
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#correct-pm-2-5-with-an-linear-regrestion">
+     Correct PM 2.5 with an linear regrestion.
+    </a>
+    <ul class="nav section-nav flex-column">
+     <li class="toc-h4 nav-item toc-entry">
+      <a class="reference internal nav-link" href="#first-open-another-dataset-and-merge-with-the-one-we-have-been-using">
+       First, open another dataset and merge with the one we have been using.
+      </a>
+     </li>
+    </ul>
+   </li>
+   <li class="toc-h3 nav-item toc-entry">
     <a class="reference internal nav-link" href="#correct-pm-2-5-with-an-mlp">
      Correct PM 2.5 with an MLP
     </a>
@@ -250,7 +237,7 @@
         
               <div>
                 
-  <section id="performance">
+  <div class="section" id="performance">
 <h1>Performance<a class="headerlink" href="#performance" title="Permalink to this headline">¶</a></h1>
 <p>We compared our low-cost UBC - PM sensors to an industry-standard GRIMM OPC sensor (Model: 1.109). For the comparison, saltwater solutions with known molar concentrations were fed into an atomizer. The atomizer separated/produced air-borne salt particles that traveled through an adjustable filter and into a 22L glass chamber containing the five UBC – PM Sensors and a small fan to mix the air (Figure 4CR). Simultaneously, the Grimm OPC sensor pulled air from the glass chamber to sample particle concentrations. The chamber also had an exhaust port to help maintain consistent concentration levels.
 <br>
@@ -275,6 +262,8 @@ Lets Dive in and assess the the first 12 hours of sampling data (obtained on day
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
 <span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="kn">import</span> <span class="n">DateFormatter</span>
 <span class="kn">from</span> <span class="nn">matplotlib.offsetbox</span> <span class="kn">import</span> <span class="n">AnchoredText</span>
+<span class="kn">import</span> <span class="nn">matplotlib.lines</span> <span class="k">as</span> <span class="nn">mlines</span>
+<span class="kn">import</span> <span class="nn">matplotlib.transforms</span> <span class="k">as</span> <span class="nn">mtransforms</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pylab</span> <span class="k">as</span> <span class="nn">pylab</span>
 <span class="kn">import</span> <span class="nn">sklearn</span>
 <span class="kn">from</span> <span class="nn">sklearn.neural_network</span> <span class="kn">import</span> <span class="n">MLPRegressor</span>
@@ -304,7 +293,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-<section id="import-opc-data">
+<div class="section" id="import-opc-data">
 <h2>Import OPC data!<a class="headerlink" href="#import-opc-data" title="Permalink to this headline">¶</a></h2>
 <p>UBC AQ data was one minute averaged to match the GRIMM sample rate.</p>
 <div class="cell docutils container">
@@ -572,7 +561,7 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 </div>
-<section id="plot-pm-1-0">
+<div class="section" id="plot-pm-1-0">
 <h3>Plot PM 1.0<a class="headerlink" href="#plot-pm-1-0" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -632,8 +621,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <p>Figure 1; scatter plots, histograms, and a times series comparison of the measured PM 1.0 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 1.0 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00</p>
-</section>
-<section id="plot-pm-2-5">
+</div>
+<div class="section" id="plot-pm-2-5">
 <h3>Plot PM 2.5<a class="headerlink" href="#plot-pm-2-5" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -667,7 +656,6 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;PM2.5 [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final</span><span class="p">[</span><span class="s1">&#39;UBC_PM_05_pm25_env&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">4</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;UBC $\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;GRIMM $\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">500</span><span class="p">),</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span> <span class="mf">0.4</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 <span class="n">bins</span> <span class="o">=</span> <span class="mi">20</span>
@@ -691,8 +679,8 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <p>Figure 2; scatter plots, histograms, and a times series comparison of the measured PM 2.5 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 2.5 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00</p>
-</section>
-<section id="plot-pm-10">
+</div>
+<div class="section" id="plot-pm-10">
 <h3>Plot PM 10<a class="headerlink" href="#plot-pm-10" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -749,14 +737,14 @@ through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
 </div>
 </div>
 <p>Figure 3; scatter plots, histograms, and a times series comparison of the measured PM 10 concentration of four UBC- PM Sensors [UBC-PM-01 (orange), UBC-PM-03 (green), UBC-PM-04 (red), UBC-PM-05 (purple)] and the GRIM sensor [GRIMM (blue)]. The time series shows one-minute averaged PM 10 concentrations incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00</p>
-</section>
-</section>
-<section id="preliminary-results">
+</div>
+</div>
+<div class="section" id="preliminary-results">
 <h2>Preliminary Results<a class="headerlink" href="#preliminary-results" title="Permalink to this headline">¶</a></h2>
 <p>Based upon the above graphics the UBC- PM sensors perform acceptably at PM 1.0 concentrations; however, they significantly over-predict the concentration levels of PM 2.5 and 10.
 <br>
 To understand why this occurred let’s looked at a time series of the GRIMM PM 1.0, 2.5 and 10 and the particle size distribution.</p>
-<section id="plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
+<div class="section" id="plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor">
 <h3>Plot time series PM 1.0, 2.5 and 10 from the GRIMM sensor.<a class="headerlink" href="#plot-time-series-pm-1-0-2-5-and-10-from-the-grimm-sensor" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -808,8 +796,8 @@ To understand why this occurred let’s looked at a time series of the GRIMM PM 
 </div>
 </div>
 <p>Figure 4: A time series of the  GRIMM sensor PM [1, 2.5, 10] incremented from 2021-04-30 09:27:00 until 2021-04-30 21:36:00.</p>
-</section>
-<section id="plot-counts-of-particle-sizes-averaged-over-time">
+</div>
+<div class="section" id="plot-counts-of-particle-sizes-averaged-over-time">
 <h3>Plot counts of particle sizes averaged over time.<a class="headerlink" href="#plot-counts-of-particle-sizes-averaged-over-time" title="Permalink to this headline">¶</a></h3>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -871,18 +859,15 @@ To understand why this occurred let’s looked at a time series of the GRIMM PM 
 <br>
 <br>
 Based upon the above it is believed that our UBC-PM sensors aren’t sensitive enough to delineate clusters of small particles from larger particles. As a result, higher concentration values in PM 2.5 and 10 are indicated. More work needs to be done to support this statement.</p>
-</section>
-</section>
-<section id="calibration">
+</div>
+</div>
+<div class="section" id="calibration">
 <h2>Calibration<a class="headerlink" href="#calibration" title="Permalink to this headline">¶</a></h2>
 <p>We will construct a multilayer perceptron (MLP) model to try and correct our UBC-Pm sensor inaccuracy. We will test our UBC-PM-03 sensors using measured PM2.5 and particle counts at 03um, 05um, 10um 25um 50um, and 100um as input in the MLP. The MLP target will be the GRIMM PM2.5</p>
-<section id="correct-pm-2-5-with-an-linear-regrestion">
+<div class="section" id="correct-pm-2-5-with-an-linear-regrestion">
 <h3>Correct PM 2.5 with an linear regrestion.<a class="headerlink" href="#correct-pm-2-5-with-an-linear-regrestion" title="Permalink to this headline">¶</a></h3>
-</section>
-</section>
-</section>
-<section id="first-open-another-dataset-and-merge-with-the-one-we-have-been-using">
-<h1>First, open another dataset and merge with the one we have been using.<a class="headerlink" href="#first-open-another-dataset-and-merge-with-the-one-we-have-been-using" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="first-open-another-dataset-and-merge-with-the-one-we-have-been-using">
+<h4>First, open another dataset and merge with the one we have been using.<a class="headerlink" href="#first-open-another-dataset-and-merge-with-the-one-we-have-been-using" title="Permalink to this headline">¶</a></h4>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
 <div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># open all ubc_pm datafiles into a list</span>
@@ -905,8 +890,10 @@ Based upon the above it is believed that our UBC-PM sensors aren’t sensitive e
 </div>
 </div>
 </div>
-<section id="correct-pm-2-5-with-an-mlp">
-<h2>Correct PM 2.5 with an MLP<a class="headerlink" href="#correct-pm-2-5-with-an-mlp" title="Permalink to this headline">¶</a></h2>
+</div>
+</div>
+<div class="section" id="correct-pm-2-5-with-an-mlp">
+<h3>Correct PM 2.5 with an MLP<a class="headerlink" href="#correct-pm-2-5-with-an-mlp" title="Permalink to this headline">¶</a></h3>
 <p>First, subset dataframe and normalize</p>
 <div class="cell docutils container">
 <div class="cell_input docutils container">
@@ -1259,7 +1246,6 @@ Based upon the above it is believed that our UBC-PM sensors aren’t sensitive e
 <span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;PM</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s1"> [ug/m3]&#39;</span><span class="p">],</span> <span class="n">df_final2</span><span class="p">[</span><span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">ubc_pm</span><span class="si">}{</span><span class="n">pm_u</span><span class="si">}</span><span class="s1">_env&#39;</span><span class="p">],</span> <span class="n">s</span><span class="o">=</span><span class="n">size</span><span class="p">,</span> <span class="n">color</span> <span class="o">=</span> <span class="n">colors</span><span class="p">[</span><span class="mi">2</span><span class="p">])</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;UBC $\frac{\mu g}{m^3}$&#39;</span><span class="p">,</span> <span class="n">rotation</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;GRIMM $\frac{\mu g}{m^3}$&#39;</span><span class="p">)</span>
-<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="s2">&quot;r--&quot;</span><span class="p">,</span> <span class="n">lw</span><span class="o">=</span> <span class="mf">0.4</span><span class="p">)</span>
 <span class="n">ax</span><span class="o">.</span><span class="n">add_artist</span><span class="p">(</span><span class="n">anchored_text</span><span class="p">)</span>
 
 <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -1282,8 +1268,9 @@ Based upon the above it is believed that our UBC-PM sensors aren’t sensitive e
 </div>
 </div>
 <p>While the MLP moves the PM2.5 concentration values in the correct direction, we recognize this is approach will not work when applied to our field measurements. Our current MLP model is trained from particular conditions with a narrow particle distribution size range. To make this more robust, we need to expose the sensors to a broader range of known particle compositions, sizes, and distributions in the lab.</p>
-</section>
-</section>
+</div>
+</div>
+</div>
 
 
               </div>

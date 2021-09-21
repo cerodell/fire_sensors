@@ -28,6 +28,8 @@ from functools import reduce
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 from matplotlib.offsetbox import AnchoredText
+import matplotlib.lines as mlines
+import matplotlib.transforms as mtransforms
 import matplotlib.pylab as pylab
 import sklearn
 from sklearn.neural_network import MLPRegressor
@@ -239,7 +241,6 @@ ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_04_pm25_env'], s=size, co
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_05_pm25_env'], s=size, color = colors[4])
 ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
-ax.plot((0, 500), "r--", lw= 0.4)
 
 ax = fig.add_subplot(2, 2, 2)
 bins = 20
@@ -391,7 +392,7 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 # We will construct a multilayer perceptron (MLP) model to try and correct our UBC-Pm sensor inaccuracy. We will test our UBC-PM-03 sensors using measured PM2.5 and particle counts at 03um, 05um, 10um 25um 50um, and 100um as input in the MLP. The MLP target will be the GRIMM PM2.5
 
 # ### Correct PM 2.5 with an linear regrestion.
-# # First, open another dataset and merge with the one we have been using.
+# #### First, open another dataset and merge with the one we have been using.
 
 # In[12]:
 
@@ -589,7 +590,6 @@ ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_cor'], s=siz
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_env'], s=size, color = colors[2])
 ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
 ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
-ax.plot((0, 1), "r--", lw= 0.4)
 ax.add_artist(anchored_text)
 
 ax = fig.add_subplot(2, 2, 2)
