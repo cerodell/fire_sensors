@@ -23,6 +23,8 @@ from functools import reduce
 import matplotlib.pyplot as plt
 from matplotlib.dates import DateFormatter
 from matplotlib.offsetbox import AnchoredText
+import matplotlib.lines as mlines
+import matplotlib.transforms as mtransforms
 import matplotlib.pylab as pylab
 import sklearn
 from sklearn.neural_network import MLPRegressor
@@ -214,8 +216,8 @@ ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_01_pm25_env'], s=size, co
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_03_pm25_env'], s=size, color = colors[2])
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_04_pm25_env'], s=size, color = colors[3])
 ax.scatter(df_final['PM2.5 [ug/m3]'], df_final['UBC_PM_05_pm25_env'], s=size, color = colors[4])
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
-ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
 
 ax = fig.add_subplot(2, 2, 2)
 bins = 20
@@ -361,7 +363,7 @@ ax.set_xticklabels(var_labels, rotation=70, ha='right')
 
 # %% [markdown]
 # ### Correct PM 2.5 with an linear regrestion.
-# # First, open another dataset and merge with the one we have been using.
+# #### First, open another dataset and merge with the one we have been using.
 # %%
 # open all ubc_pm datafiles into a list
 ubc_list = [prepare_df(f"/UBC-PM-0{i}/", '20210502') for i in range(1,6)]
@@ -534,8 +536,8 @@ size = 6
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'PM{pm} [ug/m3]'], s=size, color = colors[0])
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_cor'], s=size, color = colors[1])
 ax.scatter(df_final2[f'PM{pm} [ug/m3]'], df_final2[f'{ubc_pm}{pm_u}_env'], s=size, color = colors[2])
-ax.set_ylabel(r'$\frac{\mu g}{m^3}$', rotation=0)
-ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
+ax.set_ylabel(r'UBC $\frac{\mu g}{m^3}$', rotation=0)
+ax.set_xlabel(r'GRIMM $\frac{\mu g}{m^3}$')
 ax.add_artist(anchored_text)
 
 ax = fig.add_subplot(2, 2, 2)
@@ -549,4 +551,4 @@ ax.set_ylabel('Count')
 ax.set_xlabel(r'$\frac{\mu g}{m^3}$')
 # %%
 # %% [markdown]
-# While the MLP corrects the PM2.5 concentration values in the correct direction, we recognize this is approach will unlikely work when applied to our field measurements. Our current MLP model is trained from particular conditions with a narrow particle distribution size range. To make this more robust, we need to expose the sensors to a broader range of known particle compositions, sizes, and distributions in the lab. 
+# While the MLP moves the PM2.5 concentration values in the correct direction, we recognize this is approach will not work when applied to our field measurements. Our current MLP model is trained from particular conditions with a narrow particle distribution size range. To make this more robust, we need to expose the sensors to a broader range of known particle compositions, sizes, and distributions in the lab.  

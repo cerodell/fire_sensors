@@ -46,8 +46,8 @@ RTC_PCF8523 rtc;
 //#define RF95_FREQ 907.0 // UBC-PM 02
 //#define RF95_FREQ 913.0 // UBC-PM 03
 //#define RF95_FREQ 918.0 // UBC-PM 04
-#define RF95_FREQ 923.0 // UBC-PM 05
-
+//#define RF95_FREQ 923.0 // UBC-PM 05
+#define RF95_FREQ 925.0 // UBC-PM 06
 
 
 // Singleton instance of the radio driver
@@ -177,9 +177,6 @@ void setup()
   String Filename = String(now.year());
   Filename += String(now.month());
   Filename += String(now.day());
-  // Filename += "_";
-  // Filename += String(now.hour());
-  // Filename += String(now.minute());
   Filename += ".txt";
 
 
