@@ -8,6 +8,7 @@ __pycache__
 *.so
 
 # my docs
+hardware/
 wind/
 write_to_SD/
 data/
