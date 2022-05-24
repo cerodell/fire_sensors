@@ -3,7 +3,7 @@
 # Calibrate the UBC PM senors to the RAMP PM sensor using simple linear regression (MLR)
 
 # %% [markdown]
-# #### Load python modules and set inputs
+# ## Load python modules and set inputs
 # %%
 import context
 import numpy as np
@@ -25,7 +25,7 @@ ss = ["2022-05-15 14:58:00", "2022-05-15 15:56:00"]
 # ubc_pms = ["%.2d" % i for i in range(1, 7)]
 ubc_pms = ["01", "02", "04", "05", "06"]
 # %% [markdown]
-# #### read data for the RAMP
+# ## read data for the RAMP
 # %%
 ramp_pathlist = sorted(Path(str(data_dir) + f"/RAMP/").glob(f"{file_date}*.TXT"))
 ramp_df = read_ramp(ramp_pathlist)
@@ -36,7 +36,7 @@ ramp_df = ramp_df.resample("1Min").mean()
 
 
 # %% [markdown]
-# #### read data for the UBC pm sensors
+# ## read data for the UBC pm sensors
 # %%
 
 ubc_pathlist = np.ravel(
@@ -68,7 +68,7 @@ ubc_dfs = [read_ubcpm(path) for path in ubc_pathlist]
 
 
 # %% [markdown]
-# #### Plot time series
+# ## Plot time series
 # Plot timesires of the 1 min rolling average
 
 # %%
@@ -125,12 +125,13 @@ for i in range(len(ubc_pms)):
 
 
 # %% [markdown]
-# ##### Pearson correlation
+# ### Pearson correlation
 # Solve Pearson correlation prior to linear regression
 # $$
 # r_{x y}=\frac{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}} \sqrt{\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}}}
 # $$
 
+# %%
 pm_rs = []
 for i in range(len(ubc_pms)):
     pm_r = round(df[f"pm25_{ubc_pms[i]}"].corr(df["pm25"]), 4)
@@ -140,7 +141,7 @@ for i in range(len(ubc_pms)):
 
 # %% [markdown]
 
-# #### Scatter plots
+# ## Scatter plots
 # Make scatter plots of the data points for each pm sensor and plot the linear regression line in the scatter plots.
 
 # %%
@@ -160,7 +161,7 @@ for i in range(len(ubc_pms)):
 fig.tight_layout()
 
 # %% [markdown]
-# ##### Linear Regression
+# ### Linear Regression
 # Normalize data and check it out
 
 #%%
