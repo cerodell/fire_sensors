@@ -107,4 +107,3 @@ html_static_path = ['_static']
 
 html_logo = "_static/img/ubc_pm_logo.png"
 
-
