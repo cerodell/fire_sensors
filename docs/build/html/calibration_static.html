@@ -1,0 +1,575 @@
+
+<!DOCTYPE html>
+
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Static test</title>
+    
+  <link rel="stylesheet" href="_static/css/index.f658d18f9b420779cfdf24aa0a7e2d77.css">
+
+    
+  <link rel="stylesheet"
+    href="_static/vendor/fontawesome/5.13.0/css/all.min.css">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-solid-900.woff2">
+  <link rel="preload" as="font" type="font/woff2" crossorigin
+    href="_static/vendor/fontawesome/5.13.0/webfonts/fa-brands-400.woff2">
+
+    
+      
+  <link rel="stylesheet"
+    href="_static/vendor/open-sans_all/1.44.1/index.css">
+  <link rel="stylesheet"
+    href="_static/vendor/lato_latin-ext/1.44.1/index.css">
+
+    
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="stylesheet" href="_static/sphinx-book-theme.c441f2ba0852f4cabcb80105e3a46ae6.css" type="text/css" />
+    <link rel="stylesheet" type="text/css" href="_static/graphviz.css" />
+    <link rel="stylesheet" type="text/css" href="_static/togglebutton.css" />
+    <link rel="stylesheet" type="text/css" href="_static/mystnb.css" />
+    
+  <link rel="preload" as="script" href="_static/js/index.d3f166471bb80abb5163.js">
+
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/togglebutton.js"></script>
+    <script >var togglebuttonSelector = '.toggle, .admonition.dropdown, .tag_hide_input div.cell_input, .tag_hide-input div.cell_input, .tag_hide_output div.cell_output, .tag_hide-output div.cell_output, .tag_hide_cell.cell, .tag_hide-cell.cell';</script>
+    <script src="_static/sphinx-book-theme.7d483ff0a819d6edff12ce0b1ead3928.js"></script>
+    <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.7/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/x-mathjax-config">MathJax.Hub.Config({"tex2jax": {"inlineMath": [["\\(", "\\)"]], "displayMath": [["\\[", "\\]"]], "processRefs": false, "processEnvironments": false}})</script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Dynamic Test" href="calibration_dynamic.html" />
+    <link rel="prev" title="Code" href="code.html" />
+
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <meta name="docsearch:language" content="en" />
+
+
+
+  </head>
+  <body data-spy="scroll" data-target="#bd-toc-nav" data-offset="80">
+    
+
+    <div class="container-xl">
+      <div class="row">
+          
+<div class="col-12 col-md-3 bd-sidebar site-navigation show" id="site-navigation">
+    
+        <div class="navbar-brand-box">
+<a class="navbar-brand text-wrap" href="index.html">
+  
+  <img src="_static/ubc_pm_logo.png" class="logo" alt="logo">
+  
+  
+</a>
+</div><form class="bd-search d-flex align-items-center" action="search.html" method="get">
+  <i class="icon fas fa-search"></i>
+  <input type="search" class="form-control" name="q" id="search-input" placeholder="Search the docs ..." aria-label="Search the docs ..." autocomplete="off" >
+</form>
+<nav class="bd-links" id="bd-docs-nav" aria-label="Main navigation">
+    <p class="caption collapsible-parent">
+ <span class="caption-text">
+  Contents:
+ </span>
+</p>
+<ul class="current nav sidenav_l1">
+ <li class="toctree-l1">
+  <a class="reference internal" href="pmbuild.html">
+   The Sensor
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="code.html">
+   Code
+  </a>
+ </li>
+ <li class="toctree-l1 current active">
+  <a class="current reference internal" href="#">
+   Static test
+  </a>
+ </li>
+ <li class="toctree-l1">
+  <a class="reference internal" href="calibration_dynamic.html">
+   Dynamic Test
+  </a>
+ </li>
+</ul>
+
+</nav> <!-- To handle the deprecated key -->
+
+<div class="navbar_extra_footer">
+  Theme by the <a href="https://ebp.jupyterbook.org">Executable Book Project</a>
+</div>
+
+</div>
+
+
+          
+
+
+          
+<main class="col py-md-3 pl-md-4 bd-content overflow-auto" role="main">
+    
+    <div class="topbar container-xl fixed-top">
+    <div class="topbar-contents row">
+        <div class="col-12 col-md-3 bd-topbar-whitespace site-navigation show"></div>
+        <div class="col pl-md-4 topbar-main">
+            
+            <button id="navbar-toggler" class="navbar-toggler ml-0" type="button" data-toggle="collapse"
+                data-toggle="tooltip" data-placement="bottom" data-target=".site-navigation" aria-controls="navbar-menu"
+                aria-expanded="true" aria-label="Toggle navigation" aria-controls="site-navigation"
+                title="Toggle navigation" data-toggle="tooltip" data-placement="left">
+                <i class="fas fa-bars"></i>
+                <i class="fas fa-arrow-left"></i>
+                <i class="fas fa-arrow-up"></i>
+            </button>
+            
+            
+<div class="dropdown-buttons-trigger">
+    <button id="dropdown-buttons-trigger" class="btn btn-secondary topbarbtn" aria-label="Download this page"><i
+            class="fas fa-download"></i></button>
+
+    <div class="dropdown-buttons">
+        <!-- ipynb file if we had a myst markdown file -->
+        
+        <!-- Download raw file -->
+        <a class="dropdown-buttons" href="_sources/calibration_static.ipynb.txt"><button type="button"
+                class="btn btn-secondary topbarbtn" title="Download source file" data-toggle="tooltip"
+                data-placement="left">.ipynb</button></a>
+        <!-- Download PDF via print -->
+        <button type="button" id="download-print" class="btn btn-secondary topbarbtn" title="Print to PDF"
+            onClick="window.print()" data-toggle="tooltip" data-placement="left">.pdf</button>
+    </div>
+</div>
+
+            <!-- Source interaction buttons -->
+
+
+            <!-- Full screen (wrap in <a> to have style consistency -->
+            <a class="full-screen-button"><button type="button" class="btn btn-secondary topbarbtn" data-toggle="tooltip"
+                    data-placement="bottom" onclick="toggleFullScreen()" aria-label="Fullscreen mode"
+                    title="Fullscreen mode"><i
+                        class="fas fa-expand"></i></button></a>
+
+            <!-- Launch buttons -->
+
+        </div>
+
+        <!-- Table of contents -->
+        <div class="d-none d-md-block col-md-2 bd-toc show">
+            
+        <div class="tocsection onthispage pt-5 pb-3">
+            <i class="fas fa-list"></i>
+            Contents
+        </div>
+        <nav id="bd-toc-nav">
+            <ul class="nav section-nav flex-column">
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#load-python-modules-and-set-inputs">
+   Load python modules and set inputs
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-data-for-the-ramp">
+   read data for the RAMP
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#read-data-for-the-ubc-pm-sensors">
+   read data for the UBC pm sensors
+  </a>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#plot-time-series">
+   Plot time series
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#pearson-correlation">
+     Pearson correlation
+    </a>
+   </li>
+  </ul>
+ </li>
+ <li class="toc-h2 nav-item toc-entry">
+  <a class="reference internal nav-link" href="#scatter-plots">
+   Scatter plots
+  </a>
+  <ul class="nav section-nav flex-column">
+   <li class="toc-h3 nav-item toc-entry">
+    <a class="reference internal nav-link" href="#linear-regression">
+     Linear Regression
+    </a>
+   </li>
+  </ul>
+ </li>
+</ul>
+
+        </nav>
+        
+        </div>
+    </div>
+</div>
+    <div id="main-content" class="row">
+        <div class="col-12 col-md-9 pl-md-3 pr-md-0">
+        
+              <div>
+                
+  <div class="section" id="static-test">
+<h1>Static test<a class="headerlink" href="#static-test" title="Permalink to this headline">¶</a></h1>
+<p>Calibrate the UBC PM senors to the RAMP PM sensor using simple linear regression (MLR)</p>
+<div class="section" id="load-python-modules-and-set-inputs">
+<h2>Load python modules and set inputs<a class="headerlink" href="#load-python-modules-and-set-inputs" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">context</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+<span class="kn">import</span> <span class="nn">seaborn</span> <span class="k">as</span> <span class="nn">sns</span>
+<span class="kn">from</span> <span class="nn">pathlib</span> <span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
+<span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
+<span class="kn">from</span> <span class="nn">matplotlib.dates</span> <span class="kn">import</span> <span class="n">DateFormatter</span>
+
+<span class="kn">from</span> <span class="nn">sklearn</span> <span class="kn">import</span> <span class="n">linear_model</span><span class="p">,</span> <span class="n">feature_selection</span>
+<span class="kn">from</span> <span class="nn">utils.pm</span> <span class="kn">import</span> <span class="n">read_ramp</span>
+<span class="kn">from</span> <span class="nn">context</span> <span class="kn">import</span> <span class="n">data_dir</span>
+
+
+<span class="n">file_date</span> <span class="o">=</span> <span class="s2">&quot;220515&quot;</span>
+<span class="n">ss</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;2022-05-15 14:58:00&quot;</span><span class="p">,</span> <span class="s2">&quot;2022-05-15 15:56:00&quot;</span><span class="p">]</span>
+<span class="c1"># ss = [&#39;2022-05-17 12:00:00&#39;, &#39;2022-05-17 15:01:00&#39;]</span>
+<span class="c1"># ubc_pms = [&quot;%.2d&quot; % i for i in range(1, 7)]</span>
+<span class="n">ubc_pms</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;01&quot;</span><span class="p">,</span> <span class="s2">&quot;02&quot;</span><span class="p">,</span> <span class="s2">&quot;04&quot;</span><span class="p">,</span> <span class="s2">&quot;05&quot;</span><span class="p">,</span> <span class="s2">&quot;06&quot;</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>******************************
+context imported. Front of path:
+/Users/rodell/Documents/Arduino
+/Users/rodell/Documents/Arduino/docs/source
+******************************
+
+through /Users/rodell/Documents/Arduino/docs/source/context.py -- pha
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="read-data-for-the-ramp">
+<h2>read data for the RAMP<a class="headerlink" href="#read-data-for-the-ramp" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ramp_pathlist</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/RAMP/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">file_date</span><span class="si">}</span><span class="s2">*.TXT&quot;</span><span class="p">))</span>
+<span class="n">ramp_df</span> <span class="o">=</span> <span class="n">read_ramp</span><span class="p">(</span><span class="n">ramp_pathlist</span><span class="p">)</span>
+<span class="n">hours</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timedelta</span><span class="p">(</span><span class="s2">&quot;0 days 01:07:00&quot;</span><span class="p">)</span>
+<span class="n">ramp_df</span><span class="o">.</span><span class="n">index</span> <span class="o">=</span> <span class="n">ramp_df</span><span class="o">.</span><span class="n">index</span> <span class="o">-</span> <span class="n">hours</span>
+<span class="n">ramp_df</span> <span class="o">=</span> <span class="n">ramp_df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()[</span><span class="n">ss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">ss</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+<span class="n">ramp_df</span> <span class="o">=</span> <span class="n">ramp_df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;1Min&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="read-data-for-the-ubc-pm-sensors">
+<h2>read data for the UBC pm sensors<a class="headerlink" href="#read-data-for-the-ubc-pm-sensors" title="Permalink to this headline">¶</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ubc_pathlist</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ravel</span><span class="p">(</span>
+    <span class="p">[</span>
+        <span class="nb">sorted</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">data_dir</span><span class="p">)</span> <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;/UBC-PM-</span><span class="si">{</span><span class="n">pm</span><span class="si">}</span><span class="s2">/&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;20</span><span class="si">{</span><span class="n">file_date</span><span class="si">}</span><span class="s2">*.TXT&quot;</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">pm</span> <span class="ow">in</span> <span class="n">ubc_pms</span>
+    <span class="p">]</span>
+<span class="p">)</span>
+
+
+<span class="k">def</span> <span class="nf">read_ubcpm</span><span class="p">(</span><span class="n">path</span><span class="p">):</span>
+    <span class="n">path</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+    <span class="k">del</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;rtctime&quot;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;20&quot;</span> <span class="o">+</span> <span class="n">file_date</span> <span class="o">+</span> <span class="s2">&quot;T&quot;</span> <span class="o">+</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;millis&quot;</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">to_datetime</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">])</span>
+    <span class="n">pm_date_range</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">Timestamp</span><span class="p">(</span><span class="s2">&quot;20&quot;</span> <span class="o">+</span> <span class="n">file_date</span> <span class="o">+</span> <span class="s2">&quot;T&quot;</span> <span class="o">+</span> <span class="n">path</span><span class="p">[</span><span class="o">-</span><span class="mi">12</span><span class="p">:</span><span class="o">-</span><span class="mi">4</span><span class="p">])</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">pm_date_range</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;test&quot;</span><span class="p">]</span> <span class="o">+</span> <span class="n">diff</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="n">pd</span><span class="o">.</span><span class="n">DatetimeIndex</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;datetime&quot;</span><span class="p">]))</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">sort_index</span><span class="p">()[</span><span class="n">ss</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="p">:</span> <span class="n">ss</span><span class="p">[</span><span class="mi">1</span><span class="p">]]</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">resample</span><span class="p">(</span><span class="s2">&quot;1Min&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
+
+    <span class="k">return</span> <span class="n">df</span>
+
+
+<span class="n">ubc_dfs</span> <span class="o">=</span> <span class="p">[</span><span class="n">read_ubcpm</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">ubc_pathlist</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>/Users/rodell/Documents/Arduino/data/UBC-PM-01/20220515-14:41:26.TXT
+/Users/rodell/Documents/Arduino/data/UBC-PM-02/20220515-14:45:40.TXT
+/Users/rodell/Documents/Arduino/data/UBC-PM-04/20220515-14:51:17.TXT
+/Users/rodell/Documents/Arduino/data/UBC-PM-05/20220515-14:52:08.TXT
+/Users/rodell/Documents/Arduino/data/UBC-PM-06/20220515-14:54:02.TXT
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="plot-time-series">
+<h2>Plot time series<a class="headerlink" href="#plot-time-series" title="Permalink to this headline">¶</a></h2>
+<p>Plot timesires of the 1 min rolling average</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="mi">8</span><span class="p">))</span>  <span class="c1"># (Width, height) in inches.</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">autofmt_xdate</span><span class="p">()</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_dfs</span><span class="p">)):</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+        <span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+        <span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;pm25_env&quot;</span><span class="p">],</span>
+        <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;UBC-PM-</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s1">  Mean: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;pm25_env&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">}</span><span class="s1">&#39;</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot; ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span>
+    <span class="n">ramp_df</span><span class="o">.</span><span class="n">index</span><span class="p">,</span>
+    <span class="n">ramp_df</span><span class="p">[</span><span class="s2">&quot;pm25&quot;</span><span class="p">],</span>
+    <span class="n">lw</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+    <span class="n">label</span><span class="o">=</span><span class="sa">f</span><span class="s1">&#39;RAMP          Mean: </span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">ramp_df</span><span class="p">[</span><span class="s2">&quot;pm25&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">())</span><span class="si">}</span><span class="s1">&#39;</span>
+    <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot; ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">xfmt</span> <span class="o">=</span> <span class="n">DateFormatter</span><span class="p">(</span><span class="s2">&quot;%H:%M&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">set_major_formatter</span><span class="p">(</span><span class="n">xfmt</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;Time (HH:MM)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span>
+    <span class="n">loc</span><span class="o">=</span><span class="s2">&quot;upper right&quot;</span><span class="p">,</span>
+    <span class="c1"># bbox_to_anchor=(0.48, 1.15),</span>
+    <span class="n">ncol</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span>
+    <span class="n">fancybox</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="n">shadow</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/calibration_static_8_0.png" src="_images/calibration_static_8_0.png" />
+</div>
+</div>
+<p>Combine PM 2.5 data for all senors (UBCs and RAMP)into one df
+This dataframe will be use to create linear regression models for every ubc sensor</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">ramp_df</span><span class="o">.</span><span class="n">filter</span><span class="p">([</span><span class="s2">&quot;pm25&quot;</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)):</span>
+    <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pm25_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;pm25_env&quot;</span><span class="p">]</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="s2">&quot;pm25_env&quot;</span><span class="p">]),</span> <span class="n">return_counts</span><span class="o">=</span><span class="kc">True</span><span class="p">))</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">ubc_dfs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">.</span><span class="n">index</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(array([False]), array([59]))
+2022-05-15 15:56:00
+(array([False]), array([58]))
+2022-05-15 15:55:00
+(array([False]), array([59]))
+2022-05-15 15:56:00
+(array([False]), array([59]))
+2022-05-15 15:56:00
+(array([False]), array([59]))
+2022-05-15 15:56:00
+</pre></div>
+</div>
+</div>
+</div>
+<div class="section" id="pearson-correlation">
+<h3>Pearson correlation<a class="headerlink" href="#pearson-correlation" title="Permalink to this headline">¶</a></h3>
+<p>Solve Pearson correlation prior to linear regression
+$<span class="math notranslate nohighlight">\(
+r_{x y}=\frac{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)\left(y_{i}-\bar{y}\right)}{\sqrt{\sum_{i=1}^{n}\left(x_{i}-\bar{x}\right)^{2}} \sqrt{\sum_{i=1}^{n}\left(y_{i}-\bar{y}\right)^{2}}}
+\)</span>$</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">pm_rs</span> <span class="o">=</span> <span class="p">[]</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)):</span>
+    <span class="n">pm_r</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pm25_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">corr</span><span class="p">(</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;pm25&quot;</span><span class="p">]),</span> <span class="mi">4</span><span class="p">)</span>
+    <span class="n">pm_rs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">pm_r</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Pearson correlation for (ubc_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">,ramp) = </span><span class="si">{</span><span class="n">pm_r</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Pearson correlation for (ubc_01,ramp) = 0.9961
+Pearson correlation for (ubc_02,ramp) = 0.9963
+Pearson correlation for (ubc_04,ramp) = 0.9986
+Pearson correlation for (ubc_05,ramp) = 0.9987
+Pearson correlation for (ubc_06,ramp) = 0.9982
+</pre></div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<div class="section" id="scatter-plots">
+<h2>Scatter plots<a class="headerlink" href="#scatter-plots" title="Permalink to this headline">¶</a></h2>
+<p>Make scatter plots of the data points for each pm sensor and plot the linear regression line in the scatter plots.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">ny</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span>
+<span class="n">nx</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)</span> <span class="o">-</span> <span class="n">ny</span>
+<span class="n">colors</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">rcParams</span><span class="p">[</span><span class="s2">&quot;axes.prop_cycle&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">by_key</span><span class="p">()[</span><span class="s2">&quot;color&quot;</span><span class="p">]</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">nx</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">ny</span> <span class="o">*</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># (Width, height) in inches.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)):</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pm25_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">],</span> <span class="n">y</span><span class="o">=</span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;pm25&quot;</span><span class="p">],</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;(ubc_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">,ramp) $r$ = </span><span class="si">{</span><span class="n">pm_rs</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;RAMP PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;UBC PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="_images/calibration_static_14_0.png" src="_images/calibration_static_14_0.png" />
+</div>
+</div>
+<div class="section" id="linear-regression">
+<h3>Linear Regression<a class="headerlink" href="#linear-regression" title="Permalink to this headline">¶</a></h3>
+<p>Normalize data and check it out</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># df_norm = (df - df.mean())/df.std()</span>
+<span class="c1"># df_norm.head()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Target variable: y; predictor variable(s): x</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">make_mlr</span><span class="p">(</span><span class="n">i</span><span class="p">):</span>
+    <span class="n">X</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;pm25_</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span><span class="p">[:,</span> <span class="n">np</span><span class="o">.</span><span class="n">newaxis</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;pm25&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
+    <span class="n">lm_MLR</span> <span class="o">=</span> <span class="n">linear_model</span><span class="o">.</span><span class="n">LinearRegression</span><span class="p">()</span>
+    <span class="n">model</span> <span class="o">=</span> <span class="n">lm_MLR</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="n">ypred_MLR</span> <span class="o">=</span> <span class="n">lm_MLR</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">X</span><span class="p">)</span>  <span class="c1"># y predicted by MLR</span>
+    <span class="n">intercept_MLR</span> <span class="o">=</span> <span class="n">lm_MLR</span><span class="o">.</span><span class="n">intercept_</span>  <span class="c1"># intercept predicted by MLR</span>
+    <span class="n">coef_MLR</span> <span class="o">=</span> <span class="n">lm_MLR</span><span class="o">.</span><span class="n">coef_</span>  <span class="c1"># regression coefficients in MLR model</span>
+    <span class="n">R2_MLR</span> <span class="o">=</span> <span class="n">lm_MLR</span><span class="o">.</span><span class="n">score</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>  <span class="c1"># R-squared value from MLR model</span>
+
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;MLR results:&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a0 = </span><span class="si">{</span><span class="n">intercept_MLR</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="n">coeff</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;a0&quot;</span><span class="p">:</span> <span class="n">intercept_MLR</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">coef_MLR</span><span class="p">)):</span>
+        <span class="n">coeff</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">coef_MLR</span><span class="p">[</span><span class="n">j</span><span class="p">]})</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;a</span><span class="si">{</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2"> = </span><span class="si">{</span><span class="n">coef_MLR</span><span class="p">[</span><span class="n">j</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">coeff</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;This is a linear model, code only does single&quot;</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">pass</span>
+    <span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="n">ny</span><span class="p">,</span> <span class="n">nx</span><span class="p">,</span> <span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;RAMP PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;UBC PM 2.5 ($\frac{\mu g}{m^3}$)&quot;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">14</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">tick_params</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="s2">&quot;both&quot;</span><span class="p">,</span> <span class="n">which</span><span class="o">=</span><span class="s2">&quot;major&quot;</span><span class="p">,</span> <span class="n">labelsize</span><span class="o">=</span><span class="mi">13</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">xaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">ax</span><span class="o">.</span><span class="n">yaxis</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="n">color</span><span class="o">=</span><span class="s2">&quot;gray&quot;</span><span class="p">,</span> <span class="n">linestyle</span><span class="o">=</span><span class="s2">&quot;dashed&quot;</span><span class="p">)</span>
+    <span class="n">sns</span><span class="o">.</span><span class="n">regplot</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="n">y</span><span class="p">,</span> <span class="n">y</span><span class="o">=</span><span class="n">ypred_MLR</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="n">colors</span><span class="p">[</span><span class="n">i</span><span class="p">])</span>
+    <span class="c1"># print(coeff)</span>
+    <span class="c1"># print(coef_MLR)</span>
+
+    <span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;UBC-PM-</span><span class="si">{</span><span class="n">ubc_pms</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="si">}</span><span class="s2">  MLR &quot;</span>
+        <span class="o">+</span> <span class="sa">r</span><span class="s2">&quot;$R^</span><span class="si">{2}</span><span class="s2">$&quot;</span>
+        <span class="o">+</span> <span class="sa">f</span><span class="s2">&quot;= </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">R2_MLR</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2"> </span><span class="se">\n</span><span class="s2"> y = </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">coeff</span><span class="p">[</span><span class="s1">&#39;a0&#39;</span><span class="p">],</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2"> + </span><span class="si">{</span><span class="nb">round</span><span class="p">(</span><span class="n">coeff</span><span class="p">[</span><span class="s1">&#39;a1&#39;</span><span class="p">],</span><span class="mi">4</span><span class="p">)</span><span class="si">}</span><span class="s2">x&quot;</span>
+    <span class="p">)</span>
+    <span class="k">return</span>
+
+
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="n">nx</span> <span class="o">*</span> <span class="mi">5</span><span class="p">,</span> <span class="n">ny</span> <span class="o">*</span> <span class="mi">5</span><span class="p">))</span>  <span class="c1"># (Width, height) in inches.</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">ubc_pms</span><span class="p">)):</span>
+    <span class="n">make_mlr</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+<span class="n">fig</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLR results:
+a0 = 107.01020933094469
+a1 = 0.8255943625009389
+MLR results:
+a0 = -12.239445253744634
+a1 = 0.8413829615623187
+MLR results:
+a0 = 25.801497218892337
+a1 = 1.014699224230121
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>MLR results:
+a0 = 95.76314424350699
+a1 = 0.8357832389222485
+MLR results:
+a0 = 35.80729279946695
+a1 = 0.9480784074865625
+</pre></div>
+</div>
+<img alt="_images/calibration_static_18_2.png" src="_images/calibration_static_18_2.png" />
+</div>
+</div>
+</div>
+</div>
+</div>
+
+
+              </div>
+              
+        
+        <div class='prev-next-bottom'>
+            
+    <a class='left-prev' id="prev-link" href="code.html" title="previous page">Code</a>
+    <a class='right-next' id="next-link" href="calibration_dynamic.html" title="next page">Dynamic Test</a>
+
+        </div>
+        
+        </div>
+    </div>
+    <footer class="footer mt-5 mt-md-0">
+    <div class="container">
+      <p>
+        
+          By Christopher Rodell<br/>
+        
+            &copy; Copyright 2020, Christopher Rodell.<br/>
+      </p>
+    </div>
+  </footer>
+</main>
+
+
+      </div>
+    </div>
+
+    
+  <script src="_static/js/index.d3f166471bb80abb5163.js"></script>
+
+
+    
+  </body>
+</html>
