@@ -42,12 +42,12 @@ RTC_PCF8523 rtc;
 #define VBATPIN A7
 
 // Leagl operating frequency in North America 902-928, NOTE set freqmust match RX's freq!
-//#define RF95_FREQ 902.0 // UBC-PM 01
+#define RF95_FREQ 902.0 // UBC-PM 01
 //#define RF95_FREQ 907.0 // UBC-PM 02
 //#define RF95_FREQ 913.0 // UBC-PM 03
 //#define RF95_FREQ 918.0 // UBC-PM 04
 //#define RF95_FREQ 923.0 // UBC-PM 05
-#define RF95_FREQ 925.0 // UBC-PM 06
+//#define RF95_FREQ 925.0 // UBC-PM 06
 
 
 // Singleton instance of the radio driver
@@ -292,26 +292,6 @@ void loop()
   //Serial.println((char*)RTCtime_len);
 
   // ##################################################
-  // Start Milliseconds (mill_sec) from start
-  // convert mill_sec to string
-  // ##################################################
-  time = millis();
-  String mill_sec = String(time);
-  mill_sec += ",";
-  //Serial.println(mill_sec);
-  
-  // convert mill_sec to bit16 
-  uint16_t mill_sec_len = mill_sec.length() + 1;
-  //Serial.println("Milliseconds from start:  " + mill_sec);
-  //Serial.print("Milliseconds string lenght: ");
-  //Serial.println(mill_sec_len);
-
-  // convert mill_sec to byte
-  char mill[mill_sec_len];
-  mill_sec.toCharArray(mill, mill_sec_len);
-  //Serial.println((char*)mill);
-
-  // ##################################################
   // Call on RTC chip to create file name
   // This is also done in the setup
   // ##################################################
@@ -329,10 +309,12 @@ void loop()
   File dataFile = SD.open(Filename, FILE_WRITE);
   if (dataFile) {
     display.clearDisplay();
-    dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.print((char*)buf);dataFile.println((char*)RX_batvolt);
+    //dataFile.print((char*)RTCtime);dataFile.print((char*)mill);dataFile.print((char*)buf);dataFile.println((char*)RX_batvolt);
+    dataFile.print((char*)RTCtime);dataFile.print((char*)buf);dataFile.println((char*)RX_batvolt);
     dataFile.close();
     // print to the serial port too:
-    Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.print((char*)buf);Serial.println((char*)RX_batvolt);
+    //Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)mill);Serial.print((char*)buf);Serial.println((char*)RX_batvolt);
+    Serial.print("Wrote to SD: ");Serial.print((char*)RTCtime);Serial.print((char*)buf);Serial.println((char*)RX_batvolt);
     String str_time = (char*)RTCtime;
     int index0 = str_time.indexOf(',');
     String time_display = str_time.substring(0,index0);
@@ -342,13 +324,16 @@ void loop()
     int firstCommaIndex = str_data.indexOf(',');
     int secondCommaIndex = str_data.indexOf(',', firstCommaIndex+1);
     int thirdCommaIndex = str_data.indexOf(',', secondCommaIndex+1);
+    int forthCommaIndex = str_data.indexOf(',', thirdCommaIndex+1);
     int lastindex = str_data.lastIndexOf(',');
 
-    String pm_1 = str_data.substring(0, firstCommaIndex);
-    String pm_25 = str_data.substring(firstCommaIndex+1, secondCommaIndex);
-    String pm_10 = str_data.substring(secondCommaIndex+1, thirdCommaIndex);
+    String milli = str_data.substring(0, firstCommaIndex);
+    String pm_1 = str_data.substring(firstCommaIndex+1, secondCommaIndex);
+    String pm_25 = str_data.substring(secondCommaIndex+1, thirdCommaIndex);
+    String pm_10 = str_data.substring(thirdCommaIndex+1, forthCommaIndex);
     String bat_power = str_data.substring(lastindex-4,lastindex);
 
+    display.print("Milli:   ");display.println(milli);
     display.print("PM 1.0:  ");display.println(pm_1);
     display.print("PM 2.5:  ");display.println(pm_25);
     display.print("PM 10.0: ");display.println(pm_10);

@@ -20,8 +20,9 @@ if this_dir.name == "python":
 else:
     notebooks_dir = this_dir
 root_dir = notebooks_dir.parent
-data_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/data/")
-save_dir = Path("/Users/rodell/Google Drive File Stream/Shared drives/Research/CRodell/Fire_Sensor/Images/Plot/")
+data_dir = root_dir / Path("data")
+save_dir = root_dir / Path("data/img")
+img_dir = root_dir / Path("img")
 
 
 sys.path.insert(0, str(root_dir))

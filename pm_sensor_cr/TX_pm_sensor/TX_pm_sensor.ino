@@ -27,16 +27,17 @@
 //#define RF95_FREQ 902.0 // UBC-PM 01
 //#define RF95_FREQ 907.0 // UBC-PM 02
 //#define RF95_FREQ 913.0 // UBC-PM 03
-//#define RF95_FREQ 918.0 // UBC-PM 04
+#define RF95_FREQ 918.0 // UBC-PM 04
 //#define RF95_FREQ 923.0 // UBC-PM 05
-#define RF95_FREQ 925.0 // UBC-PM 06
+//#define RF95_FREQ 925.0 // UBC-PM 06
 
 
 
 // Singleton instance of the radio driver
 RH_RF95 rf95(RFM95_CS, RFM95_INT);
 
-
+// timekeeper
+unsigned long prMillis;
 
 // #####################################  SET UP  ##########################################
 
@@ -45,18 +46,14 @@ void setup()
 // ##################################################
 // Start serial baud rate (115200) and initiate LoRa Radio
 // ##################################################
+// Wait two second for sensor to boot up!
+delay(2000);
+
 pinMode(RFM95_RST, OUTPUT);
 digitalWrite(RFM95_RST, HIGH);
 
 Serial.begin(115200);
 
-/*
-while (!Serial) {
-    delay(1);
-}
-*/
- // Wait two second for sensor to boot up!
-delay(2000);
 
 Serial.println("Feather LoRa TX Test!");
 
@@ -162,9 +159,19 @@ measuredvbat /= 1024; // convert to voltage
 // ##################################################
 // Pack PM data and transmit to reciver
 // #################################################
+    prMillis = millis() / 1000;
+    byte sec = prMillis % 60;
+    prMillis = prMillis / 60;
+    byte min = prMillis % 60;
+    prMillis = prMillis / 60;
+    byte hrs = prMillis % 24;
+    String hhmmss = String(hrs) +":" + String(min) +":" + String(sec);
 
 Serial.println("Transmitting..."); // Send a message to rf95_server
-    String pm  = String(data.pm10_env);
+ //   time = millis();
+    String pm = hhmmss;
+    pm += ",";
+    pm += String(data.pm10_env);
     pm += ",";
     pm += String(data.pm25_env);
     pm += ",";
@@ -190,12 +197,6 @@ Serial.println("Transmitting..."); // Send a message to rf95_server
     pm += ",";   
     pm += String(measuredvbat);
     pm += ",";
-
-if (data.pm25_env > 16000)
-    {
-//      Watchdog.reset();
-    Serial.println("###############SOFT RESET##########################");
-    }
 
 // convert pm data to bit16            
 uint16_t pm_len = pm.length() + 1;
@@ -240,10 +241,6 @@ else
 {
     Serial.println("No reply, is there a listener around?");
 }
-
-// delay(2300);
-// delay(10000);
-
 
 
 }
