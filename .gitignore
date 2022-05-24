@@ -9,6 +9,7 @@ __pycache__
 
 # my docs
 hardware/
+hardware
 wind/
 write_to_SD/
 data/
