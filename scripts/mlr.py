@@ -6,7 +6,6 @@
 # #### Load python modules and set inputs
 # %%
 import context
-import itertools
 import numpy as np
 import pandas as pd
 import seaborn as sns
