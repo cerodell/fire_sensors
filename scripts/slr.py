@@ -1,6 +1,6 @@
 # %% [markdown]
 #  # UBC PM Sensor Calibration
-# Calibrate the UBC PM senors to the RAMP PM sensor using multiple linear regression (MLR)
+# Calibrate the UBC PM senors to the RAMP PM sensor using simple linear regression (MLR)
 
 # %% [markdown]
 # #### Load python modules and set inputs
@@ -190,7 +190,7 @@ def make_mlr(i):
         coeff.update({f"a{j+1}": coef_MLR[j]})
         print(f"a{j+1} = {coef_MLR[j]}")
     if len(coeff) > 2:
-        raise ValueError("This is a multi linear model, code only does single")
+        raise ValueError("This is a linear model, code only does single")
     else:
         pass
     ax = fig.add_subplot(ny, nx, i + 1)
