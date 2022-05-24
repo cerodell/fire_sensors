@@ -9,6 +9,8 @@ __pycache__
 
 # my docs
 hardware/
+hardware/espressif/esp32
+hardware/espressif/esp32/
 hardware
 wind/
 write_to_SD/
