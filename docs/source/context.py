@@ -37,6 +37,7 @@ root_dir = notebooks_dir.parents[1]
 
 data_dir = root_dir / Path("data")
 save_dir = root_dir / Path("data/img")
+img_dir = root_dir / Path("img")
 
 
 
